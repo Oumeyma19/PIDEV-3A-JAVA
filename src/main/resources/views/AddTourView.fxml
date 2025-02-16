@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <?import javafx.scene.control.*?>
+    <?import javafx.scene.layout.*?>
+
+    <?import javafx.scene.image.ImageView?>
+    <VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.TourController">
+        <Label text="Add New Tour" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+        <TextField fx:id="titleField" promptText="Title"/>
+        <TextField fx:id="descriptionField" promptText="Description"/>
+        <TextField fx:id="priceField" promptText="Price"/>
+        <TextField fx:id="locationField" promptText="Location"/>
+        <TextField fx:id="dateField" promptText="YYYY-MM-DD"/>
+        <TextField fx:id="guideIdField" promptText="Guide ID"/>
+
+        <Button text="Select Image" onAction="#handleSelectImage"/>
+        <ImageView fx:id="imageView" fitWidth="200" fitHeight="150"/>
+        <Button text="Add Tour" onAction="#handleAddTour"/>
+
+    </VBox>
