@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.util.Callback?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FlightViewController">
+    <children>
+        <VBox alignment="CENTER" spacing="15">
+            <!-- Add Button -->
+            <Button text="Add Flight" onAction="#handleAddFlight"/>
+
+            <!-- TableView -->
+            <TableView fx:id="flightTable" prefHeight="400.0" prefWidth="800.0">
+                <columns>
+                    <TableColumn fx:id="idFlightColumn" prefWidth="100.0" text="Flight ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="idFlight"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="departureColumn" prefWidth="150.0" text="Departure">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="departure"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="destinationColumn" prefWidth="150.0" text="Destination">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="destination"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="departureTimeColumn" prefWidth="150.0" text="Departure Time">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="departureTime"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="arrivalTimeColumn" prefWidth="150.0" text="Arrival Time">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="arrivalTime"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Price">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="price"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="flightNumberColumn" prefWidth="120.0" text="Flight Number">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="flightNumber"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="departureAirportColumn" prefWidth="150.0" text="Departure Airport">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="departureAirportName"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn fx:id="arrivalAirportColumn" prefWidth="150.0" text="Arrival Airport">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="arrivalAirportName"/>
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <!-- Actions Column with Buttons -->
+                    <TableColumn fx:id="actionsColumn" prefWidth="136.0" text="Actions">
+                        
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>

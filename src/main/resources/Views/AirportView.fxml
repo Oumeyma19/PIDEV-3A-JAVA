@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AirportView">
+    <children>
+        <VBox alignment="CENTER" spacing="15">
+            <!-- Add Button -->
+            <Button text="Add Airport" onAction="#handleAddAirport"/>
+
+            <!-- TableView -->
+            <TableView fx:id="airportTable" prefHeight="400.0" prefWidth="600.0">
+                <columns>
+                    <TableColumn fx:id="nameColumn" prefWidth="116.0" text="Name Airport" />
+                    <TableColumn fx:id="locationColumn" prefWidth="95.0" text="Location" />
+                    <TableColumn fx:id="codeColumn" prefWidth="108.0" text="Code" />
+
+                    <!-- Actions Column -->
+                    <TableColumn fx:id="actionsColumn" prefWidth="136.0" text="Actions" />
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>
