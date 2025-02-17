@@ -1,38 +1,38 @@
-package models;
+package com.example.pidev.models;
 
 import java.sql.Timestamp;
 
 public class ReservationHebergement {
     private int reservationHeberg_id;
-    private User idUser;
-    private Hebergements idHeberg;
+    private User user;
+    private Hebergements hebergements;
     private Timestamp reservationDateHeberg;
     private boolean statusHeberg;
 
     public ReservationHebergement() {
     }
 
-    public ReservationHebergement(Hebergements idHeberg, User idUser, Timestamp reservationDateHeberg, int reservationHeberg_id, boolean statusHeberg) {
-        this.idHeberg = idHeberg;
-        this.idUser = idUser;
+    public ReservationHebergement(Hebergements hebergements, User user, Timestamp reservationDateHeberg, int reservationHeberg_id, boolean statusHeberg) {
+        this.hebergements = hebergements;
+        this.user = user;
         this.reservationDateHeberg = reservationDateHeberg;
         this.reservationHeberg_id = reservationHeberg_id;
         this.statusHeberg = statusHeberg;
     }
 
-    public ReservationHebergement(boolean statusHeberg, Timestamp reservationDateHeberg, User idUser, Hebergements idHeberg) {
+    public ReservationHebergement(boolean statusHeberg, Timestamp reservationDateHeberg, User user, Hebergements hebergements) {
         this.statusHeberg = statusHeberg;
         this.reservationDateHeberg = reservationDateHeberg;
-        this.idUser = idUser;
-        this.idHeberg = idHeberg;
+        this.user = user;
+        this.hebergements = hebergements;
     }
 
-    public Hebergements getIdHeberg() {
-        return idHeberg;
+    public Hebergements getHebergements() {
+        return hebergements;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
     public Timestamp getReservationDateHeberg() {
@@ -47,12 +47,12 @@ public class ReservationHebergement {
         return statusHeberg;
     }
 
-    public void setIdHeberg(Hebergements idHeberg) {
-        this.idHeberg = idHeberg;
+    public void setHebergements(Hebergements hebergements) {
+        this.hebergements = hebergements;
     }
 
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setReservationDateHeberg(Timestamp reservationDateHeberg) {
@@ -70,9 +70,9 @@ public class ReservationHebergement {
     @Override
     public String toString() {
         return "ReservationHebergement{" +
-                "idHeberg=" + idHeberg +
+                "idHeberg=" + hebergements +
                 ", reservationHeberg_id=" + reservationHeberg_id +
-                ", idUser=" + idUser +
+                ", idUser=" + user +
                 ", reservationDateHeberg=" + reservationDateHeberg +
                 ", statusHeberg=" + statusHeberg +
                 '}';

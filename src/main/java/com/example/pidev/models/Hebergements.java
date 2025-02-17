@@ -1,4 +1,4 @@
-package models;
+package com.example.pidev.models;
 
 import java.sql.Timestamp;
 
@@ -12,11 +12,12 @@ public class Hebergements {
     private Timestamp dateCheckout;
     private int nbrClient;
     private String imageHebrg;
+    private float prixHeberg;
 
     public Hebergements() {
     }
 
-    public Hebergements(String adresse, Timestamp dateCheckin, Timestamp dateCheckout, String descrHeberg, int idHebrg, String imageHebrg, int nbrClient, String nomHeberg, String typeHeberg) {
+    public Hebergements(String adresse, Timestamp dateCheckin, Timestamp dateCheckout, String descrHeberg, int idHebrg, String imageHebrg, int nbrClient, String nomHeberg, String typeHeberg, float prixHeberg) {
         this.adresse = adresse;
         this.dateCheckin = dateCheckin;
         this.dateCheckout = dateCheckout;
@@ -26,9 +27,10 @@ public class Hebergements {
         this.nbrClient = nbrClient;
         this.nomHeberg = nomHeberg;
         this.typeHeberg = typeHeberg;
+        this.prixHeberg = prixHeberg;
     }
 
-    public Hebergements(String nomHeberg, String typeHeberg, String adresse, String descrHeberg, int nbrClient, String imageHebrg, Timestamp dateCheckin, Timestamp dateCheckout) {
+    public Hebergements(String nomHeberg, String typeHeberg, String adresse, String descrHeberg, int nbrClient, String imageHebrg, Timestamp dateCheckin, Timestamp dateCheckout,float prixHeberg) {
         this.nomHeberg = nomHeberg;
         this.typeHeberg = typeHeberg;
         this.adresse = adresse;
@@ -37,7 +39,16 @@ public class Hebergements {
         this.imageHebrg = imageHebrg;
         this.dateCheckin = dateCheckin;
         this.dateCheckout = dateCheckout;
+        this.prixHeberg = prixHeberg;
 
+    }
+
+    public float getPrixHeberg() {
+        return prixHeberg;
+    }
+
+    public void setPrixHeberg(float prixHeberg) {
+        this.prixHeberg = prixHeberg;
     }
 
     public String getAdresse() {
@@ -113,6 +124,7 @@ public class Hebergements {
         this.typeHeberg = typeHeberg;
     }
 
+
     @Override
     public String toString() {
         return "Hebergements{" +
@@ -125,6 +137,8 @@ public class Hebergements {
                 ", dateCheckout=" + dateCheckout +
                 ", nbrClient=" + nbrClient +
                 ", imageHebrg='" + imageHebrg + '\'' +
+                ", prixHeberg=" + prixHeberg +
                 '}';
     }
 }
+

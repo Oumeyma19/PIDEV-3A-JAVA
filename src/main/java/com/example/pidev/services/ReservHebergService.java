@@ -1,33 +1,51 @@
-package services;
+package com.example.pidev.services;
 
-import interfaces.iCrud;
-import models.Hebergements;
-import models.ReservationHebergement;
-import tools.MyConnection;
+import com.example.pidev.Exceptions.UserNotFoundException;
+import com.example.pidev.interfaces.ICrud;
+import com.example.pidev.models.ReservationHebergement;
+import com.example.pidev.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservHebergService implements iCrud<ReservationHebergement> {
+public class ReservHebergService implements ICrud<ReservationHebergement> {
 
-    private final Connection conn = MyConnection.getInstance().getConn();
+    private final Connection conn = MyConnection.getInstance().getConnection();
+
+    private UserService userService = UserService.getInstance();
+    private HebergementService hebService = HebergementService.getInstance();
+
+    private static ReservHebergService instance;
+
+    private ReservHebergService() {
+    }
+
+    public static ReservHebergService getInstance() {
+        if (instance == null) {
+            instance = new ReservHebergService();
+        }
+        return instance;
+    }
 
     @Override
-    public void ajouter(ReservationHebergement R) throws SQLException {
+    public Boolean ajouter(ReservationHebergement R) throws SQLException {
         String sql = "INSERT INTO reservationhebergement (idHeberg, idUser, reservationDate, statusHeberg) VALUES (?, ?, ?, ?)";
         PreparedStatement st = conn.prepareStatement(sql);
-        st.setObject(1, R.getIdHeberg());
-        st.setObject(2, R.getIdUser());
-        st.setTimestamp(3,R.getReservationDateHeberg());
+
+        st.setInt(1, R.getHebergements().getIdHebrg());
+        st.setInt(2, R.getUser().getId());
+        st.setTimestamp(3, R.getReservationDateHeberg());
         st.setBoolean(4, R.isStatusHeberg());
 
         st.executeUpdate();
         System.out.println("Réservation ajoutée avec succès !");
+
+        return true;
     }
 
     @Override
-    public void supprimer(int id) {
+    public boolean supprimer(int id) {
         String sql = "DELETE FROM reservationhebergement WHERE reservationHeberg_id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
@@ -41,6 +59,7 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -48,8 +67,8 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
         String sql = "UPDATE reservationhebergement SET idHeberg = ?, idUser = ?, reservationDate = ?, statusHeberg = ? WHERE reservationHeberg_id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setObject(1, R.getIdHeberg());
-            st.setObject(2, R.getIdUser());
+            st.setInt(1, R.getHebergements().getIdHebrg());
+            st.setInt(2, R.getUser().getId());
             st.setTimestamp(3, R.getReservationDateHeberg());
             st.setBoolean(4, R.isStatusHeberg());
             st.setInt(5, R.getReservationHeberg_id());
@@ -66,7 +85,7 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
     }
 
     @Override
-    public List<ReservationHebergement> recuperer() throws SQLException {
+    public List<ReservationHebergement> recuperer() throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM reservationhebergement";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
@@ -74,8 +93,8 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
         while (rs.next()) {
             ReservationHebergement R = new ReservationHebergement();
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
-            R.setIdHeberg((Hebergements) rs.getObject("idHeberg"));
-            R.setIdUser((User) rs.getObject("idUser"));
+            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             R.setReservationDateHeberg(rs.getTimestamp("reservationDate"));
             R.setStatusHeberg(rs.getBoolean("statusHeberg"));
 
@@ -85,7 +104,7 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
     }
 
     @Override
-    public ReservationHebergement recupererId(int id) throws SQLException {
+    public ReservationHebergement recupererId(int id) throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM reservationhebergement WHERE reservationHeberg_id = ?";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
@@ -95,8 +114,8 @@ public class ReservHebergService implements iCrud<ReservationHebergement> {
 
         if (rs.next()) {
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
-            R.setIdHeberg((Hebergements) rs.getObject("idHeberg"));
-            R.setIdUser((User) rs.getObject("idUser"));
+            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             R.setReservationDateHeberg(rs.getTimestamp("reservationDate"));
             R.setStatusHeberg(rs.getBoolean("statusHeberg"));
         }

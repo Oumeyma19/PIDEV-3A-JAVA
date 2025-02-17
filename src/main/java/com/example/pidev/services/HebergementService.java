@@ -1,24 +1,36 @@
-package services;
+package com.example.pidev.services;
 
-import interfaces.iCrud;
-import models.Hebergements;
-import tools.MyConnection;
+import com.example.pidev.interfaces.ICrud;
+import com.example.pidev.models.Hebergements;
+import com.example.pidev.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HebergementServices implements iCrud<Hebergements> {
+public class HebergementService implements ICrud<Hebergements> {
 
-    private final Connection conn = MyConnection.getInstance().getConn();
+    private final Connection conn = MyConnection.getInstance().getConnection();
+    private static HebergementService instance;
+
+    private HebergementService() {
+    }
+
+    public static HebergementService getInstance() {
+        if (instance == null) {
+            instance = new HebergementService();
+        }
+        return instance;
+    }
+
 
     @Override
-    public void ajouter(Hebergements H) throws SQLException {
+    public Boolean ajouter(Hebergements H) throws SQLException {
         // String sql ="insert into personne (nom,prenom,age)" +
         //        "values('"+p.getNom()+"','"+p.getPrenom()+"',"+p.getAge()+")";
         //Statement st = conn.createStatement();
         //st.executeUpdate(sql);
-        String sql = "insert into hebergements(nomHebrg,typeHeberg,descrHeberg,adresse,dateCheckin,dateCheckout,nbrClient,imageHeberg) values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into hebergements(nomHebrg,typeHeberg,descrHeberg,adresse,dateCheckin,dateCheckout,nbrClient,imageHeberg,prixHeberg) values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, H.getNomHeberg());
         st.setString(2, H.getTypeHeberg());
@@ -28,34 +40,38 @@ public class HebergementServices implements iCrud<Hebergements> {
         st.setTimestamp(6, H.getDateCheckout());
         st.setInt(7, H.getNbrClient());
         st.setString(8, H.getImageHebrg());
+        st.setFloat(9, H.getPrixHeberg());
 
         st.executeUpdate();
         System.out.println("Hebergement ajoutée");
 
-
+        return true;
     }
 
     @Override
-    public void supprimer(int id) {
-        String sql = "DELETE FROM hebergements WHERE idHberg = ?";
+    public boolean supprimer(int id) {
         try {
+            String sql = "DELETE FROM hebergements WHERE idHberg = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, id);
             int rowsDeleted = st.executeUpdate();
             if (rowsDeleted > 0) {
                 System.out.println("Hébergement supprimé avec succès !");
+                return true;
             } else {
                 System.out.println("Aucun hébergement trouvé avec cet ID.");
+                return false;
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
         }
+        return false;
     }
 
     @Override
     public void modifier(Hebergements H) {
         String sql = "UPDATE hebergements SET nomHebrg = ?, typeHeberg = ?, descrHeberg = ?, adresse = ?, " +
-                "dateCheckin = ?, dateCheckout = ?, nbrClient = ?, imageHeberg = ? WHERE idHberg = ?";
+                "dateCheckin = ?, dateCheckout = ?, nbrClient = ?, imageHeberg = ?,prixHeberg = ? WHERE idHberg = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, H.getNomHeberg());
@@ -66,7 +82,8 @@ public class HebergementServices implements iCrud<Hebergements> {
             st.setTimestamp(6, H.getDateCheckout());
             st.setInt(7, H.getNbrClient());
             st.setString(8, H.getImageHebrg());
-            st.setInt(9, H.getIdHebrg());
+            st.setFloat(9, H.getPrixHeberg());
+            st.setInt(10, H.getIdHebrg());
 
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
@@ -97,6 +114,7 @@ public class HebergementServices implements iCrud<Hebergements> {
             H.setDateCheckout(rs.getTimestamp("dateCheckout"));
             H.setNbrClient(rs.getInt("nbrClient"));
             H.setImageHebrg(rs.getString("imageHeberg"));
+            H.setPrixHeberg(rs.getFloat("prixHeberg"));
 
             personnes.add(H);
         }
@@ -122,6 +140,7 @@ public class HebergementServices implements iCrud<Hebergements> {
             H.setDateCheckout(rs.getTimestamp("dateCheckout"));
             H.setNbrClient(rs.getInt("nbrClient"));
             H.setImageHebrg(rs.getString("imageHeberg"));
+            H.setPrixHeberg(rs.getFloat("prixHeberg"));
         }
 
         return H;

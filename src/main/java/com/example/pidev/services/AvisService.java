@@ -1,33 +1,49 @@
-package services;
+package com.example.pidev.services;
 
-import interfaces.iCrud;
-import models.AvisHebergement;
-import models.Hebergements;
-import tools.MyConnection;
+import com.example.pidev.Exceptions.UserNotFoundException;
+import com.example.pidev.interfaces.ICrud;
+import com.example.pidev.models.AvisHebergement;
+import com.example.pidev.tools.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvisService implements iCrud<AvisHebergement> {
+public class AvisService implements ICrud<AvisHebergement> {
 
-    private final Connection conn = MyConnection.getInstance().getConn();
+    private final Connection conn = MyConnection.getInstance().getConnection();
+    private UserService userService = UserService.getInstance();
+    private HebergementService hebService = HebergementService.getInstance();
+
+    private static AvisService instance;
+
+    private AvisService() {
+    }
+
+    public static AvisService getInstance() {
+        if (instance == null) {
+            instance = new AvisService();
+        }
+        return instance;
+    }
 
     @Override
-    public void ajouter(AvisHebergement avis) throws SQLException {
+    public Boolean ajouter(AvisHebergement avis) throws SQLException {
         String sql = "INSERT INTO avishebergement(comment, review, idUser, idHeberg) VALUES(?, ?, ?, ?)";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, avis.getComment());
         st.setFloat(2, avis.getReview());
-        st.setObject(3, avis.getIdUser());
-        st.setObject(4, avis.getIdHeberg());
+        st.setInt(3, avis.getUser().getId());
+        st.setInt(4, avis.getHebergements().getIdHebrg());
 
         st.executeUpdate();
         System.out.println("Avis ajouté avec succès");
+
+        return true;
     }
 
     @Override
-    public void supprimer(int id) {
+    public boolean supprimer(int id) {
         String sql = "DELETE FROM avisHebergement WHERE idAvis = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
@@ -41,6 +57,7 @@ public class AvisService implements iCrud<AvisHebergement> {
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -50,8 +67,8 @@ public class AvisService implements iCrud<AvisHebergement> {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, avis.getComment());
             st.setFloat(2, avis.getReview());
-            st.setObject(3, avis.getIdUser());
-            st.setObject(4, avis.getIdHeberg());
+            st.setInt(3, avis.getUser().getId());
+            st.setInt(4, avis.getHebergements().getIdHebrg());
             st.setInt(5, avis.getIdAvis());
 
             int rowsUpdated = st.executeUpdate();
@@ -66,7 +83,7 @@ public class AvisService implements iCrud<AvisHebergement> {
     }
 
     @Override
-    public List<AvisHebergement> recuperer() throws SQLException {
+    public List<AvisHebergement> recuperer() throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM avisHebergement";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
@@ -76,8 +93,8 @@ public class AvisService implements iCrud<AvisHebergement> {
             avis.setIdAvis(rs.getInt("idAvis"));
             avis.setComment(rs.getString("comment"));
             avis.setReview(rs.getFloat("review"));
-            avis.setIdUser((User) rs.getObject("idUser"));
-            avis.setIdHeberg((Hebergements) rs.getObject("idHeberg"));
+            avis.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            avis.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
 
             avisList.add(avis);
         }
@@ -85,7 +102,7 @@ public class AvisService implements iCrud<AvisHebergement> {
     }
 
     @Override
-    public AvisHebergement recupererId(int id) throws SQLException {
+    public AvisHebergement recupererId(int id) throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM avisHebergement WHERE idAvis = ?";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
@@ -96,8 +113,9 @@ public class AvisService implements iCrud<AvisHebergement> {
             avis.setIdAvis(rs.getInt("idAvis"));
             avis.setComment(rs.getString("comment"));
             avis.setReview(rs.getFloat("review"));
-            avis.setIdUser((User) rs.getObject("idUser"));
-            avis.setIdHeberg((Hebergements) rs.getObject("idHeberg"));
+            avis.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            avis.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
+
         }
 
         return avis;

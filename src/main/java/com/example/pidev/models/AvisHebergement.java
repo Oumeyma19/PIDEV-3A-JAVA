@@ -1,27 +1,28 @@
-package models;
+package com.example.pidev.models;
 
 public class AvisHebergement {
     private int idAvis;
-    private User idUser;
-    private Hebergements idHeberg;
+    private User user;
+    private Hebergements hebergements;
     private String comment;
     private float review;
 
     public AvisHebergement() {
     }
-    public AvisHebergement(String comment, int idAvis, Hebergements idHeberg, User idUser, float review) {
+
+    public AvisHebergement(String comment, int idAvis, Hebergements hebergements, User user, float review) {
         this.comment = comment;
         this.idAvis = idAvis;
-        this.idHeberg = idHeberg;
-        this.idUser = idUser;
+        this.hebergements = hebergements;
+        this.user = user;
         this.review = review;
     }
 
-    public AvisHebergement(String comment, float review, User idUser, Hebergements idHeberg) {
+    public AvisHebergement(String comment, float review, User user, Hebergements hebergements) {
         this.comment = comment;
         this.review = review;
-        this.idUser = idUser;
-        this.idHeberg = idHeberg;
+        this.user = user;
+        this.hebergements = hebergements;
     }
 
     public String getComment() {
@@ -32,12 +33,12 @@ public class AvisHebergement {
         return idAvis;
     }
 
-    public Hebergements getIdHeberg() {
-        return idHeberg;
+    public Hebergements getHebergements() {
+        return hebergements;
     }
 
-    public User getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
     public float getReview() {
@@ -52,12 +53,12 @@ public class AvisHebergement {
         this.idAvis = idAvis;
     }
 
-    public void setIdHeberg(Hebergements idHeberg) {
-        this.idHeberg = idHeberg;
+    public void setHebergements(Hebergements hebergements) {
+        this.hebergements = hebergements;
     }
 
-    public void setIdUser(User idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setReview(float review) {
@@ -69,8 +70,8 @@ public class AvisHebergement {
         return "AvisHebergement{" +
                 "comment='" + comment + '\'' +
                 ", idAvis=" + idAvis +
-                ", idUser=" + idUser +
-                ", idHeberg=" + idHeberg +
+                ", idUser=" + user +
+                ", idHeberg=" + hebergements +
                 ", review=" + review +
                 '}';
     }

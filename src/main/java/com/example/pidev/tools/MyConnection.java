@@ -1,5 +1,4 @@
-package tools;
-
+package com.example.pidev.tools;
 
 
 import java.sql.Connection;
@@ -13,16 +12,16 @@ public class MyConnection {
     public final String PASSWORD = "";
 
 
-    private Connection conn;
+    private Connection connection;
     private static MyConnection instance;
 
-    public Connection getConn() {
-        return conn;
+    public Connection getConnection() {
+        return connection;
     }
 
-    public MyConnection()  {
+    public MyConnection() {
         try {
-            conn = DriverManager.getConnection(URL,USER,PASSWORD);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connected to database");
 
         } catch (SQLException e) {
@@ -30,8 +29,8 @@ public class MyConnection {
         }
     }
 
-    public static MyConnection getInstance(){
-        if(instance == null){
+    public static MyConnection getInstance() {
+        if (instance == null) {
             instance = new MyConnection();
         }
 
