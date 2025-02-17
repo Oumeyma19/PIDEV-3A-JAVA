@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.afficherlist">
+    <children>
+        <VBox alignment="CENTER" spacing="10">
+            <TableView fx:id="programmeTable">
+                <columns>
+                    <TableColumn text="ID" fx:id="colId"/>
+                    <TableColumn text="Nom du Programme" fx:id="colNom"/>
+                    <TableColumn text="Points" fx:id="colPoints"/>
+                    <TableColumn text="Actions" fx:id="colActions"/>
+                </columns>
+            </TableView>
+
+            <Button text="Ajouter un Programme" onAction="#handleAddProgramme"/>
+        </VBox>
+    </children>
+</AnchorPane>
+

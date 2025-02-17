@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updateprog"
+      spacing="15" alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #f9f9f9; -fx-border-color: #ddd; -fx-border-radius: 10px;">
+
+    <Label text="Modifier le Programme de Fidélité"
+           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+    <VBox spacing="5" alignment="CENTER_LEFT">
+        <Label text="Nom du Programme" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+        <TextField fx:id="nomProgrammeField" style="-fx-pref-width: 250px; -fx-font-size: 14px;"/>
+    </VBox>
+
+    <VBox spacing="5" alignment="CENTER_LEFT">
+        <Label text="Points" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+        <TextField fx:id="pointsField" style="-fx-pref-width: 250px; -fx-font-size: 14px;"/>
+    </VBox>
+
+    <HBox spacing="15">
+        <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-padding: 10px 20px;"/>
+        <Button text="Mettre à Jour" onAction="#handleUpdate" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px;"/>
+    </HBox>
+
+</VBox>
