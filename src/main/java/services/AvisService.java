@@ -17,28 +17,28 @@ public class AvisService {
 
 
         // ✅ Vérifier si le client a réservé ce tour
-    private boolean clientAReserveTour(int clientId, int tourId) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM reservationstours WHERE client_id = ? AND tour_id = ? AND status = 'confirmed'");
-            ps.setInt(1, clientId);
-            ps.setInt(2, tourId);
-            ResultSet rs = ps.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    // ✅ Ajouter un avis (seulement si le client a réservé)
-    public boolean addAvis(AvisTour avis) {
-        if (!clientAReserveTour(avis.getClientId(), avis.getTourId())) {
-            System.out.println("Le client n'a pas réservé ce tour !");
+        private boolean clientAReserveTour(int clientId, int tourId) {
+            try {
+                PreparedStatement ps = connection.prepareStatement(
+                        "SELECT COUNT(*) FROM reservationstours WHERE client_id = ? AND tour_id = ? AND status = 'confirmed'"
+                );
+                ps.setInt(1, clientId);
+                ps.setInt(2, tourId);
+                ResultSet rs = ps.executeQuery();
+                return rs.next() && rs.getInt(1) > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return false;
         }
 
+
+    // ✅ Ajouter un avis (seulement si le client a réservé)
+    public boolean addAvis(AvisTour avis) {
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO avis_tour (clientId, tourId, etoile, commentaire) VALUES (?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO avis_tour (clientId, tourId, etoile, commentaire) VALUES (?, ?, ?, ?)"
+            );
             ps.setInt(1, avis.getClientId());
             ps.setInt(2, avis.getTourId());
             ps.setInt(3, avis.getEtoile());
@@ -50,6 +50,9 @@ public class AvisService {
         }
         return false;
     }
+
+
+
 
     // ✅ Récupérer tous les avis
     public List<AvisTour> getAllAvis() {

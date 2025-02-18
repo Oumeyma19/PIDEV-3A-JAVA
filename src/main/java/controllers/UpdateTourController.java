@@ -4,8 +4,11 @@ import models.Tour;
 import services.TourService;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UpdateTourController {
 
@@ -13,7 +16,7 @@ public class UpdateTourController {
     @FXML private TextField descriptionField;
     @FXML private TextField priceField;
     @FXML private TextField locationField;
-    @FXML private TextField dateField;
+    @FXML private DatePicker dateField;  // Changed from TextField to DatePicker
     @FXML private TextField guideIdField;
 
     private TourService tourService = new TourService();
@@ -26,7 +29,12 @@ public class UpdateTourController {
         descriptionField.setText(tour.getDescription());
         priceField.setText(String.valueOf(tour.getPrice()));
         locationField.setText(tour.getLocation());
-        dateField.setText(tour.getDate());
+
+        // Convert date from String to LocalDate and set it in DatePicker
+        if (tour.getDate() != null && !tour.getDate().isEmpty()) {
+            dateField.setValue(LocalDate.parse(tour.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+
         guideIdField.setText(String.valueOf(tour.getGuideId()));
     }
 
@@ -39,7 +47,10 @@ public class UpdateTourController {
             String description = descriptionField.getText();
             double price = Double.parseDouble(priceField.getText());
             String location = locationField.getText();
-            String date = dateField.getText();
+
+            // Convert DatePicker value to String
+            String date = (dateField.getValue() != null) ? dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "";
+
             int guideId = Integer.parseInt(guideIdField.getText());
 
             // Update the selected tour
@@ -73,6 +84,4 @@ public class UpdateTourController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }

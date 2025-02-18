@@ -1,25 +1,39 @@
 package controllers;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import models.Tour;
 import services.TourService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ToursViewController {
 
     @FXML
-    private ListView<Tour> toursListView;
+    private FlowPane toursFlowPane;
+
+    @FXML
+    private Button addTourButton;
+
+    @FXML
+    private Button backButton;
 
     private TourService tourService = new TourService();
 
@@ -27,83 +41,138 @@ public class ToursViewController {
     public void initialize() {
         // Fetch all tours with one photo and guide's name
         List<Tour> tours = tourService.getAllToursWithOnePhoto();
+        addTourButton.setOnAction(event -> {
+            System.out.println("Bouton cliqué !");
+        });
+        // Add tours to the FlowPane
+        for (Tour tour : tours) {
+            VBox tourContainer = createTourContainer(tour);
+            toursFlowPane.getChildren().add(tourContainer);
+        }
+        addTourButton.setOnAction(event -> openAddTourView());
+    }
 
-        // Set the tours in the ListView
-        toursListView.getItems().addAll(tours);
+    private VBox createTourContainer(Tour tour) {
+        VBox tourContainer = new VBox(10);
+        tourContainer.setPadding(new Insets(10));
+        tourContainer.setStyle("-fx-background-color: white; " +
+                "-fx-background-radius: 5; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 5); " +
+                "-fx-border-color: #ddd; -fx-border-radius: 5;");
 
-        // Set the custom cell factory
-        toursListView.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Tour> call(ListView<Tour> param) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Tour tour, boolean empty) {
-                        super.updateItem(tour, empty);
+        tourContainer.setMaxWidth(300);
+        tourContainer.setMinWidth(300);
 
-                        if (empty || tour == null) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            // Create an HBox to hold the tour details, photo, and buttons
-                            HBox hbox = new HBox(10);
-                            hbox.setPadding(new Insets(10));
+        // Image
+        if (tour.getPhotos() != null && !tour.getPhotos().isEmpty()) {
+            ImageView imageView = new ImageView(new Image("file:" + tour.getPhotos().get(0)));
+            imageView.setFitWidth(280);
+            imageView.setFitHeight(180);
+            tourContainer.getChildren().add(imageView);
+        }
 
-                            // Add tour details
-                            Text details = new Text(
-                                    "Title: " + tour.getTitle() + "\n" +
-                                            "Description: " + tour.getDescription() + "\n" +
-                                            "Price: $" + tour.getPrice() + "\n" +
-                                            "Location: " + tour.getLocation() + "\n" +
-                                            "Date: " + tour.getDate() + "\n" +
-                                            "Guide: " + tour.getGuideId()
-                            );
+        // Location
+        Text tourLocal = new Text(tour.getLocation());
+        tourLocal.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
 
-                            // Add photo (if available)
-                            if (tour.getPhotos() != null && !tour.getPhotos().isEmpty()) {
-                                ImageView imageView = new ImageView(new Image("file:" + tour.getPhotos().get(0)));
-                                imageView.setFitWidth(100);
-                                imageView.setFitHeight(100);
-                                hbox.getChildren().add(imageView);
-                            }
+        ImageView logo = new ImageView(new Image("logo/local.svg"));
+        logo.setFitHeight(20);
+        logo.setPreserveRatio(true);
 
-                            // Add buttons for delete and update
-                            Button deleteButton = new Button("Delete");
-                            Button updateButton = new Button("Update");
+        HBox tourLocationContainer = new HBox(10);
+        tourLocationContainer.getChildren().addAll(logo, tourLocal);
+        tourContainer.getChildren().add(tourLocationContainer);
 
-                            // Handle delete button action
-                            deleteButton.setOnAction(event -> {
-                                boolean deleted = tourService.deleteTour(tour.getId());
-                                if (deleted) {
-                                    showAlert("Success", "Tour deleted successfully!", Alert.AlertType.INFORMATION);
-                                    refreshToursList(); // Refresh the list after deletion
-                                } else {
-                                    showAlert("Error", "Failed to delete tour.", Alert.AlertType.ERROR);
-                                }
-                            });
+        // Tour Name
+        Text tourName = new Text(tour.getTitle());
+        tourName.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        tourContainer.getChildren().add(tourName);
 
-                            // Handle update button action
-                            updateButton.setOnAction(event -> {
-                                // Open a new window or dialog to update the tour
-                                // For now, just show a message
-                                showAlert("Update", "Update functionality not implemented yet.", Alert.AlertType.INFORMATION);
-                            });
+        // Price and Buttons
+        HBox priceAndButtons = new HBox(10);
+        priceAndButtons.setPadding(new Insets(5, 0, 5, 0));
+        priceAndButtons.setAlignment(Pos.CENTER_LEFT);
 
-                            // Add details and buttons to the HBox
-                            hbox.getChildren().addAll(details, deleteButton, updateButton);
-                            setGraphic(hbox);
-                        }
-                    }
-                };
+        Text priceText = new Text("$" + tour.getPrice());
+        priceText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #3b9a9a;");
+        priceAndButtons.getChildren().add(priceText);
+
+        // Consult Button
+        Button consultButton = new Button("Consult");
+        consultButton.setStyle("-fx-background-color: #FA7335; -fx-text-fill: white; -fx-font-weight: bold;");
+        consultButton.setOnAction(event -> openTourDetails(tour));
+
+        // Update Button
+        Button updateButton = new Button("Update");
+        updateButton.setStyle("-fx-background-color: #3A86FF; -fx-text-fill: white; -fx-font-weight: bold;");
+        updateButton.setOnAction(event -> updateTour(tour));
+
+        // Delete Button
+        Button deleteButton = new Button("Delete");
+        deleteButton.setStyle("-fx-background-color: #FF3B30; -fx-text-fill: white; -fx-font-weight: bold;");
+        deleteButton.setOnAction(event -> deleteTour(tour, tourContainer));
+
+        // Add buttons
+        priceAndButtons.getChildren().addAll(consultButton, updateButton, deleteButton);
+        tourContainer.getChildren().add(priceAndButtons);
+
+        return tourContainer;
+    }
+
+    private void openTourDetails(Tour tour) {
+        try {
+            // Load the tour details FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tour_details.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the selected tour data
+            TourDetailsController detailsController = loader.getController();
+            detailsController.setTourData(tour);
+
+            // Get the current stage
+            Stage stage = (Stage) toursFlowPane.getScene().getWindow();
+
+            // Set the new scene (tour details page) in the same stage
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tour Details");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load tour details.", Alert.AlertType.ERROR);
+        }
+    }
+    private void deleteTour(Tour tour, VBox tourContainer) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Tour");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete this tour?");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response.getText().equals("OK")) {
+                tourService.deleteTour(tour.getId());
+                toursFlowPane.getChildren().remove(tourContainer);
+                showAlert("Success", "Tour deleted successfully!", Alert.AlertType.INFORMATION);
             }
         });
     }
 
-    // Refresh the tours list
-    private void refreshToursList() {
-        toursListView.getItems().clear();
-        List<Tour> tours = tourService.getAllToursWithOnePhoto();
-        toursListView.getItems().addAll(tours);
+    private void updateTour(Tour tour) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/update_tour.fxml"));
+            Parent root = loader.load();
+
+            UpdateTourController updateTourController = loader.getController();
+            updateTourController.setTourData(tour);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Update Tour");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load update form.", Alert.AlertType.ERROR);
+        }
     }
+
 
     // Show an alert dialog
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -113,4 +182,20 @@ public class ToursViewController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    @FXML
+    private void openAddTourView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AddTourView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) addTourButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add Tour");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

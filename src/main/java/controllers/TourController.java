@@ -1,8 +1,13 @@
 package controllers;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import models.Tour;
 import services.TourService;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,7 +27,7 @@ public class TourController {
     @FXML private TextField descriptionField;
     @FXML private TextField priceField;
     @FXML private TextField locationField;
-    @FXML private TextField dateField;
+    @FXML private DatePicker dateField;
     @FXML private TextField guideIdField;
     @FXML private ImageView imageView;
 
@@ -58,7 +63,7 @@ public class TourController {
         }
     }
 
-    // 📌 Handle Adding Tour
+    // 📌 Handle Adding Tour and Navigate to Tours View
     @FXML
     private void handleAddTour() {
         try {
@@ -67,16 +72,8 @@ public class TourController {
             String description = descriptionField.getText();
             String priceStr = priceField.getText();
             String location = locationField.getText();
-            String date = dateField.getText();
+            String date = String.valueOf(dateField.getValue());
             String guideIdStr = guideIdField.getText();
-
-            // Debugging: Print all field values
-            System.out.println("Title: " + title);
-            System.out.println("Description: " + description);
-            System.out.println("Price: " + priceStr);
-            System.out.println("Location: " + location);
-            System.out.println("Date: " + date);
-            System.out.println("Guide ID: " + guideIdStr);
 
             // Validate that none of the fields are empty
             if (title == null || title.isEmpty()) {
@@ -117,6 +114,9 @@ public class TourController {
             // Check if the tour was added successfully
             if (tourId != -1) {
                 showAlert("Success", "Tour added successfully!", AlertType.INFORMATION);
+
+                // Navigate to Tours View
+                navigateToToursView();
             } else {
                 showAlert("Error", "Failed to add tour. Please try again.", AlertType.ERROR);
             }
@@ -126,6 +126,25 @@ public class TourController {
         } catch (Exception e) {
             showAlert("Error", "An unexpected error occurred. Please try again.", AlertType.ERROR);
             e.printStackTrace();
+        }
+    }
+
+    // 📌 Navigate to Tours View
+    private void navigateToToursView() {
+        try {
+            // Load the Tours View FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tours_view.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage
+            Stage stage = (Stage) titleField.getScene().getWindow();
+
+            // Set the new scene (Tours View)
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tours View");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load Tours View.", AlertType.ERROR);
         }
     }
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ListView?>
+
+<AnchorPane prefHeight="506.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TourDetailsController">
+    <children>
+        <!-- Background Image -->
+        <ImageView fitHeight="163.0" fitWidth="733.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../logo/destination.jpg" />
+            </image>
+        </ImageView>
+
+        <!-- Tour Image -->
+        <ImageView fx:id="tourImageView" fitHeight="150" fitWidth="298.0" layoutX="74.0" layoutY="240.0" />
+
+        <!-- Tour Details -->
+        <Label fx:id="titleLabel" layoutX="391.0" layoutY="255.0" prefHeight="27.0" prefWidth="246.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="text" textFill="#012e41">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </Label>
+        <Label fx:id="descriptionLabel" layoutX="395.0" layoutY="282.0" prefHeight="58.0" prefWidth="239.0" text="descr" textFill="#345867">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="priceLabel" layoutX="395.0" layoutY="341.0" prefHeight="18.0" prefWidth="266.0" text="price*" />
+        <Label fx:id="locationLabel" layoutX="215.0" layoutY="399.0" prefHeight="18.0" prefWidth="138.0" text="local" />
+        <Label fx:id="dateLabel" layoutX="99.0" layoutY="399.0" prefHeight="18.0" prefWidth="109.0" text="date" />
+        <Label fx:id="guideLabel" layoutX="395.0" layoutY="371.0" prefHeight="18.0" prefWidth="246.0" text="guide id" />
+
+        <!-- Reserve Place Button -->
+        <Button layoutX="581.0" layoutY="455.0" onAction="#handleReservePlace" style="-fx-background-color: #FA7335;" text="Reserve Place" textFill="WHITE" />
+
+        <!-- Book Your Tour Text -->
+        <Text fill="#fa7335" layoutX="391.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book your tour">
+            <font>
+                <Font size="9.0" />
+            </font>
+        </Text>
+
+        <!-- Icon Button with Unicode Arrow -->
+        <Button layoutX="20.0" layoutY="20.0" onAction="#handleIconButtonAction" style="-fx-background-color: #FA7335;">
+            <graphic>
+                <Label text="←" style="-fx-font-size: 20px; -fx-text-fill: white;" /> <!-- Unicode left arrow -->
+            </graphic>
+        </Button>
+
+        <!-- Review Section -->
+        <Label layoutX="50.0" layoutY="430.0" text="Your Review:" />
+        <TextArea fx:id="commentaireTextArea" layoutX="150.0" layoutY="430.0" prefWidth="300.0" prefHeight="50.0" />
+
+        <!-- Rating Section -->
+        <Label layoutX="50.0" layoutY="490.0" text="Rating:" />
+        <ChoiceBox fx:id="etoileChoiceBox" layoutX="150.0" layoutY="490.0" prefWidth="100.0" />
+
+        <!-- Submit Review Button -->
+        <Button layoutX="270.0" layoutY="490.0" text="Submit Review" onAction="#handleSubmitReview" />
+
+        <!-- Previous Reviews Section -->
+        <Label layoutX="50.0" layoutY="530.0" text="Previous Reviews:" />
+        <ListView fx:id="reviewsListView" layoutX="50.0" layoutY="550.0" prefWidth="400.0" prefHeight="150.0" />
+    </children>
+</AnchorPane>
