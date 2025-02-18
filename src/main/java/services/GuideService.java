@@ -17,6 +17,16 @@ public class GuideService implements UserInterface {
     ValidationService validationService = new ValidationService();
     private static GuideService instance;
 
+    private static User loggedInUser;
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
+
     private GuideService() {
     }
 
@@ -157,6 +167,43 @@ public class GuideService implements UserInterface {
             }
         } catch (SQLException ex) {
             System.err.println("Error updating user: " + ex.getMessage());
+        }
+    }
+
+    public void updateBasicGuideInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
+        // Validation des champs obligatoires
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all required fields.");
+        }
+
+        // Validation de l'email
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("Invalid email address.");
+        }
+
+
+        // Validation du numéro de téléphone (si fourni)
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Invalid phone number format.");
+        }
+
+        // Requête SQL pour mettre à jour les informations de base
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Guide basic info updated successfully!");
+            } else {
+                System.out.println("Failed to update guide basic info.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error updating guide basic info: " + ex.getMessage());
         }
     }
 

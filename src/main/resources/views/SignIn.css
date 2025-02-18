@@ -1,0 +1,86 @@
+.primary-color {
+    -fx-background-color: #14251a;
+}
+
+.secondary-color {
+    -fx-background-color: white;
+}
+
+.text-input {
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #242551;
+    -fx-text-fill: black;
+}
+
+.text {
+    --body-font-size: 20;
+}
+
+
+.button {
+    -fx-background-color: #ed6637;
+    -fx-background-radius: 30;
+    -fx-text-fill: WHITE;
+}
+
+.login_button {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+}
+
+.login_button:hover {
+    -fx-background-color: #d39d50;
+}
+
+.selected {
+    -fx-background-color: transparent; /* Suppression de la couleur de fond */
+    -fx-cursor: hand;
+}
+
+.selected:hover {
+    -fx-background-color: transparent; /* Suppression de la couleur au survol */
+    -fx-cursor: hand;
+}
+
+.selected-border {
+    -fx-border-color: #fff;
+    -fx-border-width: 0 3 0 0;
+}
+
+.vbox_background_center{
+    -fx-background-image:url("bgcenter.jpg")
+
+}
+.vbox_background_right{
+    -fx-background-image:url("bgright.jpg")
+
+
+}
+.cursor_hand{
+    -fx-cursor:hand
+}
+
+.login_button {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-background-radius: 50;
+    -fx-cursor: hand; /* Ajoute cette ligne */
+}
+
+.login_button:hover {
+    -fx-background-color: #d39d50;
+}
+
+.signup_button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+
+}
+.signup_button:hover{
+    -fx-background-color: #ed6637
+}
