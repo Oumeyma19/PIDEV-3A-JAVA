@@ -43,6 +43,8 @@ public class FlightViewController {
     @FXML
     private TableColumn<Flight, String> arrivalAirportColumn;
     @FXML
+    private TableColumn<Flight, Integer> NumbrePlaceColumn;
+    @FXML
     private TableColumn<Flight, Void> actionsColumn;
 
     private FlightService flightService;
@@ -57,7 +59,7 @@ public class FlightViewController {
     @FXML
     public void initialize() {
         // Bind data to columns
-        idFlightColumn.setCellValueFactory(cellData -> cellData.getValue().idFlightProperty().asObject());
+
         departureColumn.setCellValueFactory(cellData -> cellData.getValue().departureProperty());
         destinationColumn.setCellValueFactory(cellData -> cellData.getValue().destinationProperty());
         departureTimeColumn.setCellValueFactory(cellData -> cellData.getValue().departureTimeProperty().asString());
@@ -66,6 +68,7 @@ public class FlightViewController {
         flightNumberColumn.setCellValueFactory(cellData -> cellData.getValue().flightNumberProperty());
         departureAirportColumn.setCellValueFactory(cellData -> cellData.getValue().departureAirportProperty().get().nameProperty());
         arrivalAirportColumn.setCellValueFactory(cellData -> cellData.getValue().arrivalAirportProperty().get().nameProperty());
+        NumbrePlaceColumn.setCellValueFactory(cellData -> cellData.getValue().numbre_placeProperty().asObject());
 
 
         // Add action buttons
@@ -111,6 +114,8 @@ public class FlightViewController {
         DatePicker arrivalDatePicker = new DatePicker(flight.getArrivalTime().toLocalDateTime().toLocalDate());
         TextField priceField = new TextField(String.valueOf(flight.getPrice()));
         TextField flightNumberField = new TextField(flight.getFlightNumber());
+        TextField NumbrePlaceField = new TextField(String.valueOf(flight.getNumbre_place()));
+
 
         // ComboBoxes for departure and arrival airports
         ComboBox<String> departureAirportComboBox = new ComboBox<>();
@@ -151,6 +156,8 @@ public class FlightViewController {
         grid.add(departureAirportComboBox, 1, 6);
         grid.add(new Label("Arrival Airport:"), 0, 7);
         grid.add(arrivalAirportComboBox, 1, 7);
+        grid.add(new Label("Numbre de place:"), 0, 8);
+        grid.add(NumbrePlaceField, 1, 8);
 
         dialog.getDialogPane().setContent(grid);
 
@@ -175,7 +182,8 @@ public class FlightViewController {
                         Integer.parseInt(priceField.getText()), // Parse the price
                         flightNumberField.getText(),
                         departureAirport, // Use the actual Airport object
-                        arrivalAirport    // Use the actual Airport object
+                        arrivalAirport,
+                        Integer.parseInt(NumbrePlaceField.getText())// Use the actual Airport object
                 );
             }
             return null;

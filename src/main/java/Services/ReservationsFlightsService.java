@@ -1,7 +1,9 @@
 package Services;
 
 import Interfaces.IService;
+import Models.Flight;
 import Models.ReservationsFlights;
+import Models.User;
 import Tools.MyDataBase;
 
 import java.sql.*;
@@ -19,13 +21,12 @@ public class ReservationsFlightsService implements IService<ReservationsFlights>
 
     @Override
     public void ajouter(ReservationsFlights r) {
-        String sql = "INSERT INTO reservation_flight (idResFlight, idClient, idFlight, seat_number, booking_date) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reservation_flight (idResFlight, idClient, idFlight,  booking_date) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setInt(1, r.getIdResFlight());
-            pst.setInt(2, r.getIdClient());
-            pst.setInt(3, r.getIdFlight());
-            pst.setString(4, r.getSeat_number());
-            pst.setDate(5, new java.sql.Date(r.getBooking_date().getTime()));
+            pst.setInt(2, r.getUser().getId());
+            pst.setInt(3, r.getFlight().getIdFlight());
+            pst.setDate(4, new java.sql.Date(r.getBooking_date().getTime()));
             pst.executeUpdate();
             System.out.println("Reservation added successfully.");
         } catch (SQLException e) {
@@ -51,13 +52,12 @@ public class ReservationsFlightsService implements IService<ReservationsFlights>
 
     @Override
     public void modifier(ReservationsFlights r, String seatNumber) {
-        String sql = "UPDATE reservation_flight SET idClient = ?, idFlight = ?, seat_number = ?, booking_date = ? WHERE seat_number = ?";
+        String sql = "UPDATE reservation_flight SET idClient = ?, idFlight = ?,  booking_date = ? WHERE seat_number = ?";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, r.getIdClient());
-            pst.setInt(2, r.getIdFlight());
-            pst.setString(3, r.getSeat_number());
-            pst.setDate(4, new java.sql.Date(r.getBooking_date().getTime()));
-            pst.setString(5, seatNumber);
+            pst.setInt(1, r.getUser().getId());
+            pst.setInt(2, r.getFlight().getIdFlight());
+            pst.setDate(3, new java.sql.Date(r.getBooking_date().getTime()));
+            pst.setString(4, seatNumber);
             int rowsUpdated = pst.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Reservation updated successfully.");
@@ -75,14 +75,16 @@ public class ReservationsFlightsService implements IService<ReservationsFlights>
         String sql = "SELECT * FROM reservation_flight";
         try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                ReservationsFlights reservation = new ReservationsFlights(
-                        rs.getInt("idResFlight"),
-                        rs.getInt("idClient"),
-                        rs.getInt("idFlight"),
-                        rs.getString("seat_number"),
-                        rs.getDate("booking_date")
-                );
+                ReservationsFlights reservation = new ReservationsFlights();
+                reservation.setIdResFlight(rs.getInt("idResFlight"));
+                reservation.setUser(new User(rs.getInt("idClient")));
+                reservation.setFlight(new Flight(rs.getInt("idFlight")));
+                reservation.setBooking_date(rs.getDate("booking_date"));
                 reservations.add(reservation);
+
+
+
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

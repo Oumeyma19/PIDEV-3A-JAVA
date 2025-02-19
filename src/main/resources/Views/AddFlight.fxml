@@ -38,6 +38,7 @@
 
     <!-- Flight Number -->
     <TextField fx:id="flightNumberField" promptText="Flight Number"/>
+    <TextField fx:id="numberPlaceField" promptText="Numbre de Place" />
 
     <!-- Save and Cancel Buttons -->
     <Button fx:id="saveButton" text="Save" onAction="#handleSave"/>

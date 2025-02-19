@@ -1,8 +1,8 @@
 package Models;
 
 import javafx.beans.property.*;
+
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Flight {
     private final IntegerProperty idFlight = new SimpleIntegerProperty();
@@ -14,8 +14,9 @@ public class Flight {
     private final StringProperty flightNumber = new SimpleStringProperty();
     private final ObjectProperty<Airport> departureAirport = new SimpleObjectProperty<>();
     private final ObjectProperty<Airport> arrivalAirport = new SimpleObjectProperty<>();
+    private final IntegerProperty numbre_place = new SimpleIntegerProperty();
 
-    public Flight(int idFlight, String departure, String destination, Timestamp departureTime, Timestamp arrivalTime, int price, String flightNumber, Airport departureAirport, Airport arrivalAirport) {
+    public Flight(int idFlight, String departure, String destination, Timestamp departureTime, Timestamp arrivalTime, int price, String flightNumber, Airport departureAirport, Airport arrivalAirport , int numbre_place) {
         this.idFlight.set(idFlight);
         this.departure.set(departure);
         this.destination.set(destination);
@@ -25,9 +26,15 @@ public class Flight {
         this.flightNumber.set(flightNumber);
         this.departureAirport.set(departureAirport);
         this.arrivalAirport.set(arrivalAirport);
+        this.numbre_place.set(numbre_place);
+
     }
 
     public Flight() {}
+
+    public Flight(int idFlight) {
+        this.idFlight.set(idFlight);
+    }
 
     // Getters and Setters with Properties
     public int getIdFlight() { return idFlight.get(); }
@@ -74,6 +81,18 @@ public class Flight {
         return arrivalAirport.get() != null ? arrivalAirport.get().getNameAirport() : "N/A";
     }
 
+    public int getNumbre_place() {
+        return numbre_place.get();
+    }
+
+    public void setNumbre_place(int numbre_place) {
+        this.numbre_place.set(numbre_place);
+    }
+
+    public IntegerProperty numbre_placeProperty() {
+        return numbre_place;
+    }
+
     @Override
     public String toString() {
         return "Flight{" +
@@ -84,8 +103,9 @@ public class Flight {
                 ", arrivalTime=" + arrivalTime.get() +
                 ", price=" + price.get() +
                 ", flightNumber='" + flightNumber.get() + '\'' +
-                ", departureAirport=" + (departureAirport.get() != null ? departureAirport.get().getNameAirport() : "N/A") +
-                ", arrivalAirport=" + (arrivalAirport.get() != null ? arrivalAirport.get().getNameAirport() : "N/A") +
+                ", departureAirport=" + departureAirport.get() +
+                ", arrivalAirport=" + arrivalAirport.get() +
+                ", numbre_place=" + numbre_place.get() +
                 '}';
     }
 }

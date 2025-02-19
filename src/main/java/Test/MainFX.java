@@ -29,11 +29,13 @@ public class MainFX extends Application {
         primaryStage.show();*/
 
 
-        JFXDecorator decorator = new JFXDecorator(primaryStage, root, false, false, true);
+        JFXDecorator decorator = new JFXDecorator(primaryStage, root, false, true, true);
         decorator.setCustomMaximize(true);
         Scene scene = new Scene(decorator);
         scene.getStylesheets().add(getClass().getResource("/Views/Style.css").toExternalForm());
         primaryStage.setScene(scene);
+        primaryStage.setWidth(1000);  // Increase width
+        primaryStage.setHeight(700);  // Increase height
         primaryStage.setTitle("Airport Management");
         primaryStage.show();
 

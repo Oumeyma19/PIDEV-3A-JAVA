@@ -4,31 +4,28 @@ import java.util.Date;
 
 public class ReservationsFlights {
     private int idResFlight;
-    private int idClient;
-    private int idFlight;
-    private String seat_number;
+    private User user;
+    private Flight flight;
     private Date booking_date;
 
-    public ReservationsFlights(int idResFlight, int idClient, int idFlight, String seat_number, Date booking_date) {
+    public ReservationsFlights(int idResFlight, User user, Flight flight, Date booking_date) {
         this.idResFlight = idResFlight;
-        this.idClient = idClient;
-        this.idFlight = idFlight;
-        this.seat_number = seat_number;
+        this.user = user;
+        this.flight = flight;
+
         this.booking_date = booking_date;
     }
 
-
-
-    public ReservationsFlights( int idClient, int idFlight, String seat_number, Date booking_date) {
-        this.idClient = idClient;
-        this.idFlight = idFlight;
-        this.seat_number = seat_number;
-        this.booking_date = booking_date;
-    }
 
 
 
     public ReservationsFlights() {
+    }
+
+    public ReservationsFlights(User user, Flight flight, Date bookingDate) {
+        this.user = user;
+        this.flight = flight;
+        this.booking_date = bookingDate;
     }
 
     public int getIdResFlight() {
@@ -39,29 +36,23 @@ public class ReservationsFlights {
         this.idResFlight = idResFlight;
     }
 
-    public int getIdClient() {
-        return idClient;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getIdFlight() {
-        return idFlight;
+    public Flight getFlight() {
+        return flight;
     }
 
-    public void setIdFlight(int idFlight) {
-        this.idFlight = idFlight;
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
-    public String getSeat_number() {
-        return seat_number;
-    }
 
-    public void setSeat_number(String seat_number) {
-        this.seat_number = seat_number;
-    }
 
     public Date getBooking_date() {
         return booking_date;
@@ -74,8 +65,8 @@ public class ReservationsFlights {
     @Override
     public String toString() {
         return "ReservationFlight{" + "idResFlight=" + idResFlight + "," +
-                " idClient=" + idClient + ", idFlight=" + idFlight + "" +
-                ", seat_number=" + seat_number + ", booking_date=" + booking_date + '}';
+                " idClient=" + user.getId() + ", idFlight=" + flight.getIdFlight() + "" +
+                  ", booking_date=" + booking_date + '}';
     }
 
 

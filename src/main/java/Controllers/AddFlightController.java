@@ -32,6 +32,8 @@ public class AddFlightController {
     private TextField priceField;
     @FXML
     private TextField flightNumberField;
+    @FXML
+    private TextField numberPlaceField;
 
     private FlightService flightService;
     private AirportService airportService;  // Add AirportService to load airports
@@ -56,6 +58,11 @@ public class AddFlightController {
 
         priceField.setText(String.valueOf(flight.getPrice()));
         flightNumberField.setText(flight.getFlightNumber());
+
+        numberPlaceField.setText(String.valueOf(flight.getNumbre_place()));
+
+
+
     }
 
     @FXML
@@ -107,7 +114,8 @@ public class AddFlightController {
                 Integer.parseInt(priceField.getText()), // Convert price to integer
                 flightNumberField.getText(),
                 departureAirport, // Use the actual Airport object
-                arrivalAirport    // Use the actual Airport object
+                arrivalAirport,// Use the actual Airport object
+                Integer.parseInt(numberPlaceField.getText())
         );
 
         // Add new flight to the database

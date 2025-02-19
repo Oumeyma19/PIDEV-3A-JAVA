@@ -28,7 +28,8 @@ public class Main {
                 300, // Price
                 "AA1000",
                 departureAirport,
-                arrivalAirport
+                arrivalAirport,
+                100
         );
 
         try {
