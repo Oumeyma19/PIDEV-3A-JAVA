@@ -37,9 +37,6 @@ public class SignUpController {
     private PasswordField passwordField;
 
     @FXML
-    private RadioButton adminRadioButton;
-
-    @FXML
     private RadioButton clientRadioButton;
 
     @FXML
@@ -62,7 +59,6 @@ public class SignUpController {
     @FXML
     public void initialize() {
         roleGroup = new ToggleGroup();
-        adminRadioButton.setToggleGroup(roleGroup);
         clientRadioButton.setToggleGroup(roleGroup);
         guideRadioButton.setToggleGroup(roleGroup);
     }
@@ -79,14 +75,8 @@ public class SignUpController {
 
             Type role;
 
-            // Vérifier si un admin est déjà enregistré
-            if (adminRadioButton.isSelected()) {
-                UserService userService = UserService.getInstance();
-                if (userService.countAdmins() > 0) {
-                    throw new IllegalStateException("Un administrateur existe déjà dans la BD.");
-                }
-                role = Type.ADMIN;
-            } else if (clientRadioButton.isSelected()) {
+            // Déterminer le rôle sélectionné
+            if (clientRadioButton.isSelected()) {
                 role = Type.CLIENT;
             } else {
                 role = Type.GUIDE;
@@ -107,20 +97,16 @@ public class SignUpController {
             // Ajouter l'utilisateur au service approprié
             if (role == Type.CLIENT) {
                 clientService.addUser(user);
-            } else if (role == Type.GUIDE) {
-                guideService.addUser(user);
             } else {
-                userService.addUser(user);
+                guideService.addUser(user);
             }
 
             // Récupérer l'utilisateur depuis la base de données pour s'assurer qu'il est correctement lié
             User savedUser;
             if (role == Type.CLIENT) {
                 savedUser = clientService.getUserbyEmail(email);
-            } else if (role == Type.GUIDE) {
-                savedUser = guideService.getUserbyEmail(email);
             } else {
-                savedUser = userService.getUserbyEmail(email);
+                savedUser = guideService.getUserbyEmail(email);
             }
 
             // Message de succès
@@ -135,11 +121,7 @@ public class SignUpController {
                     public void run() {
                         javafx.application.Platform.runLater(() -> {
                             try {
-                                if (role == Type.ADMIN) {
-                                    redirectToDashboard(savedUser); // Rediriger vers Dashboard.fxml pour l'admin
-                                } else {
-                                    redirectToProfil(savedUser); // Rediriger vers Profil.fxml pour les autres rôles
-                                }
+                                redirectToProfil(savedUser); // Rediriger vers Profil.fxml pour les autres rôles
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -153,10 +135,6 @@ public class SignUpController {
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setVisible(true);
-        } catch (IllegalStateException e) {
-            errorLabel.setText(e.getMessage());
-            errorLabel.setStyle("-fx-text-fill: red;");
-            errorLabel.setVisible(true);
         } catch (Exception e) {
             errorLabel.setText("Une erreur s'est produite lors de l'inscription.");
             errorLabel.setStyle("-fx-text-fill: red;");
@@ -165,39 +143,12 @@ public class SignUpController {
         }
     }
 
-    private void redirectToDashboard(User user) throws IOException {
-        System.out.println("Redirection vers Dashboard.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
-        Parent root = loader.load();
-
-        // Passer les données de l'utilisateur au contrôleur DashboardController
-        DashboardController dashboardController = loader.getController();
-        dashboardController.setCurrentUser(user);
-
-        Stage stage = (Stage) registerButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
     private void redirectToProfil(User user) throws IOException {
         System.out.println("Redirection vers Profil.fxml");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
         Parent root = loader.load();
 
         // Passer les données de l'utilisateur au contrôleur ProfilController
-        ProfilController profilController = loader.getController();
-        profilController.setCurrentUser(user);
-
-        Stage stage = (Stage) registerButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    private void redirectToHome(User user) throws IOException {
-        System.out.println("Redirection vers Profil.fxml"); // Log de débogage
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
-        Parent root = loader.load();
-
-        // Pass the user data to the ProfilController
         ProfilController profilController = loader.getController();
         profilController.setCurrentUser(user);
 

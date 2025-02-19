@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20" stylesheets="@SignIn.css">
+            <Text style="-fx-translate-x: 20;" text="Ajouter un Guide">
+                <font>
+                    <Font name="Impact" size="48.0" />
+                </font>
+            </Text>
+
+
+
+            <TextField prefWidth="200" promptText="Nom" />
+
+            <TextField prefWidth="200" promptText="Prenom" />
+
+            <TextField prefWidth="200" promptText="Email" />
+
+            <TextField prefWidth="200" promptText="Phone" />
+            <Text style="-fx-font-weight: bold;" text="Status" />
+            <ComboBox prefWidth="200">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Disponible" />
+                        <String fx:value="Indisponible" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Text style="-fx-font-weight: bold;" text="Active" />
+            <ComboBox prefWidth="200">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Oui" />
+                        <String fx:value="Non" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Text style="-fx-font-weight: bold;" text="Ban" />
+            <ComboBox prefWidth="200">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Oui" />
+                        <String fx:value="Non" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <TextField prefWidth="200" promptText="Role" text="GUIDE" />
+            <Button styleClass="new_button_style" text="Enregistrer" />
+        </VBox>
+    </children>
+</AnchorPane>

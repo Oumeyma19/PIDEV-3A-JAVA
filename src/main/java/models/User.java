@@ -1,4 +1,7 @@
 package models;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 import util.Type;
 
@@ -15,6 +18,7 @@ public class User {
     private Type roles;
     private Boolean is_active;
     private Boolean is_banned;
+
 
 
     public User() {
@@ -75,6 +79,7 @@ public class User {
         this.is_banned = false;
         this.is_active = true;
     }
+
     public User(String firstname, String lastname, String email, String phone, String password, int pointsfid, String nivfid, Type roles) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -86,6 +91,16 @@ public class User {
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
+    }
+    public User(String firstname, String lastname, String email, String phone, int pointsfid, String nivfid, Boolean is_banned,Boolean is_active) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.pointsfid = pointsfid;
+        this.nivfid = nivfid;
+        this.is_banned = is_banned;
+        this.is_active = is_active;
     }
     //Modif Client
     public User(int id, String firstname, String lastname, String email, String phone, String password, int pointsfid, String nivfid, Type roles, Boolean is_banned,Boolean is_active) {

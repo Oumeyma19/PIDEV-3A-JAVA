@@ -62,28 +62,67 @@ public class ClientService implements UserInterface {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
                 "one lowercase letter, one digit, and be at least 6 characters long.");
         }
-        String request = "INSERT INTO `user`(`firstname`, `lastname`, `email` ,`phone`,`password`,`pointsfid`,`nivfid`,`roles`,`is_active`,`is_banned`) " +
-            "VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+        // Requête SQL sans l'id (auto-incrémenté)
+        String request = "INSERT INTO `user`(`firstname`, `lastname`, `email`, `phone`, `password`, `pointsfid`, `nivfid`, `roles`, `is_active`, `is_banned`) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(request);
+            PreparedStatement preparedStatement = connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPhone());
             preparedStatement.setString(5, cryptPassword(user.getPassword()));
-            preparedStatement.setInt(6,0);
-            preparedStatement.setString(7, null);
+            preparedStatement.setInt(6, user.getPointsfid());
+            preparedStatement.setString(7, user.getNivfid());
             preparedStatement.setString(8, user.getRoles().toString());
-            preparedStatement.setBoolean(9, true);  // is_active = true
-            preparedStatement.setBoolean(10, false);
+            preparedStatement.setBoolean(9, user.getIsActive());
+            preparedStatement.setBoolean(10, user.getIsBanned());
+
             preparedStatement.executeUpdate();
+
+            // Récupérer l'id généré automatiquement
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int id = generatedKeys.getInt(1);
+                user.setId(id); // Mettre à jour l'id dans l'objet User
+            }
+
             System.out.println("Client added successfully !");
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
+    public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
+        // Vérifier que le nouveau mot de passe n'est pas vide
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new EmptyFieldException("Le nouveau mot de passe ne peut pas être vide.");
+        }
 
-    private String cryptPassword(String passwordToCrypt) {
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(newPassword)) {
+            throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Crypter le nouveau mot de passe
+        String encryptedPassword = cryptPassword(newPassword);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String request = "UPDATE user SET password = ? WHERE id = ? AND roles = 'CLIENT'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, encryptedPassword);
+            preparedStatement.setInt(2, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserNotFoundException("Aucun client trouvé avec l'ID : " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour du mot de passe : " + ex.getMessage());
+        }
+    }
+
+    public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
             .of(bcryptChars)
@@ -93,11 +132,7 @@ public class ClientService implements UserInterface {
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
         BCrypt.Result result = BCrypt.verifyer().verify(passwordToBeVerified.toCharArray(), encryptedPassword);
-        boolean verified = result.verified;
-        if (!verified) {
-            System.out.println("Password incorrect. Forgotten your password? ");
-        }
-        return verified;
+        return result.verified;
     }
 
     private boolean isEmailExists(String email) {

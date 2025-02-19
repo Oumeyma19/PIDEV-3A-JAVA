@@ -11,7 +11,7 @@ import models.User;
 
 import java.io.IOException;
 
-public class DashboardController {
+public class  DashboardController {
 
     @FXML
     private Label welcomeLabel;

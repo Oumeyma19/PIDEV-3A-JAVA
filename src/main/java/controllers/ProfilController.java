@@ -75,8 +75,15 @@ public class ProfilController {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
-        initialize();
+        if (user != null) {
+            nomUserLabel.setText(user.getFirstname() + " " + user.getLastname());
+            nomField.setText(user.getFirstname());
+            prenomField.setText(user.getLastname());
+            emailField.setText(user.getEmail());
+            telephoneField.setText(user.getPhone());
+        }
     }
+
 
     @FXML
     private void handleLogout(javafx.scene.input.MouseEvent event) {
@@ -94,6 +101,25 @@ public class ProfilController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleChangePassword() {
+        try {
+            // Rediriger vers la page de modification du mot de passe (ChangePassword.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ChangePassword.fxml"));
+            Parent root = loader.load();
+
+            // Passer l'utilisateur actuel au contrôleur ChangePasswordController
+            ChangePasswordController changePasswordController = loader.getController();
+            changePasswordController.setCurrentUser(currentUser);
+
+            Stage stage = (Stage) logoutImage.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la redirection vers la page de modification du mot de passe : " + e.getMessage());
+        }
+    }
+
 
     @FXML
     private void handleSave() {

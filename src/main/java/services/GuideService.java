@@ -81,7 +81,36 @@ public class GuideService implements UserInterface {
         }
     }
 
-    private String cryptPassword(String passwordToCrypt) {
+    public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
+        // Vérifier que le nouveau mot de passe n'est pas vide
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new EmptyFieldException("Le nouveau mot de passe ne peut pas être vide.");
+        }
+
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(newPassword)) {
+            throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Crypter le nouveau mot de passe
+        String encryptedPassword = cryptPassword(newPassword);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String request = "UPDATE user SET password = ? WHERE id = ? AND roles = 'GUIDE'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, encryptedPassword);
+            preparedStatement.setInt(2, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserNotFoundException("Aucun guide trouvé avec l'ID : " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour du mot de passe : " + ex.getMessage());
+        }
+    }
+
+    public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
             .of(bcryptChars)
@@ -91,11 +120,7 @@ public class GuideService implements UserInterface {
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
         BCrypt.Result result = BCrypt.verifyer().verify(passwordToBeVerified.toCharArray(), encryptedPassword);
-        boolean verified = result.verified;
-        if (!verified) {
-            System.out.println("Password incorrect. Forgotten your password? ");
-        }
-        return verified;
+        return result.verified;
     }
 
     private boolean isEmailExists(String email) {
