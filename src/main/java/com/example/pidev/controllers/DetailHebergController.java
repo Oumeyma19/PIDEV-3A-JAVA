@@ -1,5 +1,8 @@
 package com.example.pidev.controllers;
 
+import com.example.pidev.Util.AvisProperties;
+import com.example.pidev.Util.Helpers;
+import com.example.pidev.Util.RatingDialog;
 import com.example.pidev.models.Hebergements;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +16,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,6 +54,9 @@ public class DetailHebergController {
 
     @FXML
     private Button modifier;
+
+    @FXML
+    private Button btnAddRating;
 
     private Hebergements hebergement;
 
@@ -126,14 +133,4 @@ public class DetailHebergController {
             Logger.getLogger(DetailHebergController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    // 📌 Méthode pour afficher une alerte
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 }

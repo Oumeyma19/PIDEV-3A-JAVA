@@ -71,15 +71,16 @@ public class ListesHebergController implements Initializable {
 
     private void openHebergementDetails(Hebergements hebergement) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/detailsHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/detailsHebergC.fxml"));
             Parent root = loader.load();
-            DetailHebergController detailsController = loader.getController();
+            DetailHebergCController detailsController = loader.getController();
             detailsController.setHebergementDetails(hebergement);
             Stage stage = (Stage) hebergementsFlowPane.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Détails de l'Hébergement");
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger les détails.", Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
     }
 

@@ -1,18 +1,32 @@
 package com.example.pidev.controllers;
 
+import com.example.pidev.Exceptions.UserNotFoundException;
+import com.example.pidev.Util.AvisListCell;
+import com.example.pidev.Util.AvisProperties;
+import com.example.pidev.Util.Helpers;
+import com.example.pidev.Util.RatingDialog;
+import com.example.pidev.models.AvisHebergement;
 import com.example.pidev.models.Hebergements;
+import com.example.pidev.models.User;
+import com.example.pidev.services.AvisService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import org.controlsfx.control.Rating;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,14 +62,18 @@ public class DetailHebergCController {
     @FXML
     private ImageView imageHeberg;
 
+    @FXML
+    private ListView<AvisHebergement> avisListView;
+
     private Hebergements hebergement;
 
+    private final ObservableList<AvisHebergement> avisList = FXCollections.observableArrayList();
 
+    private final AvisService avisService = AvisService.getInstance();
 
     public void setHebergementDetails(Hebergements hebergement) {
 
         this.hebergement = hebergement;
-
 
         nomHebergLabel.setText(hebergement.getNomHeberg());
         descrpLabel.setText(hebergement.getDescrHeberg());
@@ -73,6 +91,21 @@ public class DetailHebergCController {
         // Affichage de l'image
         Image image = new Image(hebergement.getImageHebrg());
         imageHeberg.setImage(image);
+
+        avisListView.setCellFactory(param -> new AvisListCell());
+
+        try {
+            fetchAvis();
+            avisListView.setItems(avisList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            avisListView.getItems().add(null);
+        }
+    }
+
+    private void fetchAvis() throws SQLException, UserNotFoundException {
+        avisList.setAll(avisService
+                .recupererParHebergement(hebergement.getIdHebrg()));
     }
 
     @FXML
@@ -92,7 +125,7 @@ public class DetailHebergCController {
     }
 
 
-    // 📌 Retourner à la liste des hébergements après suppression
+    //gfgsfg
     private void retourAListe() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listeHebergements.fxml"));
@@ -103,13 +136,27 @@ public class DetailHebergCController {
         }
     }
 
-    // 📌 Méthode pour afficher une alerte
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    @FXML
+    public void openRatingDialog(ActionEvent event) {
+        final RatingDialog dialog = new RatingDialog(new AvisProperties("", 0.0f));
+        Optional<AvisProperties> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            AvisProperties avis = result.get();
+            try {
+                avisService.ajouter(new AvisHebergement(avis.getComment(), avis.getRating(), new User(7, null, null, null, null, null, null), hebergement));
+                Helpers.showAlert("Avis", "ajout succes", Alert.AlertType.CONFIRMATION);
+                fetchAvis();
+            } catch (Exception e) {
+                Helpers.showAlert("Avis", "ajout echec", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
+    @FXML
+    public void openReservationPage(ActionEvent event) {
+    }
 }

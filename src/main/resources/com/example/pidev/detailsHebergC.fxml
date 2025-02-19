@@ -2,17 +2,18 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="588.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidev.controllers.DetailHebergController">
+<AnchorPane prefHeight="588.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidev.controllers.DetailHebergCController">
 
     <children>
         <!-- Header -->
-        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Détails de l'Hébergement" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
+        <Label layoutX="275.0" layoutY="14.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Détails de l'Hébergement" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="14.0" />
 
         <!-- Image -->
-        <ImageView fx:id="imageHeberg" fitHeight="200" fitWidth="538.0" layoutX="9.0" layoutY="44.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="44.0" />
+        <ImageView fx:id="imageHeberg" fitHeight="200" fitWidth="775.0" layoutY="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="44.0" />
 
         <!-- Nom de l'hébergement -->
         <Label style="-fx-font-weight: bold;" text="Nom :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="260" />
@@ -47,9 +48,11 @@
         <Label fx:id="dateOCLabel" AnchorPane.leftAnchor="120" AnchorPane.topAnchor="470" />
 
         <!-- Retour Button -->
-        <Button fx:id="btnBack" layoutX="480.0" layoutY="431.0" onAction="#goBack" prefHeight="34.0" prefWidth="61.0" text="Retour" AnchorPane.bottomAnchor="22.600000000000023" AnchorPane.leftAnchor="480.0" />
+        <Button fx:id="btnBack" layoutX="-3.0" layoutY="-3.0" onAction="#goBack" prefHeight="34.0" prefWidth="61.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="556.6" AnchorPane.leftAnchor="-3.0" />
 
         <!-- Réservation Button -->
-        <Button fx:id="btnReservation" layoutX="400.0" layoutY="500.0" onAction="#openReservationPage" prefHeight="34.0" prefWidth="120.0" text="Réserver" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="400.0" />
+        <Button fx:id="btnReservation" layoutX="328.0" layoutY="516.0" onAction="#openReservationPage" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Réserver" textFill="WHITE" AnchorPane.bottomAnchor="40.799999999999955" AnchorPane.leftAnchor="328.0" />
+      <Button fx:id="btnAddRating" layoutX="469.0" layoutY="516.0" onAction="#openRatingDialog" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FFD700;" text="Add Rating" textAlignment="CENTER" />
+      <ListView fx:id="avisListView" layoutX="489.0" layoutY="260.0" prefHeight="240.0" prefWidth="250.0" />
     </children>
 </AnchorPane>

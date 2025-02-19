@@ -1,8 +1,8 @@
 module com.example.pidev {
-    requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
     requires bcrypt;
+    requires org.controlsfx.controls;
 
 
     opens com.example.pidev to javafx.fxml;
