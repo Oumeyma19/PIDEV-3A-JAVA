@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.ReservationListController"
+      stylesheets="List.css"
+      prefWidth="1000" prefHeight="700"
+      spacing="20" alignment="CENTER">
+
+    <!-- Title -->
+    <Label text="Mes Réservations" styleClass="form-title"/>
+
+    <!-- GridPane to display reservation cards -->
+    <GridPane fx:id="gridPane" hgap="20" vgap="20" alignment="CENTER">
+        <!-- Cards will be added dynamically here -->
+    </GridPane>
+
+    <!-- Back Button -->
+    <Button text="Retour" onAction="#goBack" styleClass="confirm-button"/>
+</VBox>

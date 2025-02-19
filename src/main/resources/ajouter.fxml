@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>  <!-- ✅ Added import for ImageView -->
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="561.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AjouterOffre">
+
+   <children>
+      <Label layoutX="50" layoutY="50" text="Offre Name" />
+      <TextField fx:id="offreNameField" layoutX="150" layoutY="50" />
+
+      <Label layoutX="50" layoutY="100" text="Description" />
+      <TextField fx:id="descriptionField" layoutX="150" layoutY="100" />
+
+      <Label layoutX="50" layoutY="150" text="Prix" />
+      <TextField fx:id="prixField" layoutX="150" layoutY="150" />
+
+      <Label layoutX="50" layoutY="200" text="Start Date" />
+      <DatePicker fx:id="startDatePicker" layoutX="150" layoutY="200" />
+
+      <Label layoutX="50" layoutY="250" text="End Date" />
+      <DatePicker fx:id="endDatePicker" layoutX="150" layoutY="250" />
+
+      <!-- ✅ Corrected Button Placement -->
+      <Button fx:id="btnChooseImage" layoutX="50" layoutY="300" text="Choose Image" />
+
+      <!-- ✅ Fixed ImageView (Added Proper Layout Properties) -->
+      <ImageView fx:id="imageView" layoutX="200" layoutY="300" fitWidth="150" fitHeight="150" />
+
+      <!-- ✅ Adjusted Ajouter Button Placement -->
+      <Button fx:id="ajouterButton" layoutX="200" layoutY="350" text="Ajouter" />
+   </children>
+</AnchorPane>

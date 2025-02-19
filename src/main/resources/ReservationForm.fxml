@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.ReservationFormController"
+      stylesheets="@form.css"
+      prefWidth="1000" prefHeight="700"
+      alignment="CENTER">
+
+    <!-- Background Gradient -->
+    <StackPane>
+        <Rectangle width="1000" height="700">
+            <fill>
+                <LinearGradient startX="0" startY="0" endX="1" endY="1">
+                    <stops>
+                        <Stop offset="0" color="#4b6cb7"/>
+                        <Stop offset="1" color="#182848"/>
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+
+        <!-- Form Card -->
+        <VBox fx:id="formCard" spacing="20" alignment="CENTER" styleClass="form-card">
+            <!-- Offer Details -->
+            <VBox spacing="10" alignment="CENTER" styleClass="offer-details">
+                <ImageView fx:id="imgOffer" fitWidth="300" fitHeight="200" preserveRatio="true"/>
+                <Label fx:id="lblOfferName" styleClass="offer-title"/>
+                <Label fx:id="lblOfferDescription" styleClass="offer-description" wrapText="true" maxWidth="500"/>
+            </VBox>
+
+            <!-- Number of People -->
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Nombre de personnes:" styleClass="form-label"/>
+                <Spinner fx:id="spAdults" styleClass="form-spinner" initialValue="1" editable="true"/>
+                <Label text="Adultes" styleClass="form-label"/>
+                <Spinner fx:id="spChildren" styleClass="form-spinner" initialValue="0" editable="true"/>
+                <Label text="Enfants" styleClass="form-label"/>
+            </HBox>
+
+            <!-- Date Selection -->
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Date de début:" styleClass="form-label"/>
+                <DatePicker fx:id="dpStartDate" styleClass="form-datepicker"/>
+                <Label text="Date de fin:" styleClass="form-label"/>
+                <DatePicker fx:id="dpEndDate" styleClass="form-datepicker"/>
+            </HBox>
+
+            <!-- Total Price -->
+            <Label fx:id="lblTotalPrice" styleClass="total-price"/>
+
+            <!-- Confirmation Button -->
+            <Button fx:id="btnConfirm" text="Confirmer la Réservation"
+                    onAction="#confirmReservation" styleClass="confirm-button"/>
+            <Button text="Voir Mes Réservations" onAction="#goToReservationList" styleClass="confirm-button"/>
+            <!-- Status Message -->
+            <Label fx:id="lblStatus" styleClass="status-message" visible="false"/>
+        </VBox>
+    </StackPane>
+</VBox>

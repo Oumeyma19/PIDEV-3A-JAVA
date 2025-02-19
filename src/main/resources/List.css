@@ -1,0 +1,51 @@
+/* Card style */
+.reservation-card {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-padding: 20;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
+    -fx-max-width: 300;
+}
+
+.reservation-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+}
+
+/* Offer image */
+.offer-image {
+    -fx-fit-width: 250;
+    -fx-fit-height: 150;
+    -fx-preserve-ratio: true;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* Offer title */
+.offer-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+/* Reservation details */
+.reservation-details {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+/* Cancel button */
+.cancel-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #c0392b;
+}
