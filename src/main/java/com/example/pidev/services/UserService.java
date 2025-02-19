@@ -63,8 +63,8 @@ public class UserService implements UserInterface {
             preparedStatement.setString(4, user.getPhone());
             preparedStatement.setString(5, cryptPassword(user.getPassword()));
             preparedStatement.setString(6, user.getRoles().toString());
-            preparedStatement.setBoolean(7, true);  // is_active = true
-            preparedStatement.setBoolean(8, false); // is_banned = false
+            preparedStatement.setBoolean(7, true);
+            preparedStatement.setBoolean(8, false);
 
             preparedStatement.executeUpdate();
             System.out.println("User added successfully!");

@@ -43,6 +43,8 @@ public class AjouterHebergController implements Initializable {
 
     @FXML
     private ImageView image;
+    @FXML
+    private ImageView img;
 
     @FXML
     private DatePicker dateI, dateO;
@@ -80,6 +82,9 @@ public class AjouterHebergController implements Initializable {
 
     @FXML
     private Button btnSupprimer;
+
+    @FXML
+    private Button listes;
 
     private Hebergements hebergementActuel;
 
@@ -245,6 +250,18 @@ public class AjouterHebergController implements Initializable {
             Helpers.showAlert("Error", "Erreur de base de données : " + e.getMessage(), Alert.AlertType.ERROR);
         } catch (Exception e) {
             Helpers.showAlert("Error", "Une erreur inattendue est survenue.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void afficherListeHebergements(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listesHeberg.fxml"));
+            Parent root = loader.load();
+            listes.getScene().setRoot(root);
+
+        } catch (IOException e) {
+            Helpers.showAlert("Erreur", "Impossible de charger la liste des hébergements.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }

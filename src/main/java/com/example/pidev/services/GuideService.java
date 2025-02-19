@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GuideService implements UserInterface {
-    private final Connection connection = MyConnection.getInstance().getConnection();
+    private Connection connection = MyConnection.getInstance().getConnection();
     ValidationService validationService = new ValidationService();
     private static GuideService instance;
 
@@ -52,8 +52,8 @@ public class GuideService implements UserInterface {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
                     "one lowercase letter, one digit, and be at least 6 characters long.");
         }
-        String request = "INSERT INTO `user`(`firstname`, `lastname`, `email` ,`phone`,`password`,`language`,`statusGuide`,`roles`,`is_active`,`is_banned`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String request = "INSERT INTO `user`(`firstname`, `lastname`, `email` ,`phone`,`password`,`statusGuide`,`roles`,`is_active`,`is_banned`) " +
+                "VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setString(1, user.getFirstname());
@@ -61,11 +61,10 @@ public class GuideService implements UserInterface {
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPhone());
             preparedStatement.setString(5, cryptPassword(user.getPassword()));
-            preparedStatement.setString(6, user.getLanguage());
-            preparedStatement.setBoolean(7, true);
-            preparedStatement.setString(8, user.getRoles().toString());
-            preparedStatement.setBoolean(9, true);  // is_active = true
-            preparedStatement.setBoolean(10, false);
+            preparedStatement.setBoolean(6, true);
+            preparedStatement.setString(7, user.getRoles().toString());
+            preparedStatement.setBoolean(8, true);  // is_active = true
+            preparedStatement.setBoolean(9, false);
             preparedStatement.executeUpdate();
             System.out.println("Guide added successfully !");
         } catch (SQLException ex) {
@@ -127,6 +126,7 @@ public class GuideService implements UserInterface {
             throw new InvalidEmailException("Invalid email address.");
         }
 
+
         // Validate phone number format (if provided)
         if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
             throw new InvalidPhoneNumberException("Invalid phone number format.");
@@ -137,18 +137,17 @@ public class GuideService implements UserInterface {
         }
 
         // Prepare SQL update statement
-        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, language = ?, statusGuide = ?, is_banned = ?, is_active = ? WHERE id = ?";
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, statusGuide = ?, is_banned = ?, is_active = ? WHERE id = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPhone());
-            preparedStatement.setString(5, user.getLanguage());
-            preparedStatement.setBoolean(6, user.getStatusGuide());
-            preparedStatement.setBoolean(7, user.getIsBanned());
-            preparedStatement.setBoolean(8, user.getIsActive());
-            preparedStatement.setInt(9, user.getId());
+            preparedStatement.setBoolean(5, user.getStatusGuide());
+            preparedStatement.setBoolean(6, user.getIsBanned());
+            preparedStatement.setBoolean(7, user.getIsActive());
+            preparedStatement.setInt(8, user.getId());
 
             // Execute the update statement
             int rowsAffected = preparedStatement.executeUpdate();
@@ -163,7 +162,7 @@ public class GuideService implements UserInterface {
     }
 
     @Override
-    public void deleteUser(int id) throws UserNotFoundException {
+    public void deleteUser(int id)throws UserNotFoundException {
         User user = getUserbyID(id);
         String request = "DELETE FROM `user` WHERE `Id` =" + user.getId() + ";";
         try {
@@ -192,7 +191,6 @@ public class GuideService implements UserInterface {
                         resultSet.getString("email"),
                         resultSet.getString("phone"),
                         resultSet.getString("password"),
-                        resultSet.getString("language"),
                         resultSet.getBoolean("statusGuide"),
                         Type.GUIDE,
                         resultSet.getBoolean("is_banned"),
@@ -266,8 +264,7 @@ public class GuideService implements UserInterface {
         String lastname = resultSet.getString("lastname");
         String email = resultSet.getString("email");
         String phone = resultSet.getString("phone");
-        String password = resultSet.getString("password");
-        String language = resultSet.getString("language");  // Ensure it's a String
+        String password = resultSet.getString("password");// Ensure it's a String
         Boolean statusGuide = resultSet.getBoolean("statusGuide"); // Nullable
         String roleString = resultSet.getString("roles");
 
@@ -281,7 +278,7 @@ public class GuideService implements UserInterface {
         boolean is_banned = resultSet.getBoolean("is_banned");
         boolean is_active = resultSet.getBoolean("is_active");// Ensure the correct column index
 
-        return new User(id, firstname, lastname, email, phone, password, language, statusGuide, roles, is_banned, is_active);
+        return new User(id, firstname, lastname, email, phone, password, statusGuide, roles, is_banned,is_active);
     }
 
 }

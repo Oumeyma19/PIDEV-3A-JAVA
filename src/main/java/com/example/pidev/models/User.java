@@ -11,7 +11,6 @@ public class User {
     private String password;
     private int pointsfid;
     private String nivfid;
-    private String language;
     private Boolean statusGuide;
     private Type roles;
     private Boolean is_active;
@@ -103,40 +102,37 @@ public class User {
         this.is_active = is_active;
     }
     //add Guide
-    public User(String firstname, String lastname, String email, String phone, String password, String language, Type roles) {
+    public User(String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles) {
         this.firstname = firstname;
         this.password = password;
         this.phone = phone;
         this.lastname = lastname;
         this.email = email;
-        this.language = language;
         this.statusGuide = true;
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
     }
-    public User(int id,String firstname, String lastname, String email, String phone, String password, String language, Type roles) {
+    public User(int id,String firstname, String lastname, String email, String phone, String password, Boolean statusGuide ,Type roles) {
         this.id = id;
         this.firstname = firstname;
         this.password = password;
         this.phone = phone;
         this.lastname = lastname;
         this.email = email;
-        this.language = language;
         this.statusGuide = true;
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
     }
     //Modif Guide
-    public User(int id, String firstname, String lastname, String email, String phone, String password, String language, Boolean statusGuide, Type roles, Boolean is_banned,Boolean is_active) {
+    public User(int id, String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles, Boolean is_banned,Boolean is_active) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.language = language;
         this.statusGuide = statusGuide;
         this.roles = roles;
         this.is_banned = is_banned;
@@ -231,14 +227,6 @@ public class User {
         this.nivfid = nivfid;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public Boolean getStatusGuide() {
         return statusGuide;
     }
@@ -271,7 +259,6 @@ public class User {
                     ", email='" + email + '\'' +
                     ", phone='" + phone + '\'' +
                     ", password='" + password + '\'' +
-                    ", language='" + language + '\'' +
                     ", statusGuide='" + statusGuide + '\'' +
                     ", roles=" + roles +
                     ", is_banned=" + is_banned +

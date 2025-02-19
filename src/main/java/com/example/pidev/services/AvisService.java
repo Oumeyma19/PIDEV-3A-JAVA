@@ -120,4 +120,23 @@ public class AvisService implements ICrud<AvisHebergement> {
 
         return avis;
     }
+    public List<AvisHebergement> recupererParHebergement(int idHeberg) throws SQLException, UserNotFoundException {
+        String sql = "SELECT * FROM avisHebergement WHERE idHeberg = ?";
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, idHeberg);
+        ResultSet rs = st.executeQuery();
+
+        List<AvisHebergement> avisList = new ArrayList<>();
+        while (rs.next()) {
+            AvisHebergement avis = new AvisHebergement();
+            avis.setIdAvis(rs.getInt("idAvis"));
+            avis.setComment(rs.getString("comment"));
+            avis.setReview(rs.getFloat("review"));
+            avis.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            avis.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
+            avisList.add(avis);
+        }
+        return avisList;
+    }
+
 }
