@@ -167,4 +167,45 @@ public class TourService {
             return false;
         }
     }
+
+    public List<Tour> getToursByLocation(String location) {
+        List<Tour> filteredTours = new ArrayList<>();
+        try {
+            // Query to fetch tours with their first photo
+            String sql = "SELECT t.*, tp.photo " +
+                    "FROM tours t " +
+                    "LEFT JOIN (SELECT tour_id, MIN(photo) AS photo FROM tour_photos GROUP BY tour_id) tp " +
+                    "ON t.id = tp.tour_id " +
+                    "WHERE t.location LIKE ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + location + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Tour tour = new Tour(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        rs.getString("location"),
+                        rs.getString("date"),
+                        rs.getInt("guide_id")
+                );
+
+                // Set the first photo (if available)
+                String photo = rs.getString("photo");
+                if (photo != null) {
+                    List<String> photos = new ArrayList<>();
+                    photos.add(photo);
+                    tour.setPhotos(photos);
+                }
+
+                filteredTours.add(tour);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filteredTours;
+    }
+
 }

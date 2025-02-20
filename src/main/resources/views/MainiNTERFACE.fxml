@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefWidth="800.0" prefHeight="800.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.TourController">
+
+    <!-- Menu on the left -->
+    <VBox layoutX="0.0" layoutY="0.0" prefWidth="100.0" prefHeight="800.0" style="-fx-background-color: #012e41;">
+        <Button fx:id="addTourButton" text="Add Tour" graphicTextGap="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0">
+                    <image>
+                        <Image url="/logo/add.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="listToursButton" text="List Tours" graphicTextGap="10.0" style="-fx-background-color: transparent; -fx-text-fill: white;">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0">
+                    <image>
+                        <Image url="/logo/list.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
+
+    <!-- Content on the right -->
+    <AnchorPane layoutX="100.0" layoutY="0.0" prefWidth="700.0" prefHeight="800.0">
+        <ImageView fitHeight="327.0" fitWidth="744.0" layoutX="-2.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/logo/background.jpg" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#012e41" height="299.0" layoutX="319.0" layoutY="10.0" opacity="0.85" stroke="#012e41" strokeMiterLimit="20.0" strokeType="INSIDE" width="392.0" />
+        <Label alignment="TOP_RIGHT" graphicTextGap="8.0" layoutX="446.0" layoutY="19.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Add New Tour" textFill="WHITE" AnchorPane.leftAnchor="446.0" AnchorPane.topAnchor="19.0">
+            <font>
+                <Font name="Arial Bold" size="96.0" />
+            </font>
+        </Label>
+
+        <TextField fx:id="titleField" layoutX="339.0" layoutY="106.0" promptText="Title" AnchorPane.leftAnchor="339.0" AnchorPane.topAnchor="106.0" />
+        <TextField fx:id="descriptionField" layoutX="508.0" layoutY="106.0" promptText="Description" AnchorPane.leftAnchor="508.0" AnchorPane.topAnchor="106.0" />
+        <TextField fx:id="priceField" layoutX="339.0" layoutY="160.0" promptText="Price" AnchorPane.leftAnchor="339.0" AnchorPane.topAnchor="160.0" />
+        <TextField fx:id="locationField" layoutX="508.0" layoutY="160.0" promptText="Location" AnchorPane.leftAnchor="508.0" AnchorPane.topAnchor="160.0" />
+        <TextField fx:id="guideIdField" layoutX="508.0" layoutY="219.0" promptText="Guide ID" AnchorPane.leftAnchor="508.0" AnchorPane.topAnchor="219.0" />
+
+        <Button blendMode="ADD" contentDisplay="TOP" layoutX="508.0" layoutY="266.0" onAction="#handleSelectImage" style="-fx-background-color: #FA7335;" text="Select Image" textFill="WHITE" AnchorPane.leftAnchor="508.0" AnchorPane.topAnchor="266.0" />
+        <ImageView fx:id="imageView" fitHeight="150" fitWidth="200" layoutX="67.0" layoutY="111.0" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="111.0" />
+        <Button blendMode="ADD" cache="true" layoutX="605.0" layoutY="266.0" onAction="#handleAddTour" style="-fx-background-color: #FA7335;" text="Add Tour" textFill="WHITE" AnchorPane.leftAnchor="605.0" AnchorPane.topAnchor="266.0" />
+        <Text fill="WHITE" fontSmoothingType="LCD" layoutX="435.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your destination tour is just a click away">
+            <font>
+                <Font size="9.0" />
+            </font>
+        </Text>
+        <Text fill="WHITE" layoutX="328.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
+        <Text fill="WHITE" layoutX="496.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+        <Text fill="WHITE" layoutX="327.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" />
+        <Text fill="WHITE" layoutX="496.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
+        <Text fill="WHITE" layoutX="328.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+        <Text fill="WHITE" layoutX="495.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guide ID" />
+        <DatePicker fx:id="dateField" layoutX="339.0" layoutY="219.0" prefHeight="26.0" prefWidth="150.0" />
+        <Label alignment="TOP_RIGHT" graphicTextGap="8.0" layoutX="67.0" layoutY="34.0" prefHeight="114.0" prefWidth="200.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Explore Your World With Carthago" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+            <font>
+                <Font name="Arial Bold" size="96.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="175.0" fitWidth="269.0" layoutX="68.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/logo/photo.png" />
+            </image>
+        </ImageView>
+        <Text fill="#ff8867" layoutX="306.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GET TO KNOW US">
+            <font>
+                <Font size="8.0" />
+            </font>
+        </Text>
+        <Label alignment="TOP_RIGHT" graphicTextGap="8.0" layoutX="306.0" layoutY="381.0" prefHeight="114.0" prefWidth="200.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Explore Your World With Carthago" textFill="#012e41" textOverrun="CLIP" wrapText="true">
+            <font>
+                <Font name="Arial Bold" size="96.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="102.0" fitWidth="335.0" layoutX="306.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="/logo/text.png" />
+            </image>
+        </ImageView>
+    </AnchorPane>
+</AnchorPane>

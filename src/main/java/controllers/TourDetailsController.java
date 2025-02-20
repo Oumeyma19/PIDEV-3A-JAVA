@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.AvisTour;
 import models.Reservation;
 import models.Tour;
 import services.AvisService;
 import services.ReservationService;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class TourDetailsController {
     // Review Elements
     @FXML private TextArea commentaireTextArea;
     @FXML private ChoiceBox<Integer> etoileChoiceBox;
-    @FXML private ListView<String> reviewsListView;
+    @FXML private ListView<AvisTour> reviewsListView;
 
     private Tour selectedTour;
     private ReservationService reservationService = new ReservationService();
@@ -74,26 +74,90 @@ public class TourDetailsController {
             return;
         }
 
-        AvisTour avis = new AvisTour(0, clientId, selectedTour.getId(), etoile, commentaire);
-        if (avisService.addAvis(avis)) {
-            showAlert("Success", "Review submitted successfully!", Alert.AlertType.INFORMATION);
-            loadReviews();
-            commentaireTextArea.clear();
-            etoileChoiceBox.setValue(5);
+        AvisTour selectedReview = reviewsListView.getSelectionModel().getSelectedItem();
+        if (selectedReview != null) {
+            // Update existing review
+            selectedReview.setCommentaire(commentaire);
+            selectedReview.setEtoile(etoile);
+            if (avisService.updateAvis(selectedReview)) { // Ensure this method exists
+                showAlert("Success", "Review updated successfully!", Alert.AlertType.INFORMATION);
+                loadReviews();
+                commentaireTextArea.clear();
+                etoileChoiceBox.setValue(5);
+            } else {
+                showAlert("Error", "Failed to update review.", Alert.AlertType.ERROR);
+            }
         } else {
-            showAlert("Error", "Failed to submit review. Make sure you have reserved this tour.", Alert.AlertType.ERROR);
+            // Create new review
+            AvisTour avis = new AvisTour(0, clientId, selectedTour.getId(), etoile, commentaire);
+            if (avisService.addAvis(avis)) {
+                showAlert("Success", "Review submitted successfully!", Alert.AlertType.INFORMATION);
+                loadReviews();
+                commentaireTextArea.clear();
+                etoileChoiceBox.setValue(5);
+            } else {
+                showAlert("Error", "Failed to submit review. Make sure you have reserved this tour.", Alert.AlertType.ERROR);
+            }
         }
     }
 
     private void loadReviews() {
         if (selectedTour == null) return;
+
         List<AvisTour> avisList = avisService.getAllAvis();
         reviewsListView.getItems().clear();
+        reviewsListView.getItems().addAll(avisList);
 
-        for (AvisTour avis : avisList) {
-            if (avis.getTourId() == selectedTour.getId()) {
-                reviewsListView.getItems().add("⭐" + avis.getEtoile() + " - " + avis.getCommentaire());
+        reviewsListView.setCellFactory(param -> new ListCell<AvisTour>() {
+            @Override
+            protected void updateItem(AvisTour avis, boolean empty) {
+                super.updateItem(avis, empty);
+                if (empty || avis == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Create a card-like structure
+                    Label ratingLabel = new Label("⭐".repeat(avis.getEtoile())); // Stars based on rating
+                    ratingLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #f39c12;");
+
+                    Label commentLabel = new Label(avis.getCommentaire());
+                    commentLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333333;");
+
+                    VBox reviewBox = new VBox(ratingLabel, commentLabel);
+                    reviewBox.setStyle("-fx-padding: 10px; -fx-background-color: #f9f9f9; -fx-border-color: #dddddd; -fx-border-radius: 8px;");
+                    reviewBox.setSpacing(5);
+
+                    setGraphic(reviewBox);
+                }
             }
+        });
+    }
+
+    @FXML
+    public void handleUpdateReview() {
+        AvisTour selectedReview = reviewsListView.getSelectionModel().getSelectedItem();
+        if (selectedReview != null) {
+            // Load the selected review into the text area and choice box for editing
+            commentaireTextArea.setText(selectedReview.getCommentaire());
+            etoileChoiceBox.setValue(selectedReview.getEtoile());
+        } else {
+            showAlert("Error", "No review selected!", Alert.AlertType.WARNING);
+        }
+    }
+
+    @FXML
+    public void handleDeleteReview() {
+        AvisTour selectedReview = reviewsListView.getSelectionModel().getSelectedItem();
+        if (selectedReview != null) {
+            boolean success = avisService.deleteAvis(selectedReview.getId());
+            if (success) {
+                showAlert("Success", "Review deleted successfully!", Alert.AlertType.INFORMATION);
+                loadReviews(); // Reload the reviews after deletion
+            } else {
+                showAlert("Error", "Failed to delete the review.", Alert.AlertType.ERROR);
+            }
+        } else {
+            showAlert("Error", "No review selected!", Alert.AlertType.WARNING);
         }
     }
 

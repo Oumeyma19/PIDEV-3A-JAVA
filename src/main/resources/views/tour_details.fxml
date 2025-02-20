@@ -10,8 +10,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 
-<AnchorPane prefHeight="506.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TourDetailsController">
+<AnchorPane prefHeight="600.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TourDetailsController">
     <children>
         <!-- Background Image -->
         <ImageView fitHeight="163.0" fitWidth="733.0" pickOnBounds="true" preserveRatio="true">
@@ -58,17 +60,27 @@
 
         <!-- Review Section -->
         <Label layoutX="50.0" layoutY="430.0" text="Your Review:" />
-        <TextArea fx:id="commentaireTextArea" layoutX="150.0" layoutY="430.0" prefWidth="300.0" prefHeight="50.0" />
+        <TextArea fx:id="commentaireTextArea" layoutX="150.0" layoutY="430.0" prefWidth="300.0" prefHeight="50.0" wrapText="true" />
 
         <!-- Rating Section -->
         <Label layoutX="50.0" layoutY="490.0" text="Rating:" />
         <ChoiceBox fx:id="etoileChoiceBox" layoutX="150.0" layoutY="490.0" prefWidth="100.0" />
 
         <!-- Submit Review Button -->
-        <Button layoutX="270.0" layoutY="490.0" text="Submit Review" onAction="#handleSubmitReview" />
+        <Button layoutX="270.0" layoutY="490.0" text="Submit Review" onAction="#handleSubmitReview" style="-fx-background-color: #FA7335;" textFill="WHITE" />
 
         <!-- Previous Reviews Section -->
         <Label layoutX="50.0" layoutY="530.0" text="Previous Reviews:" />
-        <ListView fx:id="reviewsListView" layoutX="50.0" layoutY="550.0" prefWidth="400.0" prefHeight="150.0" />
+        <ListView fx:id="reviewsListView" layoutX="50.0" layoutY="550.0" prefWidth="400.0" prefHeight="150.0">
+            <contextMenu>
+                <ContextMenu fx:id="reviewContextMenu">
+                    <!-- Context Menu Items -->
+                    <items>
+                        <MenuItem text="Update" onAction="#handleUpdateReview" />
+                        <MenuItem text="Delete" onAction="#handleDeleteReview" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </ListView>
     </children>
 </AnchorPane>

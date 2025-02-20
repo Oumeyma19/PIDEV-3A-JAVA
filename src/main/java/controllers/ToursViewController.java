@@ -11,15 +11,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,25 +31,47 @@ public class ToursViewController {
     private Button addTourButton;
 
     @FXML
-    private Button backButton;
+    private TextField searchField; // Search field
 
     private TourService tourService = new TourService();
 
     @FXML
     public void initialize() {
-        // Fetch all tours with one photo and guide's name
-        List<Tour> tours = tourService.getAllToursWithOnePhoto();
-        addTourButton.setOnAction(event -> {
-            System.out.println("Bouton cliqué !");
-        });
-        // Add tours to the FlowPane
+        // Load all tours initially
+        refreshTours();
+        addTourButton.setOnAction(event -> openAddTourView());
+    }
+
+    // Handle search button action
+    @FXML
+    private void handleSearch() {
+        String location = searchField.getText().trim();
+        if (location.isEmpty()) {
+            // If the search field is empty, show all tours
+            refreshTours();
+        } else {
+            // Filter tours by location
+            List<Tour> filteredTours = tourService.getToursByLocation(location);
+            displayTours(filteredTours);
+        }
+    }
+
+    // Display tours in the FlowPane
+    private void displayTours(List<Tour> tours) {
+        toursFlowPane.getChildren().clear(); // Clear existing tours
         for (Tour tour : tours) {
             VBox tourContainer = createTourContainer(tour);
             toursFlowPane.getChildren().add(tourContainer);
         }
-        addTourButton.setOnAction(event -> openAddTourView());
     }
 
+    // Refresh tours (load all tours)
+    private void refreshTours() {
+        List<Tour> tours = tourService.getAllToursWithOnePhoto();
+        displayTours(tours);
+    }
+
+    // Create a tour container (VBox) for each tour
     private VBox createTourContainer(Tour tour) {
         VBox tourContainer = new VBox(10);
         tourContainer.setPadding(new Insets(10));
@@ -119,20 +139,16 @@ public class ToursViewController {
         return tourContainer;
     }
 
+    // Open tour details
     private void openTourDetails(Tour tour) {
         try {
-            // Load the tour details FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tour_details.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and pass the selected tour data
             TourDetailsController detailsController = loader.getController();
             detailsController.setTourData(tour);
 
-            // Get the current stage
             Stage stage = (Stage) toursFlowPane.getScene().getWindow();
-
-            // Set the new scene (tour details page) in the same stage
             stage.setScene(new Scene(root));
             stage.setTitle("Tour Details");
         } catch (IOException e) {
@@ -140,6 +156,8 @@ public class ToursViewController {
             showAlert("Error", "Failed to load tour details.", Alert.AlertType.ERROR);
         }
     }
+
+    // Delete a tour
     private void deleteTour(Tour tour, VBox tourContainer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Tour");
@@ -155,6 +173,7 @@ public class ToursViewController {
         });
     }
 
+    // Update a tour
     private void updateTour(Tour tour) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/update_tour.fxml"));
@@ -166,13 +185,13 @@ public class ToursViewController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Update Tour");
+            stage.setOnHidden(event -> refreshTours());
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to load update form.", Alert.AlertType.ERROR);
         }
     }
-
 
     // Show an alert dialog
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -183,7 +202,7 @@ public class ToursViewController {
         alert.showAndWait();
     }
 
-
+    // Open the add tour view
     @FXML
     private void openAddTourView() {
         try {
@@ -196,6 +215,4 @@ public class ToursViewController {
             e.printStackTrace();
         }
     }
-
-
 }

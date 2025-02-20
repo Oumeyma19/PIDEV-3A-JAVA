@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,11 +21,17 @@
     <!-- Title -->
     <Label text="List of Tours" layoutX="300.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #012E41;"/>
 
+    <!-- Search Field and Button -->
+    <HBox layoutX="20.0" layoutY="60.0" spacing="10">
+        <TextField fx:id="searchField" promptText="Search by location..." prefWidth="200"/>
+        <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #FA7335; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
     <!-- Button to add a tour -->
     <Button fx:id="addTourButton" text="Add Tour" layoutX="650.0" layoutY="20.0" onAction="#openAddTourView" style="-fx-background-color: #FA7335; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
     <!-- ScrollPane with FlowPane -->
-    <ScrollPane fitToWidth="true" styleClass="invisible-scroll" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0">
+    <ScrollPane fitToWidth="true" styleClass="invisible-scroll" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="100.0">
         <FlowPane fx:id="toursFlowPane" hgap="10" prefHeight="111.0" prefWidth="423.0" vgap="10">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />

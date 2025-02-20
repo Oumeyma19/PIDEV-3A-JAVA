@@ -42,6 +42,11 @@ public class UpdateTourController {
     @FXML
     private void handleUpdateTour() {
         try {
+            // Validate inputs
+            if (!validateInputs()) {
+                return; // Stop if validation fails
+            }
+
             // Get updated values from fields
             String title = titleField.getText();
             String description = descriptionField.getText();
@@ -74,6 +79,50 @@ public class UpdateTourController {
             showAlert("Error", "An unexpected error occurred.", AlertType.ERROR);
             e.printStackTrace();
         }
+    }
+
+    // Validate user inputs
+    private boolean validateInputs() {
+        // Check for empty fields
+        if (titleField.getText().isEmpty() || descriptionField.getText().isEmpty() ||
+                priceField.getText().isEmpty() || locationField.getText().isEmpty() ||
+                dateField.getValue() == null || guideIdField.getText().isEmpty()) {
+            showAlert("Error", "All fields are required!", AlertType.ERROR);
+            return false;
+        }
+
+        // Validate price (must be a positive number)
+        try {
+            double price = Double.parseDouble(priceField.getText());
+            if (price <= 0) {
+                showAlert("Error", "Price must be a positive number!", AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid price format. Please enter a valid number!", AlertType.ERROR);
+            return false;
+        }
+
+        // Validate guide ID (must be a positive integer)
+        try {
+            int guideId = Integer.parseInt(guideIdField.getText());
+            if (guideId <= 0) {
+                showAlert("Error", "Guide ID must be a positive integer!", AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid guide ID format. Please enter a valid integer!", AlertType.ERROR);
+            return false;
+        }
+
+        // Validate date (must not be in the past)
+        LocalDate selectedDate = dateField.getValue();
+        if (selectedDate.isBefore(LocalDate.now())) {
+            showAlert("Error", "Date cannot be in the past!", AlertType.ERROR);
+            return false;
+        }
+
+        return true; // All inputs are valid
     }
 
     // Show an alert dialog
