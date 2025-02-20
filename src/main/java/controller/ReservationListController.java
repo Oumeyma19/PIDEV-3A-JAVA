@@ -22,7 +22,7 @@ public class ReservationListController {
     @FXML private GridPane gridPane;
 
     private final ReservationOffreService reservationService = new ReservationOffreService();
-    private int loggedInUserId = 6; // Replace with actual logged-in user ID
+    private int loggedInUserId = 6;
 
     @FXML
     public void initialize() {
@@ -36,20 +36,19 @@ public class ReservationListController {
 
     private void loadReservations() {
         try {
+            // Vider le GridPane avant de recharger les réservations
+            gridPane.getChildren().clear();
+
             List<ReservationOffre> reservations = reservationService.recupererParUtilisateur(loggedInUserId);
             int row = 0;
             int col = 0;
 
             for (ReservationOffre reservation : reservations) {
-                // Create a card for each reservation
                 VBox card = createReservationCard(reservation);
-
-                // Add the card to the grid
                 gridPane.add(card, col, row);
 
-                // Update row and column for the next card
                 col++;
-                if (col == 3) { // 3 cards per row
+                if (col == 3) { // 3 cartes par ligne
                     col = 0;
                     row++;
                 }
@@ -58,6 +57,7 @@ public class ReservationListController {
             e.printStackTrace();
         }
     }
+
 
     private VBox createReservationCard(ReservationOffre reservation) {
         VBox card = new VBox(10);
@@ -85,27 +85,47 @@ public class ReservationListController {
         );
         detailsLabel.getStyleClass().add("reservation-details");
 
-        // Cancel button
+
         Button cancelButton = new Button("Annuler");
         cancelButton.getStyleClass().add("cancel-button");
         cancelButton.setOnAction(event -> {
             try {
                 reservationService.annulerReservation(reservation.getId());
-                gridPane.getChildren().remove(card); // Remove the card after canceling
+
+                loadReservations();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
-        // Add all elements to the card
-        card.getChildren().addAll(offerImage, titleLabel, detailsLabel, cancelButton);
+        Button modifyButton = new Button("Modifier");
+        modifyButton.getStyleClass().add("modify-button");
+        modifyButton.setOnAction(event -> openUpdateReservationForm(reservation));
+
+        card.getChildren().addAll(offerImage, titleLabel, detailsLabel, modifyButton, cancelButton);
         return card;
+
     }
 
+    private void openUpdateReservationForm(ReservationOffre reservation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/update_reservation.fxml"));
+            Parent root = loader.load();
+
+            UpdateReservationController controller = loader.getController();
+            controller.setReservation(reservation);
+
+            Stage stage = new Stage();
+            stage.setTitle("Modifier Réservation");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void goBack() {
-        // Navigate back to the main menu or previous screen
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/ReservationOffre.fxml"));
             Stage stage = (Stage) gridPane.getScene().getWindow();

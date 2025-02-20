@@ -54,17 +54,20 @@ public class ReservationOffersController {
         }
     }
 
+
+
+    // Method to show offer details in an alert
     private VBox createOfferCard(Offre offre) {
         VBox card = new VBox(10);
         card.getStyleClass().add("offer-card");
         card.setPrefWidth(250);
+        card.setStyle("-fx-background-color: white; -fx-border-color: #ed6637; -fx-border-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 0);");
 
         // Offer Image
         ImageView imageView = new ImageView();
-        imageView.getStyleClass().add("offer-image");
         imageView.setFitWidth(200);
         imageView.setFitHeight(150);
-
+        imageView.setPreserveRatio(true);
         String imagePath = offre.getImagePath();
 
         // Load image
@@ -73,33 +76,56 @@ public class ReservationOffersController {
                 imageView.setImage(new Image(imagePath));
             } catch (Exception e) {
                 System.err.println("Error loading image: " + imagePath);
-                imageView.setImage(loadDefaultImage()); // Load default image on error
+                imageView.setImage(loadDefaultImage());
             }
         } else {
-            imageView.setImage(loadDefaultImage()); // Load default image if path is empty
+            imageView.setImage(loadDefaultImage());
         }
 
         // Offer Details
         Label title = new Label(offre.getTitle());
         title.getStyleClass().add("offer-title");
+        title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ed6637;");
 
         Label price = new Label("Price: $" + offre.getPrice());
         price.getStyleClass().add("offer-price");
+        price.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
         Label date = new Label("From " + offre.getStartDate() + " to " + offre.getEndDate());
         date.getStyleClass().add("offer-date");
+        date.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
+
+        // Description Label (not visible by default)
+        Label descriptionLabel = new Label(offre.getDescription());
+        descriptionLabel.getStyleClass().add("offer-description");
+        descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333; -fx-wrap-text: true;"); // Description style
+        descriptionLabel.setVisible(false); // Set to not visible by default
+
+        Button detailsBtn = new Button("Details");
+        detailsBtn.getStyleClass().add("details-button");
+        detailsBtn.setStyle("-fx-background-color: #ed6637; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 12px; -fx-background-radius: 5;");
+        detailsBtn.setOnAction(event -> {
+            // Toggle description visibility
+            descriptionLabel.setVisible(!descriptionLabel.isVisible());
+        });
 
         Button reserveBtn = new Button("Reserve Now");
         reserveBtn.getStyleClass().add("reserve-button");
+        reserveBtn.setStyle("-fx-background-color: #ed6637; -fx-text-fill: white; -fx-padding: 8 15; -fx-font-size: 14px; -fx-background-radius: 5;");
         reserveBtn.setOnAction(event -> openReservationForm(offre));
 
-        HBox buttonContainer = new HBox(reserveBtn);
+        HBox buttonContainer = new HBox(10, detailsBtn, reserveBtn); // Add details and reserve buttons
         buttonContainer.setAlignment(Pos.CENTER);
 
-        card.getChildren().addAll(imageView, title, price, date, buttonContainer);
+        card.getChildren().addAll(imageView, title, price, date, buttonContainer, descriptionLabel); // Add description label
 
         return card;
     }
+
+
+    // Method to show offer details in an alert
+
+
 
     private Image loadDefaultImage() {
         return new Image(getClass().getResourceAsStream("/default.png")); // Default image

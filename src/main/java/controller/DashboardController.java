@@ -37,10 +37,13 @@ public class DashboardController {
     private void handleAddOffer() {
         loadFXMLWithAnimation("/ajouter.fxml");
     }
+    @FXML
+    private void handleListReservations() {
+        loadFXMLWithAnimation("/reservation_list.fxml");
+    }
 
-    /**
-     * Loads the 'Lister Offres' page with a smooth fade-in animation.
-     */
+
+
     @FXML
     private void handleListOffers() {
         loadFXMLWithAnimation("/ViewOffres.fxml");
@@ -55,18 +58,13 @@ public class DashboardController {
         // TODO: Implement update offer logic
     }
 
-    /**
-     * Handles deleting an offer (TODO: Implement functionality)
-     */
     @FXML
     private void handleDeleteOffer() {
         System.out.println("Delete Offer functionality to be implemented.");
         // TODO: Implement delete offer logic
     }
 
-    /**
-     * Loads an FXML file into the content area with a fade-in effect.
-     */
+
     private void loadFXMLWithAnimation(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));

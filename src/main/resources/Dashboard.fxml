@@ -28,6 +28,8 @@
                 <Button text="Ajouter" onAction="#handleAddOffer" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
                 <Button text="Lister" onAction="#handleListOffers" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
             </VBox>
+            <Button text="Liste des Réservations" onAction="#handleListReservations" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+
             <Pane VBox.vgrow="ALWAYS"/>
             <Button text="Déconnexion" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
         </VBox>

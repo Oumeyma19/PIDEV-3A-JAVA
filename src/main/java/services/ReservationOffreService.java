@@ -116,13 +116,12 @@ public class ReservationOffreService implements IService<ReservationOffre> {
     }
 
     // New method: Cancel a reservation (update status to "Canceled")
-    public void annulerReservation(int reservationId) throws SQLException {
-        String sql = "UPDATE reservation_offres SET status = 'Canceled' WHERE id = ?";
-
-        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setInt(1, reservationId);
-            stmt.executeUpdate();
-            System.out.println("Réservation annulée");
+    public void annulerReservation(int id) throws SQLException {
+        String query = "DELETE FROM reservation_offres WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, id);
+            pst.executeUpdate();
         }
     }
+
 }
