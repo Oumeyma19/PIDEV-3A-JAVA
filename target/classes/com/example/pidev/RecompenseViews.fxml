@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="anchorPane" prefHeight="400" prefWidth="600" fx:controller="Controller.RecompenseController">
+    <!-- List of recompenses -->
+    <ListView fx:id="recompenseListView" layoutX="20" layoutY="20" prefHeight="200" prefWidth="200" onMouseClicked="#displayRecompenseDetails"/>
+
+    <!-- Reward details -->
+    <Label text="Nom:" layoutX="250" layoutY="20"/>
+    <TextField fx:id="nomTextField" layoutX="250" layoutY="40" prefWidth="200" editable="false"/>
+
+    <Label text="Points Requis:" layoutX="250" layoutY="80"/>
+    <TextField fx:id="pointsRequisTextField" layoutX="250" layoutY="100" prefWidth="200" editable="false"/>
+
+    <Label text="Photo:" layoutX="250" layoutY="140"/>
+    <ImageView fx:id="photoImageView" layoutX="250" layoutY="160" fitHeight="100" fitWidth="100"/>
+</AnchorPane>

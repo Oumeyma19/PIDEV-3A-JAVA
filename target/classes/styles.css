@@ -1,0 +1,27 @@
+.invisible-scroll .scroll-bar:vertical,
+.invisible-scroll .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+.invisible-scroll .scroll-bar:vertical .track,
+.invisible-scroll .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
+}
+
+.invisible-scroll .scroll-bar:vertical .thumb,
+.invisible-scroll .scroll-bar:horizontal .thumb {
+    -fx-opacity: 0;
+}
+
+.btn-primary {
+    -fx-background-color: #FA7335;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #e56e2f; /* Darker shade when hovered */
+}

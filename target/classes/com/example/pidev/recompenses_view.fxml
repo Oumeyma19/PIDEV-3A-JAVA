@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RecompenseController">
+    <TableView fx:id="recompenseTable" layoutX="10" layoutY="10">
+        <columns>
+            <TableColumn text="ID" prefWidth="50">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Programme ID" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="programmeId" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Nom" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="nom" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Description" prefWidth="200">
+                <cellValueFactory>
+                    <PropertyValueFactory property="description" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Points Requis" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="pointsRequis" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Photo" prefWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="photo" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+</AnchorPane>

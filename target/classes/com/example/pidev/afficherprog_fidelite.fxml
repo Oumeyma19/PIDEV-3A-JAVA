@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.afficherlist">
+<AnchorPane prefHeight="466.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AfficherListProgramme">
     <children>
-        <VBox alignment="CENTER" spacing="10">
-            <TableView fx:id="programmeTable">
-                <columns>
-                    <TableColumn text="ID" fx:id="colId"/>
-                    <TableColumn text="Nom du Programme" fx:id="colNom"/>
-                    <TableColumn text="Points" fx:id="colPoints"/>
-                    <TableColumn text="Actions" fx:id="colActions"/>
-                </columns>
-            </TableView>
+         <TableView fx:id="programmeTable" prefHeight="406.0" prefWidth="835.0">
+             <columns>
+                 <TableColumn fx:id="colId" text="ID" />
+                 <TableColumn fx:id="colNom" prefWidth="210.39997100830078" text="Nom du Programme" />
+                 <TableColumn fx:id="colPoints" minWidth="0.0" prefWidth="123.20001220703125" text="Points" />
+                 <TableColumn fx:id="colActions" minWidth="0.0" prefWidth="215.99996948242188" text="Actions" />
+             </columns>
+         </TableView>
 
-            <Button text="Ajouter un Programme" onAction="#handleAddProgramme"/>
-        </VBox>
+         <Button layoutX="675.0" layoutY="426.0" onAction="#handleAddProgramme" style="-fx-background-color: #FA7335;" text="Ajouter un Programme" textFill="WHITE" />
     </children>
 </AnchorPane>
-

@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class afficherlist {
+public class AfficherListProgramme {
 
     @FXML
     private TableView<ProgrammeFidelite> programmeTable;
@@ -40,19 +40,22 @@ public class afficherlist {
 
     @FXML
     public void initialize() {
+        // Styling the columns with nicer text alignment
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nomProgramme"));
         colPoints.setCellValueFactory(new PropertyValueFactory<>("points"));
 
-        // Ajouter les boutons Supprimer et Modifier
+        // Add a style for table header
+        programmeTable.getStylesheets().add(getClass().getResource("/com/example/pidev/table.css").toExternalForm());
+
+        // Adding buttons with custom style
         colActions.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Supprimer");
-            private final Button updateButton = new Button("Modifier");
+            private final Button deleteButton = new Button("❌");
+            private final Button updateButton = new Button("✏️");
 
             {
-                deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                updateButton.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
-
+                deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                updateButton.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white;");
                 deleteButton.setOnAction(event -> {
                     ProgrammeFidelite programme = getTableView().getItems().get(getIndex());
                     handleDeleteProgramme(programme);
@@ -99,12 +102,9 @@ public class afficherlist {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/updateprog.fxml"));
             Parent root = loader.load();
-
-            // Obtenir le contrôleur et lui passer le programme sélectionné
             updateprog controller = loader.getController();
             controller.initData(programme, this);
 
-            // Afficher la nouvelle fenêtre
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier Programme");
@@ -113,10 +113,6 @@ public class afficherlist {
             e.printStackTrace();
         }
     }
-
-
-
-
 
     @FXML
     private void handleAddProgramme(ActionEvent event) {
@@ -127,7 +123,7 @@ public class afficherlist {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(nomProgramme -> {
-            ProgrammeFidelite newProgramme = new ProgrammeFidelite(0, nomProgramme, 0); // 0 points par défaut
+            ProgrammeFidelite newProgramme = new ProgrammeFidelite(0, nomProgramme, 0);
             service.addProgramme(newProgramme);
             loadProgrammes();
         });

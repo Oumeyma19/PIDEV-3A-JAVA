@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="Controller.RecompenseController">
+
+    <!-- Title -->
+    <Label text="List of Recompenses" layoutX="300.0" layoutY="20.0"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #012E41;"/>
+
+    <!-- Button to add a recompense -->
+    <Button fx:id="addRecompenseButton" text="Add Recompense" layoutX="650.0" layoutY="20.0"
+            onAction="#openAddRecompenseView"
+            style="-fx-background-color: #FA7335; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+    <!-- ScrollPane with FlowPane -->
+    <ScrollPane fitToWidth="true" styleClass="invisible-scroll"
+                AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0"
+                AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0">
+        <FlowPane fx:id="recompensesFlowPane" hgap="10" vgap="10"
+                  prefHeight="111.0" prefWidth="423.0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </FlowPane>
+    </ScrollPane>
+
+</AnchorPane>

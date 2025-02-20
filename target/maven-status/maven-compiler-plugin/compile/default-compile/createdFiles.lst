@@ -1,5 +1,7 @@
 Controller\RecompenseController.class
-Controller\afficherlist.class
+Controller\AjouterRecompenseController.class
+Controller\AfficherListProgramme$1.class
+Controller\UpdateRecompenseController.class
+Controller\AfficherListProgramme.class
 tests\test.class
 Controller\updateprog.class
-Controller\afficherlist$1.class

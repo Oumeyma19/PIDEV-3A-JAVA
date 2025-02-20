@@ -1,9 +1,12 @@
 C:\Users\asus\IdeaProjects\pidev\src\main\java\com\example\pidev\HelloController.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\com\example\pidev\Main.java
-C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\afficherlist.java
+C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\AfficherListProgramme.java
+C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\AjouterRecompenseController.java
+C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\dashboardprog_fid.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\ProgrammeFideliteController.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\RecompenseController.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\updateprog.java
+C:\Users\asus\IdeaProjects\pidev\src\main\java\Controller\UpdateRecompenseController.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Models\HistoriquePoint.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Models\ProgrammeFidelite.java
 C:\Users\asus\IdeaProjects\pidev\src\main\java\Models\Recompense.java

@@ -12,7 +12,7 @@ public class test extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file for the AddTourView UI
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/addPROG.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ajouter_recompense.fxml"));
 
             AnchorPane root = loader.load();
 

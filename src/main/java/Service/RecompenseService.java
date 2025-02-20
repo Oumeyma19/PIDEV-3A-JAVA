@@ -16,23 +16,26 @@ public class RecompenseService {
 
     // Create (Add Recompense)
     public void addRecompense(Recompense recompense) {
-        String sql = "INSERT INTO recompenses (programme_id, description, points_requis,photo) VALUES (?, ?, ?, ?)";
+        // Update your SQL query to include the 'status' field
+        String sql = "INSERT INTO recompense (programme_id, description, points_requis, photo, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, recompense.getProgrammeId());
             stmt.setString(2, recompense.getNom());
             stmt.setInt(3, recompense.getPointsRequis());
             stmt.setString(4, recompense.getPhoto());
+            stmt.setInt(5, recompense.getStatus());  // Add this line to set the 'status' value
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 
     // Read (Get all Recompenses)
     public List<Recompense> getAllRecompenses() {
         List<Recompense> recompenses = new ArrayList<>();
-        String sql = "SELECT * FROM recompenses";
+        String sql = "SELECT * FROM recompense";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -53,7 +56,7 @@ public class RecompenseService {
     // Update (Modify Recompense)
     public void updateRecompense(Recompense recompense) {
         // Modifier tous les attributs : nom, points requis, et photo
-        String sql = "UPDATE recompenses SET description = ?, points_requis = ?, photo = ? WHERE id = ?";
+        String sql = "UPDATE recompense SET description = ?, points_requis = ?, photo = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, recompense.getNom());         // Mettre à jour le nom
             stmt.setInt(2, recompense.getPointsRequis());  // Mettre à jour les points requis
@@ -67,7 +70,7 @@ public class RecompenseService {
 
     // Delete (Remove Recompense)
     public void deleteRecompense(int id) {
-        String sql = "DELETE FROM recompenses WHERE id = ?";
+        String sql = "DELETE FROM recompense WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

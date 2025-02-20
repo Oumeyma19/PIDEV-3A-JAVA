@@ -2,6 +2,7 @@ package Controller;
 
 import Models.ProgrammeFidelite;
 import Service.ProgrammeFideliteService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -14,10 +15,10 @@ public class updateprog {
 
     private ProgrammeFidelite programme;
     private ProgrammeFideliteService service = new ProgrammeFideliteService();
-    private afficherlist parentController; // Référence au contrôleur principal
+    private AfficherListProgramme parentController; // Référence au contrôleur principal
 
     // Cette méthode initialise les données du programme et le contrôleur parent
-    public void initData(ProgrammeFidelite programme, afficherlist controller) {
+    public void initData(ProgrammeFidelite programme, AfficherListProgramme controller) {
         this.programme = programme;
         this.parentController = controller;
 
@@ -49,4 +50,6 @@ public class updateprog {
         Stage stage = (Stage) nomProgrammeField.getScene().getWindow();
         stage.close();
     }
+
+
 }

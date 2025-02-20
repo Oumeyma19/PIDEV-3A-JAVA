@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProgrammeFideliteService {
-    private Connection connection;
+    private static Connection connection;
 
     public ProgrammeFideliteService() {
         this.connection = MyConnection.getInstance().getConnection();
@@ -27,7 +27,7 @@ public class ProgrammeFideliteService {
     }
 
     // Read (Get all programmes)
-    public List<ProgrammeFidelite> getAllProgrammes() {
+    public static List<ProgrammeFidelite> getAllProgrammes() {
         List<ProgrammeFidelite> programmes = new ArrayList<>();
         String sql = "SELECT * FROM programme_fidelite";
         try (Statement stmt = connection.createStatement();
