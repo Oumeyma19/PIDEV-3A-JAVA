@@ -115,8 +115,6 @@ public class AjouterHebergController implements Initializable {
         typeHebergCol.setCellValueFactory(new PropertyValueFactory<>("typeHeberg"));
         nbrCCol.setCellValueFactory(new PropertyValueFactory<>("nbrClient"));
         prixCol.setCellValueFactory(new PropertyValueFactory<>("prixHeberg"));
-        dateICCol.setCellValueFactory(new PropertyValueFactory<>("dateCheckin"));
-        dateOCCol.setCellValueFactory(new PropertyValueFactory<>("dateCheckout"));
 
         try {
             hebergementList.setAll(hebergementService.recuperer());
@@ -190,13 +188,12 @@ public class AjouterHebergController implements Initializable {
 
             // ✅ Validation des champs vides
             if (name.isEmpty() || description.isEmpty() || address.isEmpty() ||
-                    nbrClientText.isEmpty() || prixText.isEmpty() || typeHebergement == null ||
-                    dateI.getValue() == null || dateO.getValue() == null) {
+                    nbrClientText.isEmpty() || prixText.isEmpty() || typeHebergement == null) {
                 Helpers.showAlert("Error", "Veuillez remplir tous les champs!", Alert.AlertType.ERROR);
                 return;
             }
 
-            // ✅ Validation du nombre de clients
+
             int nbrClient;
             try {
                 nbrClient = Integer.parseInt(nbrClientText);
@@ -209,7 +206,6 @@ public class AjouterHebergController implements Initializable {
                 return;
             }
 
-            // ✅ Validation du prix
             float prixHeberg;
             try {
                 prixHeberg = Float.parseFloat(prixText);
@@ -222,19 +218,11 @@ public class AjouterHebergController implements Initializable {
                 return;
             }
 
-            // ✅ Validation des dates
-            Timestamp dateCheckin = Timestamp.valueOf(dateI.getValue().atStartOfDay());
-            Timestamp dateCheckout = Timestamp.valueOf(dateO.getValue().atStartOfDay());
-
-            if (dateCheckin.after(dateCheckout)) {
-                Helpers.showAlert("Error", "La date de sortie doit être après la date d'entrée!", Alert.AlertType.ERROR);
-                return;
-            }
 
             // ✅ Création de l'objet Hebergement
             Hebergements newHebergement = new Hebergements(
                     name, typeHebergement.name(), address, description, nbrClient,
-                    image.getImage().getUrl(), dateCheckin, dateCheckout, prixHeberg
+                    image.getImage().getUrl(), prixHeberg, false
             );
 
             // ✅ Ajout à la base de données
@@ -253,6 +241,7 @@ public class AjouterHebergController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void afficherListeHebergements(ActionEvent event) {
         try {

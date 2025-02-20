@@ -8,19 +8,17 @@ public class Hebergements {
     private String typeHeberg;
     private String descrHeberg;
     private String adresse;
-    private Timestamp dateCheckin;
-    private Timestamp dateCheckout;
     private int nbrClient;
     private String imageHebrg;
     private float prixHeberg;
+    private boolean statusHeberg;
 
     public Hebergements() {
     }
 
-    public Hebergements(String adresse, Timestamp dateCheckin, Timestamp dateCheckout, String descrHeberg, int idHebrg, String imageHebrg, int nbrClient, String nomHeberg, String typeHeberg, float prixHeberg) {
+    public Hebergements(String adresse, String descrHeberg, int idHebrg, String imageHebrg, int nbrClient, String nomHeberg, String typeHeberg, float prixHeberg, boolean statusHeberg) {
         this.adresse = adresse;
-        this.dateCheckin = dateCheckin;
-        this.dateCheckout = dateCheckout;
+
         this.descrHeberg = descrHeberg;
         this.idHebrg = idHebrg;
         this.imageHebrg = imageHebrg;
@@ -28,17 +26,16 @@ public class Hebergements {
         this.nomHeberg = nomHeberg;
         this.typeHeberg = typeHeberg;
         this.prixHeberg = prixHeberg;
+        this.statusHeberg = statusHeberg;
     }
 
-    public Hebergements(String nomHeberg, String typeHeberg, String adresse, String descrHeberg, int nbrClient, String imageHebrg, Timestamp dateCheckin, Timestamp dateCheckout,float prixHeberg) {
+    public Hebergements(String nomHeberg, String typeHeberg, String adresse, String descrHeberg, int nbrClient, String imageHebrg, float prixHeberg, boolean statusHeberg) {
         this.nomHeberg = nomHeberg;
         this.typeHeberg = typeHeberg;
         this.adresse = adresse;
         this.descrHeberg = descrHeberg;
         this.nbrClient = nbrClient;
         this.imageHebrg = imageHebrg;
-        this.dateCheckin = dateCheckin;
-        this.dateCheckout = dateCheckout;
         this.prixHeberg = prixHeberg;
 
     }
@@ -55,13 +52,14 @@ public class Hebergements {
         return adresse;
     }
 
-    public Timestamp getDateCheckin() {
-        return dateCheckin;
+    public boolean getStatusHeberg() {
+        return statusHeberg;
     }
 
-    public Timestamp getDateCheckout() {
-        return dateCheckout;
+    public void setStatusHeberg(boolean statusHeberg) {
+        this.statusHeberg = statusHeberg;
     }
+
 
     public String getDescrHeberg() {
         return descrHeberg;
@@ -90,14 +88,6 @@ public class Hebergements {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
-    }
-
-    public void setDateCheckin(Timestamp dateCheckin) {
-        this.dateCheckin = dateCheckin;
-    }
-
-    public void setDateCheckout(Timestamp dateCheckout) {
-        this.dateCheckout = dateCheckout;
     }
 
     public void setDescrHeberg(String descrHeberg) {
@@ -133,14 +123,11 @@ public class Hebergements {
                 ", nomHeberg='" + nomHeberg + '\'' +
                 ", typeHeberg='" + typeHeberg + '\'' +
                 ", descrHeberg='" + descrHeberg + '\'' +
-                ", dateCheckin=" + dateCheckin +
-                ", dateCheckout=" + dateCheckout +
                 ", nbrClient=" + nbrClient +
                 ", imageHebrg='" + imageHebrg + '\'' +
                 ", prixHeberg=" + prixHeberg +
+                ", statusHeberg=" + statusHeberg +
                 '}';
     }
-
-
 }
 

@@ -1,5 +1,6 @@
 package com.example.pidev.controllers;
 
+import com.example.pidev.Util.Helpers;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,7 +31,7 @@ public class ListesHebergController implements Initializable {
     @FXML
     private FlowPane hebergementsFlowPane;
 
-    private HebergementService hebergementService =  HebergementService.getInstance();
+    private HebergementService hebergementService = HebergementService.getInstance();
 
     private VBox createHebergementContainer(Hebergements hebergement) {
         VBox hebergementContainer = new VBox(10);
@@ -62,7 +64,6 @@ public class ListesHebergController implements Initializable {
         consultButton.setOnAction(event -> openHebergementDetails(hebergement));
 
 
-
         priceAndButtons.getChildren().addAll(consultButton);
         hebergementContainer.getChildren().add(priceAndButtons);
 
@@ -79,27 +80,16 @@ public class ListesHebergController implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Détails de l'Hébergement");
         } catch (IOException e) {
-            showAlert("Erreur", "Impossible de charger les détails.", Alert.AlertType.ERROR);
+            Helpers.showAlert("Erreur", "Impossible de charger les détails.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
 
 
-
-
-
-    private void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            List<Hebergements> hebergements =  hebergementService.recuperer();
+            List<Hebergements> hebergements = hebergementService.recuperer();
             for (Hebergements hebergement : hebergements) {
                 VBox hebergementContainer = createHebergementContainer(hebergement);
                 hebergementsFlowPane.getChildren().add(hebergementContainer);
@@ -108,6 +98,5 @@ public class ListesHebergController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

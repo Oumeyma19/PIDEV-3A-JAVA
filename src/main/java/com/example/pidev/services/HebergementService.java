@@ -1,6 +1,6 @@
 package com.example.pidev.services;
 
-import com.example.pidev.interfaces.ICrud;
+import com.example.pidev.Exceptions.interfaces.ICrud;
 import com.example.pidev.models.Hebergements;
 import com.example.pidev.tools.MyConnection;
 
@@ -13,8 +13,7 @@ public class HebergementService implements ICrud<Hebergements> {
     private final Connection conn = MyConnection.getInstance().getConnection();
     private static HebergementService instance;
 
-    private HebergementService() {
-    }
+    private HebergementService() {}
 
     public static HebergementService getInstance() {
         if (instance == null) {
@@ -23,24 +22,17 @@ public class HebergementService implements ICrud<Hebergements> {
         return instance;
     }
 
-
     @Override
     public Boolean ajouter(Hebergements H) throws SQLException {
-        // String sql ="insert into personne (nom,prenom,age)" +
-        //        "values('"+p.getNom()+"','"+p.getPrenom()+"',"+p.getAge()+")";
-        //Statement st = conn.createStatement();
-        //st.executeUpdate(sql);
-        String sql = "insert into hebergements(nomHebrg,typeHeberg,descrHeberg,adresse,dateCheckin,dateCheckout,nbrClient,imageHeberg,prixHeberg) values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into hebergements(nomHebrg,typeHeberg,descrHeberg,adresse,nbrClient,imageHeberg,prixHeberg) values(?,?,?,?,?,?,?)";
         PreparedStatement st = conn.prepareStatement(sql);
         st.setString(1, H.getNomHeberg());
         st.setString(2, H.getTypeHeberg());
         st.setString(3, H.getDescrHeberg());
         st.setString(4, H.getAdresse());
-        st.setTimestamp(5, H.getDateCheckin());
-        st.setTimestamp(6, H.getDateCheckout());
-        st.setInt(7, H.getNbrClient());
-        st.setString(8, H.getImageHebrg());
-        st.setFloat(9, H.getPrixHeberg());
+        st.setInt(5, H.getNbrClient());
+        st.setString(6, H.getImageHebrg());
+        st.setFloat(7, H.getPrixHeberg());
 
         st.executeUpdate();
         System.out.println("Hebergement ajoutée");
@@ -70,20 +62,18 @@ public class HebergementService implements ICrud<Hebergements> {
 
     @Override
     public void modifier(Hebergements H) {
-        String sql = "UPDATE hebergements SET nomHebrg = ?, typeHeberg = ?, descrHeberg = ?, adresse = ?, " +
-                "dateCheckin = ?, dateCheckout = ?, nbrClient = ?, imageHeberg = ?,prixHeberg = ? WHERE idHberg = ?";
+        String sql = "UPDATE hebergements SET nomHebrg = ?, typeHeberg = ?, descrHeberg = ?, adresse = ?," +
+                " nbrClient = ?, imageHeberg = ?,prixHeberg = ? WHERE idHberg = ?";
         try {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, H.getNomHeberg());
             st.setString(2, H.getTypeHeberg());
             st.setString(3, H.getDescrHeberg());
             st.setString(4, H.getAdresse());
-            st.setTimestamp(5, H.getDateCheckin());
-            st.setTimestamp(6, H.getDateCheckout());
-            st.setInt(7, H.getNbrClient());
-            st.setString(8, H.getImageHebrg());
-            st.setFloat(9, H.getPrixHeberg());
-            st.setInt(10, H.getIdHebrg());
+            st.setInt(5, H.getNbrClient());
+            st.setString(6, H.getImageHebrg());
+            st.setFloat(7, H.getPrixHeberg());
+            st.setInt(8, H.getIdHebrg());
 
             int rowsUpdated = st.executeUpdate();
             if (rowsUpdated > 0) {
@@ -110,8 +100,6 @@ public class HebergementService implements ICrud<Hebergements> {
             H.setTypeHeberg(rs.getString("typeHeberg"));
             H.setDescrHeberg(rs.getString("descrHeberg"));
             H.setAdresse(rs.getString("adresse"));
-            H.setDateCheckin(rs.getTimestamp("dateCheckin"));
-            H.setDateCheckout(rs.getTimestamp("dateCheckout"));
             H.setNbrClient(rs.getInt("nbrClient"));
             H.setImageHebrg(rs.getString("imageHeberg"));
             H.setPrixHeberg(rs.getFloat("prixHeberg"));
@@ -136,8 +124,6 @@ public class HebergementService implements ICrud<Hebergements> {
             H.setTypeHeberg(rs.getString("typeHeberg"));
             H.setDescrHeberg(rs.getString("descrHeberg"));
             H.setAdresse(rs.getString("adresse"));
-            H.setDateCheckin(rs.getTimestamp("dateCheckin"));
-            H.setDateCheckout(rs.getTimestamp("dateCheckout"));
             H.setNbrClient(rs.getInt("nbrClient"));
             H.setImageHebrg(rs.getString("imageHeberg"));
             H.setPrixHeberg(rs.getFloat("prixHeberg"));

@@ -1,4 +1,4 @@
-package com.example.pidev.interfaces;
+package com.example.pidev.Exceptions.interfaces;
 
 
 import com.example.pidev.Exceptions.*;

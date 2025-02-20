@@ -80,9 +80,6 @@ public class DetailHebergController {
         }
     }
 
-
-    // Méthode pour afficher les détails de l'hébergement
-    // Méthode pour afficher les détails de l'hébergement
     public void setHebergementDetails(Hebergements hebergement) {
 
         this.hebergement = hebergement;
@@ -94,12 +91,6 @@ public class DetailHebergController {
         typeHebergLabel.setText(hebergement.getTypeHeberg());
         nbrCLabel.setText(String.valueOf(hebergement.getNbrClient()));
         prixLabel.setText(String.valueOf(hebergement.getPrixHeberg()));
-
-        // Affichage des dates
-        Timestamp dateCheckin = hebergement.getDateCheckin();
-        Timestamp dateCheckout = hebergement.getDateCheckout();
-        dateICLabel.setText(dateCheckin.toString());
-        dateOCLabel.setText(dateCheckout.toString());
 
         // Affichage de l'image
         Image image = new Image(hebergement.getImageHebrg());

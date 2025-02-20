@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
@@ -26,13 +25,7 @@
 
         <ImageView fx:id="image" fitHeight="143.0" fitWidth="192.0" layoutX="394.0" layoutY="114.0" />
 
-        <Label layoutX="26.0" layoutY="214.0" text="Date Check-In" />
-        <DatePicker fx:id="dateI" layoutX="169.0" layoutY="213.0" />
-
-        <Label layoutX="27.0" layoutY="263.0" text="Date Check-Out" />
-        <DatePicker fx:id="dateO" layoutX="169.0" layoutY="259.0" />
-
-        <Button fx:id="btnUpdate" layoutX="169.0" layoutY="297.0" onAction="#handleUpdate" prefHeight="26.0" prefWidth="175.0" text="Modifier" />
+        <Button fx:id="btnUpdate" layoutX="161.0" layoutY="271.0" onAction="#handleUpdate" prefHeight="26.0" prefWidth="175.0" text="Modifier" />
         <Button fx:id="btnRetour" layoutX="50.0" layoutY="350.0" text="Retour" />
       <Button fx:id="btnUpload" layoutX="416.0" layoutY="271.0" onAction="#uploadImage" prefHeight="26.0" prefWidth="136.0" text="Upload" />
     </children>

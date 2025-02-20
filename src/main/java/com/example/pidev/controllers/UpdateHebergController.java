@@ -53,12 +53,6 @@ public class UpdateHebergController implements Initializable {
     @FXML
     private ImageView image;
 
-    @FXML
-    private DatePicker dateI;
-
-    @FXML
-    private DatePicker dateO;
-
     private String selectedImagePath;
 
     private Hebergements hebergement; // Objet pour stocker les infos actuelles
@@ -88,8 +82,6 @@ public class UpdateHebergController implements Initializable {
         typeHeberg.setValue(hebergement.getTypeHeberg());
         descrp.setText(hebergement.getDescrHeberg());
         nbrC.setText(String.valueOf(hebergement.getNbrClient()));
-        dateI.setValue(hebergement.getDateCheckin().toLocalDateTime().toLocalDate());
-        dateO.setValue(hebergement.getDateCheckout().toLocalDateTime().toLocalDate());
         image.setImage(new Image(hebergement.getImageHebrg()));
     }
 
@@ -107,8 +99,6 @@ public class UpdateHebergController implements Initializable {
         this.hebergement.setTypeHeberg(typeHeberg.getValue());
         this.hebergement.setDescrHeberg(descrp.getText());
         this.hebergement.setNbrClient(Integer.parseInt(nbrC.getText()));
-        this.hebergement.setDateCheckin(Timestamp.valueOf(dateI.getValue().atStartOfDay()));
-        this.hebergement.setDateCheckout(Timestamp.valueOf(dateO.getValue().atStartOfDay()));
         this.hebergement.setImageHebrg(image.getImage().getUrl());
 
         try {

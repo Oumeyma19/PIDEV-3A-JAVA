@@ -3,19 +3,17 @@ package com.example.pidev;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.logging.Logger;
-
-public class Main extends Application {
+public class MainFront extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file for the AddTourView UI
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ReservationHeberg.fxml"));
-            StackPane root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ajouterHeberg.fxml"));
+            AnchorPane root = loader.load();
 
             // Create the Scene from the FXML root layout
             Scene scene = new Scene(root, 800, 800);
@@ -29,7 +27,7 @@ public class Main extends Application {
             // Show the Stage (window)
             primaryStage.show();
         } catch (Exception e) {
-            Logger.getLogger("Main").warning(e.getMessage());
+            e.printStackTrace();
         }
     }
 

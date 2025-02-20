@@ -3,7 +3,7 @@ package com.example.pidev.services;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.pidev.Exceptions.*;
 import com.example.pidev.Util.Type;
-import com.example.pidev.interfaces.UserInterface;
+import com.example.pidev.Exceptions.interfaces.UserInterface;
 import com.example.pidev.models.User;
 import com.example.pidev.tools.MyConnection;
 

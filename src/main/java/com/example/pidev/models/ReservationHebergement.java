@@ -6,75 +6,87 @@ public class ReservationHebergement {
     private int reservationHeberg_id;
     private User user;
     private Hebergements hebergements;
-    private Timestamp reservationDateHeberg;
-    private boolean statusHeberg;
+    private Timestamp dateCheckIn;
+    private Timestamp dateCheckOut;
+    private Integer nbPersonnes;
 
     public ReservationHebergement() {
     }
 
-    public ReservationHebergement(Hebergements hebergements, User user, Timestamp reservationDateHeberg, int reservationHeberg_id, boolean statusHeberg) {
+    public ReservationHebergement(Hebergements hebergements, User user, Timestamp dateCheckIn, Timestamp dateCheckOut, int reservationHeberg_id, Integer nbPersonnes) {
         this.hebergements = hebergements;
         this.user = user;
-        this.reservationDateHeberg = reservationDateHeberg;
+        this.dateCheckIn = dateCheckIn;
+        this.dateCheckOut = dateCheckOut;
         this.reservationHeberg_id = reservationHeberg_id;
-        this.statusHeberg = statusHeberg;
+        this.nbPersonnes = nbPersonnes;
     }
 
-    public ReservationHebergement(boolean statusHeberg, Timestamp reservationDateHeberg, User user, Hebergements hebergements) {
-        this.statusHeberg = statusHeberg;
-        this.reservationDateHeberg = reservationDateHeberg;
+    public ReservationHebergement(Timestamp dateCheckIn, Timestamp dateCheckOut, User user, Hebergements hebergements, Integer nbPersonnes) {
+        this.dateCheckIn = dateCheckIn;
+        this.dateCheckOut = dateCheckOut;
         this.user = user;
         this.hebergements = hebergements;
+        this.nbPersonnes = nbPersonnes;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationHebergement{" +
+                "dateCheckin=" + dateCheckIn +
+                ", reservationHeberg_id=" + reservationHeberg_id +
+                ", user=" + user +
+                ", hebergements=" + hebergements +
+                ", dateCheckout=" + dateCheckOut +
+                ", nbPersonnes=" + nbPersonnes +
+                '}';
+    }
+
+    public Timestamp getDateCheckIn() {
+        return dateCheckIn;
+    }
+
+    public void setDateCheckIn(Timestamp dateCheckIn) {
+        this.dateCheckIn = dateCheckIn;
+    }
+
+    public Timestamp getDateCheckOut() {
+        return dateCheckOut;
+    }
+
+    public void setDateCheckOut(Timestamp dateCheckOut) {
+        this.dateCheckOut = dateCheckOut;
     }
 
     public Hebergements getHebergements() {
         return hebergements;
     }
 
-    public User getUser() {
-        return user;
+    public void setHebergements(Hebergements hebergements) {
+        this.hebergements = hebergements;
     }
 
-    public Timestamp getReservationDateHeberg() {
-        return reservationDateHeberg;
+    public Integer getNbPersonnes() {
+        return nbPersonnes;
+    }
+
+    public void setNbPersonnes(Integer nbPersonnes) {
+        this.nbPersonnes = nbPersonnes;
     }
 
     public int getReservationHeberg_id() {
         return reservationHeberg_id;
     }
 
-    public boolean isStatusHeberg() {
-        return statusHeberg;
-    }
-
-    public void setHebergements(Hebergements hebergements) {
-        this.hebergements = hebergements;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setReservationDateHeberg(Timestamp reservationDateHeberg) {
-        this.reservationDateHeberg = reservationDateHeberg;
-    }
-
     public void setReservationHeberg_id(int reservationHeberg_id) {
         this.reservationHeberg_id = reservationHeberg_id;
     }
 
-    public void setStatusHeberg(boolean statusHeberg) {
-        this.statusHeberg = statusHeberg;
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public String toString() {
-        return "ReservationHebergement{" +
-                "idHeberg=" + hebergements +
-                ", reservationHeberg_id=" + reservationHeberg_id +
-                ", idUser=" + user +
-                ", reservationDateHeberg=" + reservationDateHeberg +
-                ", statusHeberg=" + statusHeberg +
-                '}';
+    public void setUser(User user) {
+        this.user = user;
     }
 }

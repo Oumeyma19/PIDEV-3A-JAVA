@@ -53,6 +53,7 @@
         <!-- Réservation Button -->
         <Button fx:id="btnReservation" layoutX="328.0" layoutY="516.0" onAction="#openReservationPage" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Réserver" textFill="WHITE" AnchorPane.bottomAnchor="40.799999999999955" AnchorPane.leftAnchor="328.0" />
       <Button fx:id="btnAddRating" layoutX="469.0" layoutY="516.0" onAction="#openRatingDialog" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FFD700;" text="Add Rating" textAlignment="CENTER" />
-      <ListView fx:id="avisListView" layoutX="489.0" layoutY="260.0" prefHeight="240.0" prefWidth="250.0" />
+      <ListView fx:id="avisListView" layoutX="419.0" layoutY="260.0" prefHeight="240.0" prefWidth="348.0" />
+      <Label fx:id="status" layoutX="10.0" layoutY="500.0" style="-fx-font-weight: bold;" text="Status:" />
     </children>
 </AnchorPane>

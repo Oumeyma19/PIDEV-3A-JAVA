@@ -1,7 +1,6 @@
 package com.example.pidev.services;
 
 import com.example.pidev.Exceptions.UserNotFoundException;
-import com.example.pidev.interfaces.ICrud;
 import com.example.pidev.models.ReservationHebergement;
 import com.example.pidev.tools.MyConnection;
 
@@ -9,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservHebergService implements ICrud<ReservationHebergement> {
+public class ReservHebergService {
 
     private final Connection conn = MyConnection.getInstance().getConnection();
 
@@ -28,15 +27,15 @@ public class ReservHebergService implements ICrud<ReservationHebergement> {
         return instance;
     }
 
-    @Override
     public Boolean ajouter(ReservationHebergement R) throws SQLException {
-        String sql = "INSERT INTO reservationhebergement (idHeberg, idUser, reservationDate, statusHeberg) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO reservationhebergement (idHeberg, idUser, dateCheckIn, dateCheckOut, nbPersonnes) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement st = conn.prepareStatement(sql);
 
         st.setInt(1, R.getHebergements().getIdHebrg());
         st.setInt(2, R.getUser().getId());
-        st.setTimestamp(3, R.getReservationDateHeberg());
-        st.setBoolean(4, R.isStatusHeberg());
+        st.setTimestamp(3, R.getDateCheckIn());
+        st.setTimestamp(4, R.getDateCheckOut());
+        st.setInt(5, R.getNbPersonnes());
 
         st.executeUpdate();
         System.out.println("Réservation ajoutée avec succès !");
@@ -44,7 +43,6 @@ public class ReservHebergService implements ICrud<ReservationHebergement> {
         return true;
     }
 
-    @Override
     public boolean supprimer(int id) {
         String sql = "DELETE FROM reservationhebergement WHERE reservationHeberg_id = ?";
         try {
@@ -62,29 +60,6 @@ public class ReservHebergService implements ICrud<ReservationHebergement> {
         return false;
     }
 
-    @Override
-    public void modifier(ReservationHebergement R) {
-        String sql = "UPDATE reservationhebergement SET idHeberg = ?, idUser = ?, reservationDate = ?, statusHeberg = ? WHERE reservationHeberg_id = ?";
-        try {
-            PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1, R.getHebergements().getIdHebrg());
-            st.setInt(2, R.getUser().getId());
-            st.setTimestamp(3, R.getReservationDateHeberg());
-            st.setBoolean(4, R.isStatusHeberg());
-            st.setInt(5, R.getReservationHeberg_id());
-
-            int rowsUpdated = st.executeUpdate();
-            if (rowsUpdated > 0) {
-                System.out.println("Réservation mise à jour avec succès !");
-            } else {
-                System.out.println("Aucune réservation trouvée avec cet ID.");
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour : " + e.getMessage());
-        }
-    }
-
-    @Override
     public List<ReservationHebergement> recuperer() throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM reservationhebergement";
         Statement st = conn.createStatement();
@@ -95,15 +70,14 @@ public class ReservHebergService implements ICrud<ReservationHebergement> {
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
             R.setUser(userService.getUserbyID(rs.getInt("idUser")));
             R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
-            R.setReservationDateHeberg(rs.getTimestamp("reservationDate"));
-            R.setStatusHeberg(rs.getBoolean("statusHeberg"));
-
+            R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
+            R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));
+            R.setNbPersonnes(rs.getInt("nbPersonnes"));
             reservations.add(R);
         }
         return reservations;
     }
 
-    @Override
     public ReservationHebergement recupererId(int id) throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM reservationhebergement WHERE reservationHeberg_id = ?";
         PreparedStatement st = conn.prepareStatement(sql);
@@ -116,8 +90,9 @@ public class ReservHebergService implements ICrud<ReservationHebergement> {
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
             R.setUser(userService.getUserbyID(rs.getInt("idUser")));
             R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
-            R.setReservationDateHeberg(rs.getTimestamp("reservationDate"));
-            R.setStatusHeberg(rs.getBoolean("statusHeberg"));
+            R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
+            R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));
+            R.setNbPersonnes(rs.getInt("nbPersonnes"));
         }
 
         return R;

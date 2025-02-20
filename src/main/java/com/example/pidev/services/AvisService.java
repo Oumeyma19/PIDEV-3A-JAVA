@@ -1,7 +1,7 @@
 package com.example.pidev.services;
 
 import com.example.pidev.Exceptions.UserNotFoundException;
-import com.example.pidev.interfaces.ICrud;
+import com.example.pidev.Exceptions.interfaces.ICrud;
 import com.example.pidev.models.AvisHebergement;
 import com.example.pidev.tools.MyConnection;
 
@@ -120,6 +120,7 @@ public class AvisService implements ICrud<AvisHebergement> {
 
         return avis;
     }
+
     public List<AvisHebergement> recupererParHebergement(int idHeberg) throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM avisHebergement WHERE idHeberg = ?";
         PreparedStatement st = conn.prepareStatement(sql);

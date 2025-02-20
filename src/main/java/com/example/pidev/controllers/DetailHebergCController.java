@@ -9,23 +9,19 @@ import com.example.pidev.models.AvisHebergement;
 import com.example.pidev.models.Hebergements;
 import com.example.pidev.models.User;
 import com.example.pidev.services.AvisService;
+import com.example.pidev.services.UserService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import org.controlsfx.control.Rating;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,13 +47,11 @@ public class DetailHebergCController {
     private Label prixLabel;
 
     @FXML
-    private Label dateICLabel;
-
-    @FXML
-    private Label dateOCLabel;
-
-    @FXML
     private Button btnBack;
+
+    @FXML
+
+    private Button btnReservation;
 
     @FXML
     private ImageView imageHeberg;
@@ -65,11 +59,56 @@ public class DetailHebergCController {
     @FXML
     private ListView<AvisHebergement> avisListView;
 
+    private final UserService userService = UserService.getInstance();
+
     private Hebergements hebergement;
 
     private final ObservableList<AvisHebergement> avisList = FXCollections.observableArrayList();
 
     private final AvisService avisService = AvisService.getInstance();
+
+    private void onDeleteItem(AvisHebergement avis) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Voulez-vous vraiment supprimer ton avis ?");
+        alert.setContentText("Cette action est irréversible.");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    AvisService avisService = AvisService.getInstance();
+
+                    if (!avisService.supprimer(avis.getIdAvis())) {
+                        Helpers.showAlert("Succès", "Hébergement supprimé avec succès!", Alert.AlertType.INFORMATION);
+                        fetchAvis();
+                    } else {
+                        Helpers.showAlert("Erreur", "Échec de la suppression de l'hébergement.", Alert.AlertType.ERROR);
+                    }
+
+                } catch (Exception e) {
+                    Helpers.showAlert("Erreur", "Une erreur est survenue lors de la suppression.", Alert.AlertType.ERROR);
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void onUpdateItem(AvisHebergement avis) {
+        final RatingDialog dialog = new RatingDialog(new AvisProperties(avis.getComment(), avis.getReview()));
+        Optional<AvisProperties> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            AvisProperties avisProperties = result.get();
+            try {
+                avisService.modifier(new AvisHebergement(avisProperties.getComment(), avis.getIdAvis(), avis.getHebergements(), avis.getUser(), avisProperties.getRating()));
+                Helpers.showAlert("Avis", "modification succes", Alert.AlertType.CONFIRMATION);
+                fetchAvis();
+            } catch (Exception e) {
+                Helpers.showAlert("Avis", "modification echec", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public void setHebergementDetails(Hebergements hebergement) {
 
@@ -82,17 +121,11 @@ public class DetailHebergCController {
         nbrCLabel.setText(String.valueOf(hebergement.getNbrClient()));
         prixLabel.setText(String.valueOf(hebergement.getPrixHeberg()));
 
-        // Affichage des dates
-        Timestamp dateCheckin = hebergement.getDateCheckin();
-        Timestamp dateCheckout = hebergement.getDateCheckout();
-        dateICLabel.setText(dateCheckin.toString());
-        dateOCLabel.setText(dateCheckout.toString());
-
         // Affichage de l'image
         Image image = new Image(hebergement.getImageHebrg());
         imageHeberg.setImage(image);
 
-        avisListView.setCellFactory(param -> new AvisListCell());
+        avisListView.setCellFactory(param -> new AvisListCell(this::onDeleteItem, this::onUpdateItem));
 
         try {
             fetchAvis();
@@ -124,19 +157,6 @@ public class DetailHebergCController {
 
     }
 
-
-    //gfgsfg
-    private void retourAListe() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listeHebergements.fxml"));
-            Parent root = loader.load();
-            btnBack.getScene().setRoot(root);
-        } catch (IOException ex) {
-            Logger.getLogger(DetailHebergController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-
     @FXML
     public void openRatingDialog(ActionEvent event) {
         final RatingDialog dialog = new RatingDialog(new AvisProperties("", 0.0f));
@@ -158,5 +178,20 @@ public class DetailHebergCController {
 
     @FXML
     public void openReservationPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/reservationHebergForm.fxml"));
+            Parent root = loader.load();
+            btnReservation.getScene().setRoot(root);
+
+            ReservController reservController = loader.getController();
+
+            reservController.setData(hebergement, userService.getUserbyID(7));
+
+        } catch (Exception e) {
+            Helpers.showAlert("Erreur", "Impossible de charger la liste des hébergements.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
+
+
 }

@@ -30,6 +30,7 @@ public class RatingDialog extends Dialog<AvisProperties> {
         buildUI();
         setPropertyBindings();
         setResultConverter();
+        setResizable(false);
     }
 
     private void buildUI() {
