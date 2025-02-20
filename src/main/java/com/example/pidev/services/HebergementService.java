@@ -13,7 +13,8 @@ public class HebergementService implements ICrud<Hebergements> {
     private final Connection conn = MyConnection.getInstance().getConnection();
     private static HebergementService instance;
 
-    private HebergementService() {}
+    private HebergementService() {
+    }
 
     public static HebergementService getInstance() {
         if (instance == null) {
@@ -130,5 +131,22 @@ public class HebergementService implements ICrud<Hebergements> {
         }
 
         return H;
+    }
+
+    public Boolean existsByNameAndAddress(String name, String addr) throws SQLException {
+        String sql = "select count(1) from hebergements where nomHebrg = ? AND adresse = ?";
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, name);
+        st.setString(2, addr);
+
+        ResultSet rs = st.executeQuery();
+
+        boolean exist = false;
+
+        while (rs.next()) {
+            exist = rs.getInt("count(1)") > 0;
+        }
+
+        return exist;
     }
 }

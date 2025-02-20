@@ -44,24 +44,23 @@ public class MyReservationsHebergController implements Initializable {
 
     private final ObservableList<ReservationHebergement> reservations = FXCollections.observableArrayList();
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            fetchData();
+        fetchData();
 
-            for (ReservationHebergement reservationHebergement : reservations) {
-                VBox hebergementContainer = createHebergementContainer(reservationHebergement);
-                reservationsFlowPane.getChildren().add(hebergementContainer);
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        for (ReservationHebergement reservationHebergement : reservations) {
+            VBox hebergementContainer = createHebergementContainer(reservationHebergement);
+            hebergementContainer.setId(reservationHebergement.getReservationHeberg_id() + "");
+            reservationsFlowPane.getChildren().add(hebergementContainer);
         }
     }
 
-    private void fetchData() throws UserNotFoundException, SQLException {
-        reservations.setAll(reservHebergService.recuperer());
+    private void fetchData() {
+        try {
+            reservations.setAll(reservHebergService.recuperer());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private VBox createHebergementContainer(ReservationHebergement reservationHebergement) {
@@ -103,7 +102,7 @@ public class MyReservationsHebergController implements Initializable {
         consultButton.setOnAction(event -> onDeleteItem(reservationHebergement));
 
 
-        priceAndButtons.getChildren().addAll(nbPersonnesText, date1Text, date2Text);
+        priceAndButtons.getChildren().addAll(nbPersonnesText, date1Text, date2Text, consultButton);
 
         hebergementContainer.getChildren().add(priceAndButtons);
 
@@ -141,7 +140,8 @@ public class MyReservationsHebergController implements Initializable {
 
                     if (!reservHebergService.supprimer(reservationHebergement.getReservationHeberg_id())) {
                         Helpers.showAlert("Succès", "Reservation annuler avec succès!", Alert.AlertType.INFORMATION);
-                        fetchData();
+                        reservations.removeIf(r -> r.getReservationHeberg_id() == reservationHebergement.getReservationHeberg_id());
+                        reservationsFlowPane.getChildren().removeIf(vb -> vb.getId().equals("" + reservationHebergement.getReservationHeberg_id()));
                     } else {
                         Helpers.showAlert("Erreur", "Échec del'annulation de la reservation.", Alert.AlertType.ERROR);
                     }

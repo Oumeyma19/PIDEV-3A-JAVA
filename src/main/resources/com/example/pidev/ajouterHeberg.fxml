@@ -94,13 +94,13 @@
                               <Image url="@../../../logo/page1.jpg" />
                            </image>
                         </ImageView>
-                        <TableView fx:id="tableView1" layoutX="84.0" layoutY="76.0" prefHeight="358.0" prefWidth="630.0" style="-fx-background-color: #8fd3fe;">
+                        <TableView fx:id="tableViewReservations" layoutX="84.0" layoutY="76.0" prefHeight="358.0" prefWidth="630.0" style="-fx-background-color: #8fd3fe;">
                            <columns>
                               <TableColumn fx:id="nomHebergCol1" prefWidth="130.39996337890625" text="Nom" />
+                              <TableColumn fx:id="clientHebergCol" prefWidth="130.39996337890625" text="Client" />
                               <TableColumn fx:id="typeHebergCol1" prefWidth="107.199951171875" text="Type" />
-                              <TableColumn fx:id="nbrCCol1" prefWidth="98.4000244140625" text="Nb. Clients" />
-                              <TableColumn fx:id="prixCol1" prefWidth="98.4000244140625" text="Prix" />
-                              <TableColumn fx:id="dateICCol1" prefWidth="135.199951171875" text="Date Check-In" />
+                              <TableColumn fx:id="nbrCCol1" prefWidth="99.20001220703125" text="Nb. Persos" />
+                              <TableColumn fx:id="dateICCol1" prefWidth="121.60000610351562" text="Date Check-In" />
                               <TableColumn fx:id="dateOCCol1" prefWidth="130.40008544921875" text="Date Check-Out" />
                            </columns>
                            <columnResizePolicy>

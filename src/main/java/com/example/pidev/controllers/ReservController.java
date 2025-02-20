@@ -76,6 +76,11 @@ public class ReservController {
                 return;
             }
 
+            if (reservService.existsBySameDates(dateCheckin, dateCheckout)) {
+                Helpers.showAlert("Error", "Impossible de réserver le même logement sur la même date !", Alert.AlertType.ERROR);
+                return;
+            }
+
             Timestamp checkin = Timestamp.valueOf(LocalDateTime.of(dateI.getValue(), LocalDateTime.now().toLocalTime()));
             Timestamp checkout = Timestamp.valueOf(LocalDateTime.of(dateO.getValue(), LocalDateTime.now().toLocalTime()));
             int nbPersonnes = Integer.parseInt(nbPersons.getText());

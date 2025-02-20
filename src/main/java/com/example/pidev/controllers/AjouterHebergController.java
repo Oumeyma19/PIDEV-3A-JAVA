@@ -3,7 +3,10 @@ package com.example.pidev.controllers;
 import com.example.pidev.Util.Helpers;
 import com.example.pidev.Util.TypeHebergement;
 import com.example.pidev.models.Hebergements;
+import com.example.pidev.models.ReservationHebergement;
 import com.example.pidev.services.HebergementService;
+import com.example.pidev.services.ReservHebergService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -47,9 +49,6 @@ public class AjouterHebergController implements Initializable {
     private ImageView img;
 
     @FXML
-    private DatePicker dateI, dateO;
-
-    @FXML
     private TextField nbrC;
 
     @FXML
@@ -63,6 +62,9 @@ public class AjouterHebergController implements Initializable {
     private TableView<Hebergements> tableView;
 
     @FXML
+    private TableView<ReservationHebergement> tableViewReservations;
+
+    @FXML
     private TableColumn<Hebergements, String> nomHebergCol;
 
     @FXML
@@ -74,11 +76,26 @@ public class AjouterHebergController implements Initializable {
     @FXML
     private TableColumn<Hebergements, Float> prixCol;
 
+    // RESERVATION TABLE COLS --
     @FXML
-    private TableColumn<Hebergements, String> dateICCol;
+    private TableColumn<ReservationHebergement, String> nomHebergCol1;
 
     @FXML
-    private TableColumn<Hebergements, String> dateOCCol;
+    private TableColumn<ReservationHebergement, String> clientHebergCol;
+
+    @FXML
+    private TableColumn<ReservationHebergement, String> typeHebergCol1;
+
+    @FXML
+    private TableColumn<ReservationHebergement, Integer> nbrCCol1;
+
+    @FXML
+    private TableColumn<ReservationHebergement, String> dateICCol1;
+
+    @FXML
+    private TableColumn<ReservationHebergement, String> dateOCCol1;
+
+    // RESERVATION TABLE COLS --
 
     @FXML
     private Button btnSupprimer;
@@ -88,11 +105,15 @@ public class AjouterHebergController implements Initializable {
 
     private Hebergements hebergementActuel;
 
-    private HebergementService hebergementService = HebergementService.getInstance();
+    private final HebergementService hebergementService = HebergementService.getInstance();
 
-    private ObservableList<TypeHebergement> typeHebergementList = FXCollections.observableArrayList(Arrays.asList(TypeHebergement.values()));
+    private final ReservHebergService reservHebergService = ReservHebergService.getInstance();
 
-    private ObservableList<Hebergements> hebergementList = FXCollections.observableArrayList();
+    private final ObservableList<TypeHebergement> typeHebergementList = FXCollections.observableArrayList(Arrays.asList(TypeHebergement.values()));
+
+    private final ObservableList<Hebergements> hebergementList = FXCollections.observableArrayList();
+
+    private final ObservableList<ReservationHebergement> reservationsList = FXCollections.observableArrayList();
 
     private String selectedImagePath;
 
@@ -102,10 +123,32 @@ public class AjouterHebergController implements Initializable {
         typeHeberg.setItems(typeHebergementList);
 
         loadHebergementsData();
+
+        loadReservationsData();
     }
 
     public void refreshList() throws SQLException {
         hebergementList.setAll(hebergementService.recuperer());
+    }
+
+    private void loadReservationsData() {
+
+        nomHebergCol1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getHebergements().getNomHeberg()));
+
+        clientHebergCol.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getUser().getFirstname() + " " + p.getValue().getUser().getLastname()));
+
+        typeHebergCol1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getHebergements().getTypeHeberg()));
+
+        nbrCCol1.setCellValueFactory(new PropertyValueFactory<>("nbPersonnes"));
+        dateICCol1.setCellValueFactory(new PropertyValueFactory<>("dateCheckIn"));
+        dateOCCol1.setCellValueFactory(new PropertyValueFactory<>("dateCheckOut"));
+
+        try {
+            reservationsList.setAll(reservHebergService.recuperer());
+            tableViewReservations.setItems(reservationsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Method to load data into TableView
@@ -225,6 +268,11 @@ public class AjouterHebergController implements Initializable {
                     image.getImage().getUrl(), prixHeberg, false
             );
 
+            if (hebergementService.existsByNameAndAddress(name, address)) {
+                Helpers.showAlert("Error", "Duplication d'hébergements !", Alert.AlertType.ERROR);
+                return;
+            }
+
             // ✅ Ajout à la base de données
             boolean success = hebergementService.ajouter(newHebergement);
             if (success) {
@@ -254,7 +302,6 @@ public class AjouterHebergController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void supprimerHebergement() {

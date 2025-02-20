@@ -97,4 +97,21 @@ public class ReservHebergService {
 
         return R;
     }
+
+    public Boolean existsBySameDates(Timestamp dateIn, Timestamp dateOut) throws SQLException {
+        String sql = "select count(1) from reservationhebergement where ? between dateCheckIn and dateCheckOut or ? between dateCheckIn and dateCheckOut  ";
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setTimestamp(1, dateIn);
+        st.setTimestamp(2, dateOut);
+
+        ResultSet rs = st.executeQuery();
+
+        boolean exist = false;
+
+        while (rs.next()) {
+            exist = rs.getInt("count(1)") > 0;
+        }
+
+        return exist;
+    }
 }
