@@ -23,6 +23,7 @@ public class OffreService implements IService<Offre> {
         st.setDouble(3, o.getPrice());
         st.setString(4, o.getStartDate());
         st.setString(5, o.getEndDate());
+        st.setString(6, o.getImagePath());
         st.executeUpdate();
         System.out.println("Offre ajoutée   ");
     }

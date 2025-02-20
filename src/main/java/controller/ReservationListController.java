@@ -63,7 +63,15 @@ public class ReservationListController {
         VBox card = new VBox(10);
         card.getStyleClass().add("reservation-card");
 
-
+        // Image (if available)
+        ImageView offerImage = new ImageView();
+        offerImage.setFitWidth(150);
+        offerImage.setFitHeight(100);
+        if (reservation.getOffre().getImagePath() != null) {
+            offerImage.setImage(new Image(reservation.getOffre().getImagePath()));
+        } else {
+            offerImage.setImage(new Image("/default.png"));
+        }
 
         // Offer title
         Label titleLabel = new Label(reservation.getOffre().getTitle());
@@ -90,9 +98,10 @@ public class ReservationListController {
         });
 
         // Add all elements to the card
-        card.getChildren().addAll(titleLabel, detailsLabel, cancelButton);
+        card.getChildren().addAll(offerImage, titleLabel, detailsLabel, cancelButton);
         return card;
     }
+
 
     @FXML
     private void goBack() {

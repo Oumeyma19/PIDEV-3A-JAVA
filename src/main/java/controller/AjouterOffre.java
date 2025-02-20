@@ -1,54 +1,38 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import tools.MyDataBase;
+import models.Offre;
+import services.OffreService;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class AjouterOffre {
 
     @FXML
-    private TextField offreNameField;
+    private TextField offreNameField, descriptionField, prixField;
 
     @FXML
-    private TextField descriptionField;
+    private DatePicker startDatePicker, endDatePicker;
 
     @FXML
-    private TextField prixField;
-
-    @FXML
-    private DatePicker startDatePicker;
-
-    @FXML
-    private DatePicker endDatePicker;
-
-    @FXML
-    private Button ajouterButton;
-
-    @FXML
-    private Button btnChooseImage;
+    private Button ajouterButton, btnChooseImage;
 
     @FXML
     private ImageView imageView;
 
     private String imagePath = null; // Store selected image path
 
-    private final Connection cnx = MyDataBase.getInstance().getCnx(); // Get DB connection
+    private final OffreService offreService = new OffreService(); // Use service for database operations
 
     @FXML
     public void initialize() {
-        // Set button actions
         ajouterButton.setOnAction(event -> ajouterOffre());
-        btnChooseImage.setOnAction(event -> chooseImage()); // ✅ Corrected
+        btnChooseImage.setOnAction(event -> chooseImage());
     }
 
     @FXML
@@ -58,51 +42,77 @@ public class AjouterOffre {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            imagePath = file.toURI().toString(); // ✅ Store image path
-            imageView.setImage(new Image(imagePath)); // ✅ Display selected image
+            imagePath = file.toURI().toString();
+            imageView.setImage(new Image(imagePath));
         } else {
-            System.out.println("No image selected.");
+            showAlert("Error", "No image selected.");
         }
     }
 
     private void ajouterOffre() {
-        String title = offreNameField.getText();
-        String description = descriptionField.getText();
-        String prixText = prixField.getText();
+        String title = offreNameField.getText().trim();
+        String description = descriptionField.getText().trim();
+        String prixText = prixField.getText().trim();
         String startDate = (startDatePicker.getValue() != null) ? startDatePicker.getValue().toString() : null;
         String endDate = (endDatePicker.getValue() != null) ? endDatePicker.getValue().toString() : null;
 
-        if (title.isEmpty() || description.isEmpty() || prixText.isEmpty()) {
-            System.out.println("All fields are required!");
+        // **Validation**
+        if (title.isEmpty() || description.isEmpty() || prixText.isEmpty() || startDate == null || endDate == null || imagePath == null) {
+            showAlert("Error", "All fields are required!");
             return;
         }
 
         try {
-            double price = Double.parseDouble(prixText); // Convert price to double
-            saveToDatabase(title, description, price, startDate, endDate, imagePath);
-            System.out.println("Offer successfully added!");
-
+            double price = Double.parseDouble(prixText);
+            if (price <= 0) {
+                showAlert("Error", "Price must be a positive number!");
+                return;
+            }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid price! Please enter a valid number.");
+            showAlert("Error", "Invalid price! Please enter a valid number.");
+            return;
+        }
+
+        if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
+            showAlert("Error", "End date must be after the start date!");
+            return;
+        }
+
+        // **Create Offre Object**
+        Offre offre = new Offre();
+        offre.setTitle(title);
+        offre.setDescription(description);
+        offre.setPrice(Double.parseDouble(prixText));
+        offre.setStartDate(startDate);
+        offre.setEndDate(endDate);
+        offre.setImagePath(imagePath);
+
+        // **Save Offer using Service**
+        try {
+            offreService.ajouter(offre);
+            showAlert("Success", "Offer successfully added!");
+            clearFields();
+        } catch (SQLException e) {
+            showAlert("Error", "Failed to add offer!");
+            e.printStackTrace();
         }
     }
 
-    private void saveToDatabase(String title, String description, double price, String startDate, String endDate, String imagePath) {
-        String sql = "INSERT INTO offers (title, description, price, start_date, end_date, image_path) VALUES (?, ?, ?, ?, ?, ?)";
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
-        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setString(1, title);
-            stmt.setString(2, description);
-            stmt.setDouble(3, price);
-            stmt.setString(4, startDate);
-            stmt.setString(5, endDate);
-            stmt.setString(6, imagePath != null ? imagePath : ""); // ✅ Ensure null-safe insertion
-            stmt.executeUpdate();
-            System.out.println("Data inserted successfully!");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error saving to database!");
-        }
+    private void clearFields() {
+        offreNameField.clear();
+        descriptionField.clear();
+        prixField.clear();
+        startDatePicker.setValue(null);
+        endDatePicker.setValue(null);
+        imageView.setImage(null);
+        imagePath = null;
     }
 }

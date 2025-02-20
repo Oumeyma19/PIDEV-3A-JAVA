@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.DashboardController">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox style="-fx-background-color: #ed6637; -fx-padding: 10px;">
+            <Label text="Dashboard" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label text="Bonjour, Amna" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true">
+                <Image url="@people.png"/>
+            </ImageView>
+        </HBox>
+    </top>
+
+    <!-- SIDE MENU -->
+    <left>
+        <VBox style="-fx-background-color: #2c3e50; -fx-padding: 15px; -fx-spacing: 10px;" prefWidth="200">
+            <Button text="Dashboard" onAction="#handleDashboard" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <Button text="Communauté" onAction="#handleCommunity" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <Button text="Offres" onAction="#toggleOffersMenu" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <VBox fx:id="offersMenu" visible="false" style="-fx-padding: 10px; -fx-background-color: #34495e;">
+                <Button text="Ajouter" onAction="#handleAddOffer" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+                <Button text="Lister" onAction="#handleListOffers" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            </VBox>
+            <Pane VBox.vgrow="ALWAYS"/>
+            <Button text="Déconnexion" onAction="#handleLogout" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </VBox>
+    </left>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox fx:id="content" style="-fx-padding: 20px;">
+            <Label text="Bienvenue sur le tableau de bord" style="-fx-font-size: 16px;"/>
+        </VBox>
+    </center>
+</BorderPane>

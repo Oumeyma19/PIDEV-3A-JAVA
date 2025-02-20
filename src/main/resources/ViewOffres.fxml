@@ -22,5 +22,6 @@
     </TableView>
 
     <Button fx:id="btnModifier" text="Modifier"/>
+    <Button fx:id="btnSupprimer" text="Supprimer"/>
     <Button text="Refresh" onAction="#refreshList"/>
 </VBox>

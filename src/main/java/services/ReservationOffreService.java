@@ -19,7 +19,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
 
     @Override
     public void ajouter(ReservationOffre r) throws SQLException {
-        String sql = "INSERT INTO reservation_offres (offer_id, startDate, end_date, status, id_user, number_of_adults, number_of_children) " +
+        String sql = "INSERT INTO reservation_offres (offer_id, startDate, endDate, status, id_user, numberOfAdults, numberOfChildren) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
@@ -49,7 +49,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
     @Override
     public void modifier(ReservationOffre r) throws SQLException {
         String sql = "UPDATE reservation_offres SET offer_id = ?, startDate = ?, endDate = ?, status = ?, id_user = ?, " +
-                "number_of_adults = ?, number_of_children = ? WHERE id = ?";
+                "numberOfAdults = ?, numberOfChildren = ? WHERE id = ?";
 
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
             stmt.setInt(1, r.getOffre().getId());  // Offer ID

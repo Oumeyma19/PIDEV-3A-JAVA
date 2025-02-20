@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,8 +16,10 @@ import javafx.util.Duration;
 import models.Offre;
 import models.ReservationOffre;
 import models.User;
+import services.EmailService;
 import services.ReservationOffreService;
 import services.UserService;
+import services.VoucherService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,6 +39,8 @@ public class ReservationFormController {
     @FXML private Label lblTotalPrice;
     @FXML private Button btnConfirm;
     @FXML private Label lblStatus;
+    @FXML private ProgressIndicator loadingSpinner;
+
 
     private Offre selectedOffer;
     private final ReservationOffreService reservationService = new ReservationOffreService();
@@ -101,8 +107,7 @@ public class ReservationFormController {
         // Calculate the total price
         int adults = spAdults.getValue();
         int children = spChildren.getValue();
-        double pricePerNight = selectedOffer.getPrice();
-        double totalPrice = nights * pricePerNight * (adults + children * 0.5); // Children at half price
+        double totalPrice = selectedOffer.getPrice() * (adults + children * 0.5); // Children at half price
 
         lblTotalPrice.setText(String.format("Prix total: %.2f €", totalPrice));
     }
@@ -121,29 +126,55 @@ public class ReservationFormController {
             return;
         }
 
+        // Show loading spinner
+        loadingSpinner.setVisible(true);
+
         ReservationOffre reservation = new ReservationOffre(
                 selectedOffer, startDate, endDate, "Pending", loggedInUser,
                 spAdults.getValue(), spChildren.getValue()
         );
 
-        try {
-            reservationService.ajouter(reservation);
-            showSuccess("Réservation En attente !");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showError("Erreur lors de la réservation. Veuillez réessayer.");
-        }
+        new Thread(() -> {
+            try {
+                reservationService.ajouter(reservation);
+
+                // Hide loading spinner after success
+                loadingSpinner.setVisible(false);
+
+                // Success animation
+                Platform.runLater(() -> showSuccessAnimation());
+
+                EmailService emailService = new EmailService();
+                String filePath = "src/main/voucher/" + loggedInUser.getFirstname() + "_voucher.pdf";
+                VoucherService voucherService = new VoucherService();
+                voucherService.generateVoucher(filePath, loggedInUser.getFirstname(), selectedOffer.getTitle(),
+                        startDate.toString(), endDate.toString(), selectedOffer.getPrice());
+
+                emailService.sendReservationEmail(loggedInUser.getEmail(), selectedOffer.getTitle(),
+                        startDate.toString(), endDate.toString());
+
+            } catch (SQLException e) {
+                Platform.runLater(() -> showError("Erreur lors de la réservation. Veuillez réessayer."));
+                e.printStackTrace();
+            }
+        }).start();
     }
 
+    private void showSuccessAnimation() {
+        lblStatus.setText("✔ Réservation Confirmée !");
+        lblStatus.setStyle("-fx-text-fill: #2ecc71;");
+        lblStatus.setVisible(true);
+
+        ScaleTransition scale = new ScaleTransition(Duration.seconds(0.5), lblStatus);
+        scale.setFromX(0);
+        scale.setToX(1);
+        scale.setFromY(0);
+        scale.setToY(1);
+        scale.play();
+    }
     private void showError(String message) {
         lblStatus.setText(message);
         lblStatus.setStyle("-fx-text-fill: #e74c3c;");
-        lblStatus.setVisible(true);
-    }
-
-    private void showSuccess(String message) {
-        lblStatus.setText(message);
-        lblStatus.setStyle("-fx-text-fill: #2ecc71;");
         lblStatus.setVisible(true);
     }
 

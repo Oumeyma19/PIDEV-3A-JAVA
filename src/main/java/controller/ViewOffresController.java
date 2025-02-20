@@ -1,26 +1,23 @@
 package controller;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.concurrent.Task;
+import javafx.fxml.FXML;
+import javafx.util.Duration;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import models.Offre;
-import tools.MyDataBase;
 import javafx.util.Callback;
-import javafx.scene.control.TableCell;
+import models.Offre;
+import services.OffreService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ViewOffresController {
@@ -32,13 +29,22 @@ public class ViewOffresController {
     @FXML private TableColumn<Offre, Double> colPrice;
     @FXML private TableColumn<Offre, String> colStartDate;
     @FXML private TableColumn<Offre, String> colEndDate;
-    @FXML private TableColumn<Offre, String> colImage; // ✅ Image column
+    @FXML private TableColumn<Offre, String> colImage;
     @FXML private Button btnModifier;
+    @FXML private Button btnSupprimer;
 
+    private final OffreService offreService = new OffreService();
     private ObservableList<Offre> offresList = FXCollections.observableArrayList();
+    private Timeline timeline; // ✅ Add Timeline for auto-refresh
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
+        setupTableColumns();
+        loadOffers();
+        setupAutoRefresh(); // ✅ Start auto-refresh
+    }
+
+    private void setupTableColumns() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -46,18 +52,16 @@ public class ViewOffresController {
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
-        // ✅ Set up Image column
+        // Setup image column as before
         colImage.setCellValueFactory(new PropertyValueFactory<>("imagePath"));
         colImage.setCellFactory(new Callback<TableColumn<Offre, String>, TableCell<Offre, String>>() {
             @Override
             public TableCell<Offre, String> call(TableColumn<Offre, String> param) {
                 return new TableCell<Offre, String>() {
                     private final ImageView imageView = new ImageView();
-
                     @Override
                     protected void updateItem(String imagePath, boolean empty) {
                         super.updateItem(imagePath, empty);
-
                         if (empty || imagePath == null || imagePath.isEmpty()) {
                             setGraphic(null);
                         } else {
@@ -71,46 +75,53 @@ public class ViewOffresController {
             }
         });
 
-        loadOffers();
         btnModifier.setOnAction(event -> openUpdateOffre());
+        btnSupprimer.setOnAction(event -> deleteSelectedOffer());
+    }
+
+    private void setupAutoRefresh() {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            loadOffers(); // Reload offers every 10 seconds
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE); // Repeat indefinitely
+        timeline.play(); // Start the auto-refresh
     }
 
     private void loadOffers() {
-        offresList.clear();
-        String query = "SELECT * FROM offers";
-
-        try (Connection connection = MyDataBase.getInstance().getCnx();
-             PreparedStatement ps = connection.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                offresList.add(new Offre(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getDouble("price"),
-                        rs.getString("start_date"),
-                        rs.getString("end_date"),
-                        rs.getString("image_path") // ✅ Ensure image is loaded
-                ));
+        Task<ObservableList<Offre>> loadTask = new Task<>() {
+            @Override
+            protected ObservableList<Offre> call() throws SQLException {
+                ObservableList<Offre> offers = FXCollections.observableArrayList();
+                offers.addAll(offreService.recuperer());
+                return offers;
             }
-            tableView.setItems(offresList);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                offresList.clear();
+                offresList.addAll(getValue());
+                tableView.setItems(offresList);
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors du chargement des offres !");
+            }
+        };
+        new Thread(loadTask).start();
     }
 
-
     @FXML
-    public void refreshList() {
+    public void refreshList() throws SQLException {
         loadOffers();
     }
 
     private void openUpdateOffre() {
         Offre selectedOffer = tableView.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
-            System.out.println("Veuillez sélectionner une offre !");
+            showAlert(Alert.AlertType.WARNING, "Alerte", "Veuillez sélectionner une offre !");
             return;
         }
 
@@ -127,6 +138,50 @@ public class ViewOffresController {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void deleteSelectedOffer() {
+        Offre selectedOffer = tableView.getSelectionModel().getSelectedItem();
+        if (selectedOffer == null) {
+            showAlert(Alert.AlertType.WARNING, "Alerte", "Veuillez sélectionner une offre !");
+            return;
+        }
+
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Confirmation");
+        confirmDialog.setHeaderText("Supprimer l'offre ?");
+        confirmDialog.setContentText("Êtes-vous sûr de vouloir supprimer cette offre ?");
+
+        confirmDialog.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    DeleteOffreController deleteController = new DeleteOffreController();
+                    deleteController.deleteOfferById(selectedOffer.getId());
+
+                    showAlert(Alert.AlertType.INFORMATION, "Succès", "Offre supprimée avec succès !");
+                    loadOffers(); // Refresh list after deletion
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression !");
+                }
+            }
+        });
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // Make sure to stop the timeline when the controller is destroyed to prevent memory leaks
+    @FXML
+    public void cleanup() {
+        if (timeline != null) {
+            timeline.stop();
         }
     }
 }

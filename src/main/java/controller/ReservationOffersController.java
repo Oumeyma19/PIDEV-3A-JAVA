@@ -102,7 +102,7 @@ public class ReservationOffersController {
     }
 
     private Image loadDefaultImage() {
-        return new Image(getClass().getResourceAsStream("/images/default.png")); // Default image
+        return new Image(getClass().getResourceAsStream("/default.png")); // Default image
     }
 
     private void openReservationForm(Offre selectedOffer) {
@@ -156,7 +156,7 @@ public class ReservationOffersController {
     private void goToReservationList() {
         // Load the reservation list page
         try {
-            BorderPane root = FXMLLoader.load(getClass().getResource("/reservation_list.fxml"));
+            StackPane root = FXMLLoader.load(getClass().getResource("/reservation_list.fxml"));
             Stage stage = (Stage) offersContainer.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

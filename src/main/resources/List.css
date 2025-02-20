@@ -1,51 +1,44 @@
-/* Card style */
+.form-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ed6637; /* Themed color */
+}
+
 .reservation-card {
-    -fx-background-color: rgba(255, 255, 255, 0.9);
-    -fx-padding: 20;
+    -fx-background-color: white;
     -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
-    -fx-max-width: 300;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-alignment: center;
 }
 
 .reservation-card:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 3);
 }
 
-/* Offer image */
-.offer-image {
-    -fx-fit-width: 250;
-    -fx-fit-height: 150;
-    -fx-preserve-ratio: true;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-}
-
-/* Offer title */
-.offer-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #34495e;
-}
-
-/* Reservation details */
-.reservation-details {
-    -fx-font-size: 14px;
-    -fx-text-fill: #555555;
-}
-
-/* Cancel button */
 .cancel-button {
-    -fx-background-color: #e74c3c;
+    -fx-background-color: #ed6637;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-padding: 8 16;
     -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
+    -fx-padding: 8px 15px;
 }
 
 .cancel-button:hover {
-    -fx-background-color: #c0392b;
+    -fx-background-color: #d3542f;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ed6637;
+    -fx-font-size: 18px;
+    -fx-border-color: #ed6637;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px 20px;
+}
+
+.back-button:hover {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
 }

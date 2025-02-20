@@ -1,21 +1,17 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import models.Offre;
-import tools.MyDataBase;
+import services.OffreService;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class UpdateOffreController {
 
@@ -24,23 +20,24 @@ public class UpdateOffreController {
     @FXML private TextField priceField;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
-    @FXML private ImageView imageView;  // ✅ Image Preview
-    @FXML private Button btnChooseImage;
-    @FXML private Button btnUpdate;
+    @FXML private ImageView imageView;
+    @FXML private Button btnChooseImage, btnUpdate;
 
+    private final OffreService offreService = new OffreService(); // ✅ Use service
     private Offre selectedOffer;
-    private String selectedImagePath; // ✅ Store selected image path
+    private String selectedImagePath;
 
     public void setOfferData(Offre offer) {
         this.selectedOffer = offer;
         titleField.setText(offer.getTitle());
         descriptionField.setText(offer.getDescription());
         priceField.setText(String.valueOf(offer.getPrice()));
-        startDatePicker.setValue(java.time.LocalDate.parse(offer.getStartDate()));
-        endDatePicker.setValue(java.time.LocalDate.parse(offer.getEndDate()));
+        startDatePicker.setValue(LocalDate.parse(offer.getStartDate()));
+        endDatePicker.setValue(LocalDate.parse(offer.getEndDate()));
 
         if (offer.getImagePath() != null && !offer.getImagePath().isEmpty()) {
-            imageView.setImage(new Image(offer.getImagePath()));
+            selectedImagePath = offer.getImagePath();
+            imageView.setImage(new Image(selectedImagePath));
         }
     }
 
@@ -54,40 +51,56 @@ public class UpdateOffreController {
 
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
-            selectedImagePath = selectedFile.toURI().toString(); // ✅ Convert to URI format
+            selectedImagePath = selectedFile.toURI().toString();
             imageView.setImage(new Image(selectedImagePath));
         }
     }
 
     @FXML
     private void updateOffer() {
-        if (selectedOffer == null) {
-            System.out.println("Aucune offre sélectionnée !");
-            return;
-        }
+        if (!validateInput()) return;
 
-        String query = "UPDATE offers SET title=?, description=?, price=?, start_date=?, end_date=?, image_path=? WHERE id=?";
+        selectedOffer.setTitle(titleField.getText());
+        selectedOffer.setDescription(descriptionField.getText());
+        selectedOffer.setPrice(Double.parseDouble(priceField.getText()));
+        selectedOffer.setStartDate(startDatePicker.getValue().toString());
+        selectedOffer.setEndDate(endDatePicker.getValue().toString());
+        selectedOffer.setImagePath(selectedImagePath);
 
-        try (Connection connection = MyDataBase.getInstance().getCnx();
-             PreparedStatement ps = connection.prepareStatement(query)) {
-
-            ps.setString(1, titleField.getText());
-            ps.setString(2, descriptionField.getText());
-            ps.setDouble(3, Double.parseDouble(priceField.getText()));
-            ps.setString(4, startDatePicker.getValue().toString());
-            ps.setString(5, endDatePicker.getValue().toString());
-            ps.setString(6, selectedImagePath); // ✅ Update image path
-            ps.setInt(7, selectedOffer.getId());
-
-            int rowsUpdated = ps.executeUpdate();
-            if (rowsUpdated > 0) {
-                System.out.println("Offre mise à jour avec succès !");
-                Stage stage = (Stage) btnUpdate.getScene().getWindow();
-                stage.close(); // ✅ Close the window after updating
-            }
-
+        try {
+            offreService.modifier(selectedOffer); // ✅ Use service
+            showAlert("Succès", "Offre mise à jour avec succès !");
+            closeWindow();
         } catch (SQLException e) {
-            e.printStackTrace();
+            showAlert("Erreur", "Échec de la mise à jour : " + e.getMessage());
         }
+    }
+
+    private boolean validateInput() {
+        if (titleField.getText().isEmpty() || descriptionField.getText().isEmpty() || priceField.getText().isEmpty() ||
+                startDatePicker.getValue() == null || endDatePicker.getValue() == null) {
+            showAlert("Validation", "Veuillez remplir tous les champs !");
+            return false;
+        }
+        try {
+            Double.parseDouble(priceField.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Validation", "Le prix doit être un nombre valide !");
+            return false;
+        }
+        return true;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) btnUpdate.getScene().getWindow();
+        stage.close();
     }
 }

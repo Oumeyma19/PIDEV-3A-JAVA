@@ -1,69 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.ReservationFormController"
-      stylesheets="@form.css"
-      prefWidth="1000" prefHeight="700"
-      alignment="CENTER">
+<VBox alignment="CENTER" prefHeight="700" prefWidth="1000" stylesheets="@form.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationFormController">
 
     <!-- Background Gradient -->
     <StackPane>
-        <Rectangle width="1000" height="700">
+        <Rectangle arcHeight="30" arcWidth="30" height="700" width="1000">
             <fill>
-                <LinearGradient startX="0" startY="0" endX="1" endY="1">
+                <LinearGradient endX="1.0" endY="1.0">
                     <stops>
-                        <Stop offset="0" color="#4b6cb7"/>
-                        <Stop offset="1" color="#182848"/>
+                        <Stop>
+                     <color>
+                        <Color red="0.29411765933036804" green="0.42352941632270813" blue="0.7176470756530762" />
+                     </color></Stop>
+                        <Stop offset="1.0">
+                     <color>
+                        <Color red="0.929411768913269" green="0.4000000059604645" blue="0.21568627655506134" />
+                     </color></Stop>
                     </stops>
                 </LinearGradient>
             </fill>
         </Rectangle>
 
-        <!-- Form Card -->
-        <VBox fx:id="formCard" spacing="20" alignment="CENTER" styleClass="form-card">
+        <!-- Form Card with Rounded Corners and Shadows -->
+        <VBox fx:id="formCard" alignment="CENTER" spacing="20" styleClass="form-card">
+            <effect>
+                <DropShadow color="#00000050" offsetX="0" offsetY="5" radius="10" />
+            </effect>
+
             <!-- Offer Details -->
-            <VBox spacing="10" alignment="CENTER" styleClass="offer-details">
-                <ImageView fx:id="imgOffer" fitWidth="300" fitHeight="200" preserveRatio="true"/>
-                <Label fx:id="lblOfferName" styleClass="offer-title"/>
-                <Label fx:id="lblOfferDescription" styleClass="offer-description" wrapText="true" maxWidth="500"/>
+            <VBox alignment="CENTER" spacing="10" styleClass="offer-details">
+                <ImageView fx:id="imgOffer" fitHeight="200" fitWidth="300" preserveRatio="true" />
+                <Label fx:id="lblOfferName" styleClass="offer-title" />
+                <Label fx:id="lblOfferDescription" maxWidth="500" styleClass="offer-description" wrapText="true" />
             </VBox>
 
             <!-- Number of People -->
-            <HBox spacing="10" alignment="CENTER">
-                <Label text="Nombre de personnes:" styleClass="form-label"/>
-                <Spinner fx:id="spAdults" styleClass="form-spinner" initialValue="1" editable="true"/>
-                <Label text="Adultes" styleClass="form-label"/>
-                <Spinner fx:id="spChildren" styleClass="form-spinner" initialValue="0" editable="true"/>
-                <Label text="Enfants" styleClass="form-label"/>
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="746.0" spacing="10">
+                <ImageView fitHeight="17.0" fitWidth="37.0" preserveRatio="true">
+                    <Image url="@people.png" />
+                </ImageView>
+                <Label prefHeight="23.0" prefWidth="211.0" styleClass="form-label" text="Nombre de personnes:" />
+                <Spinner fx:id="spAdults" editable="true" initialValue="1" styleClass="form-spinner" />
+                <Label prefHeight="23.0" prefWidth="89.0" styleClass="form-label" text="Adultes" />
+                <Spinner fx:id="spChildren" editable="true" initialValue="0" styleClass="form-spinner" />
+                <Label prefHeight="23.0" prefWidth="86.0" styleClass="form-label" text="Enfants" />
             </HBox>
 
             <!-- Date Selection -->
-            <HBox spacing="10" alignment="CENTER">
-                <Label text="Date de début:" styleClass="form-label"/>
-                <DatePicker fx:id="dpStartDate" styleClass="form-datepicker"/>
-                <Label text="Date de fin:" styleClass="form-label"/>
-                <DatePicker fx:id="dpEndDate" styleClass="form-datepicker"/>
+            <HBox alignment="CENTER" spacing="10">
+                <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                    <Image url="@calender.png" />
+                </ImageView>
+                <Label prefHeight="23.0" prefWidth="142.0" styleClass="form-label" text="Date de début:" />
+                <DatePicker fx:id="dpStartDate" styleClass="form-datepicker" />
+                <Label prefHeight="23.0" prefWidth="106.0" styleClass="form-label" text="Date de fin:" />
+                <DatePicker fx:id="dpEndDate" styleClass="form-datepicker" />
             </HBox>
 
-            <!-- Total Price -->
-            <Label fx:id="lblTotalPrice" styleClass="total-price"/>
+            <!-- Total Price with Tooltip -->
+            <Label fx:id="lblTotalPrice" styleClass="total-price">
+                <tooltip>
+                    <Tooltip text="Le prix total est basé sur le nombre d'adultes et d'enfants (50% du tarif adulte pour les enfants)." />
+                </tooltip>
+            </Label>
 
-            <!-- Confirmation Button -->
-            <Button fx:id="btnConfirm" text="Confirmer la Réservation"
-                    onAction="#confirmReservation" styleClass="confirm-button"/>
-            <Button text="Voir Mes Réservations" onAction="#goToReservationList" styleClass="confirm-button"/>
+            <!-- Confirmation Buttons with Hover Effects -->
+            <HBox spacing="20">
+                <Button fx:id="btnConfirm" onAction="#confirmReservation" styleClass="confirm-button" text="✅ Confirmer la Réservation" />
+                <Button onAction="#goToReservationList" prefHeight="47.0" prefWidth="273.0" styleClass="confirm-button" text="📋 Voir Mes Réservations" />
+            </HBox>
+
+            <!-- Loading Spinner (Initially Hidden) -->
+            <ProgressIndicator fx:id="loadingSpinner" visible="false" />
+
             <!-- Status Message -->
-            <Label fx:id="lblStatus" styleClass="status-message" visible="false"/>
+            <Label fx:id="lblStatus" styleClass="status-message" visible="false" />
         </VBox>
     </StackPane>
 </VBox>

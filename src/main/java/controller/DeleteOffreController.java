@@ -1,7 +1,5 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import tools.MyDataBase;
 
@@ -11,14 +9,9 @@ import java.sql.SQLException;
 
 public class DeleteOffreController {
 
-    @FXML private TextField idField;
-
     private final Connection cnx = MyDataBase.getInstance().getCnx();
 
-    @FXML
-    private void deleteOffer() {
-        int id = Integer.parseInt(idField.getText());
-
+    public void deleteOfferById(int id) {
         String query = "DELETE FROM offers WHERE id = ?";
 
         try (PreparedStatement stmt = cnx.prepareStatement(query)) {
