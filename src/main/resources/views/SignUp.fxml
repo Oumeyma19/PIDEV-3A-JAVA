@@ -111,17 +111,17 @@
                     <children>
                         <VBox alignment="CENTER" spacing="10">
                             <HBox spacing="10">
-                                <RadioButton fx:id="clientRadioButton" text="Client" textFill="WHITE" toggleGroup="$roleGroup">
+                                <RadioButton fx:id="clientRadioButton" text="Client" styleClass="radio-button" toggleGroup="$roleGroup">
                                     <font>
-                                        <Font name="System Italic" size="18.0" />
+                                        <Font name="System Italic" size="22.0" />
                                     </font>
                                     <HBox.margin>
                                         <Insets top="10.0" />
                                     </HBox.margin>
                                 </RadioButton>
-                                <RadioButton fx:id="guideRadioButton" text="Guide" textFill="WHITE" toggleGroup="$roleGroup">
+                                <RadioButton fx:id="guideRadioButton" text="Guide" styleClass="radio-button" toggleGroup="$roleGroup">
                                     <font>
-                                        <Font name="System Italic" size="18.0" />
+                                        <Font name="System Italic" size="22.0" />
                                     </font>
                                     <HBox.margin>
                                         <Insets top="10.0" />

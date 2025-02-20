@@ -16,7 +16,7 @@ public class testClient extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file for the SignIn UI
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Guides.fxml"));
             AnchorPane root = loader.load(); // Change AnchorPane to BorderPane
 
             // Create the Scene from the FXML root layout

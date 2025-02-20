@@ -12,67 +12,61 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.User;
-import services.ClientService;
+import services.GuideService;
 
-import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 
-public class ClientsController {
+public class GuidesController {
 
-
     @FXML
-    private TableView<User> clientsTable;
+    private TableView<User> guidesTable;
     @FXML
-    private TableColumn<User, String> nomColumn;
+    private TableColumn<User, String> firstnameColumn;
     @FXML
-    private TableColumn<User, String> prenomColumn;
+    private TableColumn<User, String> lastnameColumn;
     @FXML
     private TableColumn<User, String> emailColumn;
     @FXML
     private TableColumn<User, String> phoneColumn;
     @FXML
-    private TableColumn<User, Integer> pointsFidColumn;
+    private TableColumn<User, String> statusColumn;
     @FXML
-    private TableColumn<User, String> nivFidColumn;
+    private TableColumn<User, String> activeColumn;
     @FXML
-    private TableColumn<User, String> isActiveColumn;
-    @FXML
-    private TableColumn<User, Boolean> isBannedColumn;
+    private TableColumn<User, String> bannedColumn;
     @FXML
     private TableColumn<User, String> passwordColumn;
 
     @FXML
     private TextField idField;
     @FXML
-    private TextField nomField;
+    private TextField firstnameField;
     @FXML
-    private TextField prenomField;
+    private TextField lastnameField;
     @FXML
     private TextField emailField;
     @FXML
     private TextField phoneField;
     @FXML
-    private TextField pointsFideliteField;
-    @FXML
-    private TextField niveauFideliteField;
+    private TextField statusField;
     @FXML
     private TextField activeField;
     @FXML
-    private TextField banField;
+    private TextField bannedField;
     @FXML
     private Label messageLabel;
     @FXML
     private Label greetingLabel;
 
+    @FXML
+    private ImageView userImage;
 
     @FXML
     private Text fullnameText;
-
-    @FXML
-    private ImageView userImage;
 
     private User currentUser;
 
@@ -82,7 +76,6 @@ public class ClientsController {
             fullnameText.setText("Bonjour, " + user.getFirstname());
         }
     }
-
     @FXML
     private void handleUserImageClick(MouseEvent event) {
         try {
@@ -99,69 +92,65 @@ public class ClientsController {
             System.err.println("Error loading Profil.fxml: " + e.getMessage());
         }
     }
+
     @FXML
-    private void handleGuidesClick(MouseEvent event) {
+    private void handleClientsClick(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Guides.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
             Parent root = loader.load();
 
             // Get the controller and set the current user
-            GuidesController guidesController = loader.getController();
-            guidesController.setCurrentUser(currentUser);
+            ClientsController clientsController = loader.getController();
+            clientsController.setCurrentUser(currentUser);
 
             // Get the current stage and set the new scene
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            System.err.println("Error loading Guides.fxml: " + e.getMessage());
+            System.err.println("Error loading Clients.fxml: " + e.getMessage());
         }
     }
 
+    private GuideService guideService = GuideService.getInstance();
+    private ObservableList<User> guidesList = FXCollections.observableArrayList();
 
-    private ClientService clientService = ClientService.getInstance();
-    private ObservableList<User> clientsList = FXCollections.observableArrayList();
+    private static GuidesController instance;
 
-    private static ClientsController instance;
-
-    public ClientsController() {
+    public GuidesController() {
         instance = this;
     }
 
-    public static ClientsController getInstance() {
+    public static GuidesController getInstance() {
         return instance;
     }
 
     @FXML
     public void initialize() {
         // Initialize the columns
-        nomColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-        prenomColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        pointsFidColumn.setCellValueFactory(new PropertyValueFactory<>("pointsfid"));
-        nivFidColumn.setCellValueFactory(new PropertyValueFactory<>("nivfid"));
-        isActiveColumn.setCellValueFactory(cellData -> {
-            boolean isActive = cellData.getValue().getIsActive();
-            return new SimpleStringProperty(isActive ? "Disponible" : "Indisponible");
-        });
-        isBannedColumn.setCellValueFactory(new PropertyValueFactory<>("isBanned"));
+        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatusGuideDisplay()));
+        activeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsActiveDisplay()));
+        bannedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsBannedDisplay()));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
 
         // Load data
-        loadClients();
+        loadGuides();
 
         // Add listener to table selection
-        clientsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showClientDetails(newValue));
+        guidesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showGuideDetails(newValue));
     }
 
-    private void loadClients() {
-        clientsList.setAll(clientService.getUsers());
-        clientsTable.setItems(clientsList);
+    private void loadGuides() {
+        guidesList.setAll(guideService.getUsers());
+        guidesTable.setItems(guidesList);
     }
 
-    public void addClient(User user) {
-        clientsList.add(user);
+    public void addGuide(User user) {
+        guidesList.add(user);
     }
 
     private void showMessage(String message, String color) {
@@ -171,12 +160,12 @@ public class ClientsController {
     }
 
     @FXML
-    private void handleAjouterClient() {
+    private void handleAjouterGuide() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AjouterClient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AjouterGuide.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Ajouter un Client");
+            stage.setTitle("Ajouter un Guide");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -187,81 +176,77 @@ public class ClientsController {
     @FXML
     private void handleModifier() {
         try {
-            User selectedUser = clientsTable.getSelectionModel().getSelectedItem();
+            User selectedUser = guidesTable.getSelectionModel().getSelectedItem();
             if (selectedUser != null) {
-                selectedUser.setLastname(nomField.getText());
-                selectedUser.setFirstname(prenomField.getText());
+                selectedUser.setLastname(lastnameField.getText());
+                selectedUser.setFirstname(firstnameField.getText());
                 selectedUser.setEmail(emailField.getText());
                 selectedUser.setPhone(phoneField.getText());
-                selectedUser.setPointsfid(Integer.parseInt(pointsFideliteField.getText()));
-                selectedUser.setNivfid(niveauFideliteField.getText());
-                selectedUser.setIsActive(activeField.getText().equals("Oui"));
-                selectedUser.setIsBanned(banField.getText().equals("Oui"));
+                selectedUser.setStatusGuideDisplay(statusField.getText());
+                selectedUser.setIsActiveDisplay(activeField.getText());
+                selectedUser.setIsBannedDisplay(bannedField.getText());
 
-                clientService.updateUser(selectedUser);
-                showMessage("Client updated successfully!", "green");
-                loadClients();
+                guideService.updateUser(selectedUser);
+                showMessage("Guide updated successfully!", "green");
+                loadGuides();
             } else {
-                showMessage("No client selected.", "red");
+                showMessage("No guide selected.", "red");
             }
         } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException |
                  IncorrectPasswordException | UserNotFoundException e) {
             showMessage(e.getMessage(), "red");
         } catch (NumberFormatException e) {
-            showMessage("Invalid number format for points de fidelite.", "red");
+            showMessage("Invalid number format.", "red");
         }
     }
 
-    private void clearClientDetails() {
+    private void clearGuideDetails() {
         idField.clear();
-        nomField.clear();
-        prenomField.clear();
+        firstnameField.clear();
+        lastnameField.clear();
         emailField.clear();
         phoneField.clear();
-        pointsFideliteField.clear();
-        niveauFideliteField.clear();
+        statusField.clear();
         activeField.clear();
-        banField.clear();
+        bannedField.clear();
     }
-    private void showClientDetails(User user) {
+
+    private void showGuideDetails(User user) {
         if (user != null) {
             idField.setText(String.valueOf(user.getId()));
-            nomField.setText(user.getLastname());
-            prenomField.setText(user.getFirstname());
+            firstnameField.setText(user.getFirstname());
+            lastnameField.setText(user.getLastname());
             emailField.setText(user.getEmail());
             phoneField.setText(user.getPhone());
-            pointsFideliteField.setText(String.valueOf(user.getPointsfid()));
-            niveauFideliteField.setText(user.getNivfid());
-            activeField.setText(user.getIsActive() ? "Oui" : "Non");
-            banField.setText(user.getIsBanned() ? "Oui" : "Non");
+            statusField.setText(user.getStatusGuideDisplay());
+            activeField.setText(user.getIsActiveDisplay());
+            bannedField.setText(user.getIsBannedDisplay());
         } else {
-            clearClientDetails();
+            clearGuideDetails();
         }
     }
 
     @FXML
     private void handleSupprimer() {
-        User selectedUser = clientsTable.getSelectionModel().getSelectedItem();
+        User selectedUser = guidesTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText("Supprimer le client");
-            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce client ?");
+            alert.setHeaderText("Supprimer le guide");
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce guide ?");
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     try {
-                        clientService.deleteUser(selectedUser.getId());
-                        clientsList.remove(selectedUser);
-                        showMessage("Client deleted successfully!", "green");
+                        guideService.deleteUser(selectedUser.getId());
+                        guidesList.remove(selectedUser);
+                        showMessage("Guide deleted successfully!", "green");
                     } catch (UserNotFoundException e) {
                         showMessage(e.getMessage(), "red");
                     }
                 }
             });
         } else {
-            showMessage("No client selected.", "red");
+            showMessage("No guide selected.", "red");
         }
     }
-
-
 }

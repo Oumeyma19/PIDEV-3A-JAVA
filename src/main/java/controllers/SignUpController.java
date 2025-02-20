@@ -93,6 +93,8 @@ public class SignUpController {
             user.setPhone(phone);
             user.setPassword(password);
             user.setRoles(role);
+            user.setIsActive(true); // Set default value
+            user.setIsBanned(false); // Set default value
 
             // Ajouter l'utilisateur au service approprié
             if (role == Type.CLIENT) {

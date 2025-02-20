@@ -19,10 +19,9 @@ public class Main {
             // **CRUD test:**
 
             // **add new user**
-            //User user = new User("nada", "khalifa", "000gfdvsdevb00@gmail.com", "12345678", "Nada123", Type.ADMIN);
-            //userService.addUser(user);
-        int adminCount = userService.countAdmins();
-        System.out.println("Number of admins: " + adminCount);
+            User user = new User("Admin", "Admin", "Admin@gmail.com", "29923207", "Admin123", Type.ADMIN);
+            userService.addUser(user);
+
             // **update existing user**
              //User userUpdated = new User(43, "oumeyma", "zaafrane", "82@gmail.com", "12345678","Nadou000",20,"cfgvhb", Type.CLIENT, true, false);
              //clientService.updateUser(userUpdated);

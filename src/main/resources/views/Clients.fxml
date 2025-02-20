@@ -19,10 +19,12 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.Separator?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1047.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientsController">
+<?import javafx.scene.control.Label?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientsController">
     <children>
         <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
             <children>
+
                 <VBox fx:id="content"  spacing ="30" layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <!-- Titre "Liste des Clients" -->
@@ -52,21 +54,24 @@
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <VBox spacing="10">
                                 <HBox spacing="10">
-                                    <TextField promptText="ID" />
-                                    <TextField promptText="Nom" />
-                                    <TextField promptText="Prenom" />
-                                    <TextField promptText="Email" />
-                                    <TextField promptText="Phone" />
+                                    <TextField fx:id="idField" promptText="ID" />
+                                    <TextField fx:id="nomField" promptText="Nom" />
+                                    <TextField fx:id="prenomField" promptText="Prenom" />
+                                    <TextField fx:id="emailField" promptText="Email" />
+                                    <TextField fx:id="phoneField" promptText="Phone" />
                                 </HBox>
                                 <HBox spacing="10">
-                                    <TextField promptText="Points de Fidelite" />
-                                    <TextField promptText="Niveau de Fidelite" />
-                                    <TextField promptText="Active" />
-                                    <TextField promptText="Ban" />
+                                    <TextField fx:id="pointsFideliteField" promptText="Points de Fidelite" />
+                                    <TextField fx:id="niveauFideliteField" promptText="Niveau de Fidelite" />
+                                    <TextField fx:id="activeField" promptText="Active" />
+                                    <TextField fx:id="banField" promptText="Ban" />
                                 </HBox>
                             </VBox>
-                            <Button text="Modifier" styleClass="new_button_style" />
-                            <Button text="Supprimer" styleClass="new_button_style" />
+                            <VBox spacing="10">
+                                <Button text="Modifier" styleClass="new_button_style" onAction="#handleModifier" />
+                                <Button text="Supprimer" styleClass="new_button_style" onAction="#handleSupprimer" />
+                                <Label fx:id="messageLabel" text="" />
+                            </VBox>
                         </HBox>
                     </children>
                 </VBox>
@@ -75,10 +80,10 @@
         <Pane layoutX="77.0" layoutY="114.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="806.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         <AnchorPane layoutX="569.0" layoutY="33.0" prefHeight="52.0" prefWidth="1047.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour, Amna" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
+                <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
                 <AnchorPane fx:id="imagePane" layoutX="1003.0" layoutY="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleUserImageClick">
                             <image>
                                 <Image url="@/views/user.png" />
                             </image>
@@ -90,10 +95,6 @@
                         <Image url="/views/Cartago_3.png" />
                     </image>
                 </ImageView>
-                <Text fx:id="roleText" fill="WHITE" layoutX="958.802734375" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role" AnchorPane.rightAnchor="61.759765625" AnchorPane.topAnchor="26.0">
-                    <font>
-                        <Font size="11.0" />
-                    </font></Text>
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="459.0" prefWidth="224.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
@@ -143,7 +144,7 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="98.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375">
+                <Text layoutX="98.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375" onMouseClicked="#handleGuidesClick">
                     <font>
                         <Font size="14.0" />
                     </font>

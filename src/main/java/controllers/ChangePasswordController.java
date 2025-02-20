@@ -3,6 +3,7 @@ package controllers;
 import exceptions.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -166,6 +167,25 @@ public class ChangePasswordController {
                 break;
             default:
                 throw new IllegalStateException("Rôle utilisateur non reconnu.");
+        }
+    }
+    @FXML
+    private void handleProfileClick(javafx.scene.input.MouseEvent event) {
+        try {
+            // Load the Profil.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set the current user
+            ProfilController profilController = loader.getController();
+            profilController.setCurrentUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading Profil.fxml: " + e.getMessage());
         }
     }
 }

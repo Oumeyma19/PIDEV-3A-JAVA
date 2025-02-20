@@ -380,21 +380,21 @@ public class UserService implements UserInterface {
         return user;
     }
 
-    private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(1);
-        String firstname = resultSet.getString(2);
-        String lastname = resultSet.getString(3);
-        String email = resultSet.getString(4);
-        String phone = resultSet.getString(5);
-        String password = resultSet.getString(6);
-        String roleString = resultSet.getString("roles");
-        Type roles = null;
-        try {
-            roles = Type.valueOf(roleString);
-        } catch (IllegalArgumentException ignored) {
-        }
-        boolean is_banned = resultSet.getBoolean(8);
-        boolean is_active = resultSet.getBoolean(9);
-        return new User(id, firstname, lastname, email, phone, password, roles, is_banned, is_active);
+    public User createUserFromResultSet(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setFirstname(rs.getString("firstname"));
+        user.setLastname(rs.getString("lastname"));
+        user.setEmail(rs.getString("email"));
+        user.setPhone(rs.getString("phone"));
+        user.setPassword(rs.getString("password"));
+        user.setRoles(Type.valueOf(rs.getString("roles")));
+
+        // Ensure the boolean value is correctly parsed
+        String isActiveStr = rs.getString("is_active");
+        boolean isActive = "1".equals(isActiveStr) || "true".equalsIgnoreCase(isActiveStr);
+        user.setIsActive(isActive);
+
+        return user;
     }
 }

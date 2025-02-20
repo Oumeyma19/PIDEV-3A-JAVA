@@ -56,7 +56,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>
-                        test.testClient
+                        test.TestProfile
                     </mainClass>
                 </configuration>
             </plugin>

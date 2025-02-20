@@ -16,11 +16,11 @@ public class TestProfile extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file for the SignIn UI
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             BorderPane root = loader.load(); // Change AnchorPane to BorderPane
 
             // Create the Scene from the FXML root layout
-            Scene scene = new Scene(root, 1000, 700);
+            Scene scene = new Scene(root);
 
             // Set the title of the window
             primaryStage.setTitle("Profile Settings");

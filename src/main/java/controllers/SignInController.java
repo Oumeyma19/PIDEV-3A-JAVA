@@ -130,7 +130,7 @@ public class SignInController {
     private void redirectToHome(User user) {
         try {
             if (user.getRoles() == Type.ADMIN) {
-                redirectToDashboard(user); // Rediriger l'admin vers Dashboard.fxml
+                redirectToClients(user); // Rediriger l'admin vers Dashboard.fxml
             } else {
                 redirectToProfil(user); // Rediriger les autres rôles vers Profil.fxml
             }
@@ -140,14 +140,14 @@ public class SignInController {
         }
     }
 
-    private void redirectToDashboard(User user) throws IOException {
-        System.out.println("Redirection vers Dashboard.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+    private void redirectToClients(User user) throws IOException {
+        System.out.println("Redirection vers Clients.fxml");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
         Parent root = loader.load();
 
-        // Passer les données de l'utilisateur au contrôleur DashboardController
-        DashboardController dashboardController = loader.getController();
-        dashboardController.setCurrentUser(user);
+        // Pass the user data to the ClientsController
+        ClientsController clientsController = loader.getController();
+        clientsController.setCurrentUser(user);
 
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.setScene(new Scene(root));

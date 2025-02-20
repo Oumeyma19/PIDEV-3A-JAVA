@@ -117,28 +117,51 @@ public class User {
         this.is_active = is_active;
     }
     //add Guide
-    public User(String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles) {
+    public User(int id, String firstname, String lastname, String email, String phone, Boolean statusGuide, Type roles) {
+        this.id = id;
         this.firstname = firstname;
-        this.password = password;
-        this.phone = phone;
         this.lastname = lastname;
         this.email = email;
-        this.statusGuide = true;
+        this.phone = phone;
+        this.statusGuide = statusGuide;
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
     }
-    public User(int id,String firstname, String lastname, String email, String phone, String password, Boolean statusGuide ,Type roles) {
-        this.id = id;
-        this.firstname = firstname;
-        this.password = password;
-        this.phone = phone;
+    public User( String lastname,String firstname, String email, String phone,String password, Boolean statusGuide , Boolean is_banned,Boolean is_active) {
         this.lastname = lastname;
+        this.firstname = firstname;
+
         this.email = email;
-        this.statusGuide = true;
-        this.roles = roles;
-        this.is_banned = false;
-        this.is_active = true;
+        this.phone = phone;
+        this.password = password;
+
+        this.statusGuide = statusGuide;
+        this.is_banned = is_banned;
+        this.is_active = is_active;
+    }
+    public String getStatusGuideDisplay() {
+        return statusGuide ? "Disponible" : "Indisponible";
+    }
+
+    public void setStatusGuideDisplay(String status) {
+        this.statusGuide = "Disponible".equals(status);
+    }
+
+    public String getIsActiveDisplay() {
+        return is_active ? "Active" : "Inactive";
+    }
+
+    public void setIsActiveDisplay(String active) {
+        this.is_active = "Active".equals(active);
+    }
+
+    public String getIsBannedDisplay() {
+        return is_banned ? "Bannissement" : "Non Bannissement";
+    }
+
+    public void setIsBannedDisplay(String banned) {
+        this.is_banned = "Bannissement".equals(banned);
     }
     //Modif Guide
     public User(int id, String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles, Boolean is_banned,Boolean is_active) {

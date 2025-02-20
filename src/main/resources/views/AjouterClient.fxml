@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterClientController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterClientController">
     <children>
-        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20" stylesheets="@SignIn.css">
+        <VBox alignment="CENTER" prefHeight="700.0" prefWidth="850.0" spacing="20" stylesheets="@SignIn.css">
             <Text style="-fx-translate-x: 20;" text="Ajouter un Client">
                 <font>
                     <Font name="Impact" size="48.0" />
@@ -21,7 +21,7 @@
             <TextField fx:id="phoneField" prefWidth="400" promptText="Phone" />
             <TextField fx:id="pointsFideliteField" prefWidth="400" promptText="Points de Fidelite" />
             <TextField fx:id="niveauFideliteField" prefWidth="400" promptText="Niveau de Fidelite" />
-            <PasswordField fx:id="passwordField" prefWidth="800.0" promptText="Mot de passe" />
+            <PasswordField fx:id="passwordField" prefWidth="400" promptText="Mot de passe" />
 
             <Text style="-fx-font-weight: bold;" text="Active" />
             <ComboBox fx:id="activeComboBox" prefWidth="400">
@@ -47,4 +47,4 @@
             <Label fx:id="messageLabel" text="" />
         </VBox>
     </children>
-</AnchorPane>
+</StackPane>

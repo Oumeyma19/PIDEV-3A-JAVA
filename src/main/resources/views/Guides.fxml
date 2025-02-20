@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
 <?import javafx.scene.control.Separator?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1047.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Label?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GuidesController">
     <children>
         <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
             <children>
-                <VBox fx:id="content"  spacing ="30" layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox fx:id="content" spacing="30" layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <!-- Titre "Liste des Guides" -->
                         <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header">
                             <Text text="Liste Des Guides" style="-fx-translate-x: 20;">
                                 <font>
                                     <Font name="Impact" size="48.0" />
                                 </font>
                             </Text>
-                            <Button text="Ajouter" styleClass="new_button_style" />
+                            <Button fx:id="ajouterButton" text="Ajouter" styleClass="new_button_style" onAction="#handleAjouterGuide" />
                         </HBox>
-                        <!-- ListeView -->
-                        <ListView fx:id="guidesList" prefHeight="400.0" prefWidth="800.0" />
+                        <TableView fx:id="guidesTable" prefHeight="600" prefWidth="800">
+                            <columns>
 
-                        <!-- Champs de texte pour chaque attribut du tableau -->
+                                <TableColumn fx:id="lastnameColumn" text="Nom" />
+                                <TableColumn fx:id="firstnameColumn" text="Prénom" />
+                                <TableColumn fx:id="emailColumn" text="Email" prefWidth="150" />
+                                <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="120"/>
+                                <TableColumn fx:id="statusColumn" text="Status" prefWidth="130"/>
+                                <TableColumn fx:id="activeColumn" text="Active" prefWidth="130" />
+                                <TableColumn fx:id="bannedColumn" text="Bannissement" prefWidth="140"/>
+                                <TableColumn fx:id="passwordColumn" text="Mot de passe " />
+                            </columns>
+                        </TableView>
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <VBox spacing="10">
                                 <HBox spacing="10">
-                                    <TextField promptText="ID" />
-                                    <TextField promptText="Nom" />
-                                    <TextField promptText="Prenom" />
-                                    <TextField promptText="Email" />
-                                    <TextField promptText="Phone" />
+                                    <TextField fx:id="idField" promptText="ID" />
+                                    <TextField fx:id="firstnameField" promptText="First Name" />
+                                    <TextField fx:id="lastnameField" promptText="Last Name" />
+                                    <TextField fx:id="emailField" promptText="Email" />
+                                    <TextField fx:id="phoneField" promptText="Phone" />
                                 </HBox>
                                 <HBox spacing="10">
-                                    <TextField promptText="Status" />
-                                    <TextField promptText="Active" />
-                                    <TextField promptText="Ban" />
+                                    <TextField fx:id="statusField" promptText="Status" />
+                                    <TextField fx:id="activeField" promptText="Active" />
+                                    <TextField fx:id="bannedField" promptText="Banned" />
                                 </HBox>
                             </VBox>
-                            <Button text="Modifier" styleClass="new_button_style" />
-                            <Button text="Supprimer" styleClass="new_button_style" />
+                            <VBox spacing="10">
+                                <Button text="Modifier" styleClass="new_button_style" onAction="#handleModifier" />
+                                <Button text="Supprimer" styleClass="new_button_style" onAction="#handleSupprimer" />
+                                <Label fx:id="messageLabel" text="" />
+                            </VBox>
                         </HBox>
                     </children>
                 </VBox>
@@ -65,7 +73,7 @@
                 <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour, Amna" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
                 <AnchorPane fx:id="imagePane" layoutX="1003.0" layoutY="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleUserImageClick">
                             <image>
                                 <Image url="@/views/user.png" />
                             </image>
@@ -77,10 +85,6 @@
                         <Image url="/views/Cartago_3.png" />
                     </image>
                 </ImageView>
-                <Text fx:id="roleText" fill="WHITE" layoutX="958.802734375" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role" AnchorPane.rightAnchor="61.759765625" AnchorPane.topAnchor="26.0">
-                    <font>
-                        <Font size="11.0" />
-                    </font></Text>
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="459.0" prefWidth="224.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
@@ -125,7 +129,7 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="98.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Clients" wrappingWidth="95.9375">
+                <Text layoutX="98.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Clients" wrappingWidth="95.9375" onMouseClicked="#handleClientsClick">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -147,7 +151,7 @@
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/calculator.png" />
+                        <Image url="/views/calculator.png" />
                     </image>
                 </ImageView>
                 <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébérgements">
