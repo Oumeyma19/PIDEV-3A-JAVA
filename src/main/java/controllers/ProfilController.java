@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -17,7 +19,6 @@ import models.User;
 import services.ClientService;
 import services.GuideService;
 import services.UserService;
-import util.Type;
 
 import java.io.IOException;
 
@@ -84,7 +85,6 @@ public class ProfilController {
         }
     }
 
-
     @FXML
     private void handleLogout(javafx.scene.input.MouseEvent event) {
         try {
@@ -101,6 +101,7 @@ public class ProfilController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleChangePassword() {
         try {
@@ -119,7 +120,6 @@ public class ProfilController {
             System.err.println("Erreur lors de la redirection vers la page de modification du mot de passe : " + e.getMessage());
         }
     }
-
 
     @FXML
     private void handleSave() {
@@ -160,6 +160,49 @@ public class ProfilController {
             } catch (Exception e) {
                 showMessage("Une erreur s'est produite lors de la mise à jour des informations: " + e.getMessage(), "red");
             }
+        } else {
+            showMessage("Aucun utilisateur n'est connecté.", "red");
+        }
+    }
+
+    @FXML
+    private void handleDeleteAccount() {
+        if (currentUser != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de suppression");
+            alert.setHeaderText("Supprimer le compte");
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce compte ?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        // Supprimer l'utilisateur en fonction de son rôle
+                        switch (currentUser.getRoles()) {
+                            case ADMIN:
+                                userService.deleteUser(currentUser.getId());
+                                break;
+                            case CLIENT:
+                                clientService.deleteUser(currentUser.getId());
+                                break;
+                            case GUIDE:
+                                guideService.deleteUser(currentUser.getId());
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Unknown user role: " + currentUser.getRoles());
+                        }
+
+                        // Rediriger vers la page de connexion
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
+                        Parent root = loader.load();
+                        Stage stage = (Stage) logoutImage.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        showMessage("Erreur lors de la redirection vers la page de connexion: " + e.getMessage(), "red");
+                    } catch (Exception e) {
+                        showMessage("Une erreur s'est produite lors de la suppression du compte: " + e.getMessage(), "red");
+                    }
+                }
+            });
         } else {
             showMessage("Aucun utilisateur n'est connecté.", "red");
         }

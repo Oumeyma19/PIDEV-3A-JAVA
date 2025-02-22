@@ -19,29 +19,7 @@
             <TextField fx:id="prenomField" prefWidth="400" promptText="Prenom" />
             <TextField fx:id="emailField" prefWidth="400" promptText="Email" />
             <TextField fx:id="phoneField" prefWidth="400" promptText="Phone" />
-            <TextField fx:id="pointsFideliteField" prefWidth="400" promptText="Points de Fidelite" />
-            <TextField fx:id="niveauFideliteField" prefWidth="400" promptText="Niveau de Fidelite" />
             <PasswordField fx:id="passwordField" prefWidth="400" promptText="Mot de passe" />
-
-            <Text style="-fx-font-weight: bold;" text="Active" />
-            <ComboBox fx:id="activeComboBox" prefWidth="400">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Oui" />
-                        <String fx:value="Non" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-
-            <Text style="-fx-font-weight: bold;" text="Ban" />
-            <ComboBox fx:id="banComboBox" prefWidth="400">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Oui" />
-                        <String fx:value="Non" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
 
             <Button onAction="#handleEnregistrer" styleClass="new_button_style" text="Enregistrer" />
             <Label fx:id="messageLabel" text="" />

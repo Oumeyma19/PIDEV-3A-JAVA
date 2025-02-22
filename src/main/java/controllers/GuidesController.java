@@ -19,15 +19,16 @@ import models.User;
 import services.GuideService;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class GuidesController {
 
     @FXML
     private TableView<User> guidesTable;
     @FXML
-    private TableColumn<User, String> firstnameColumn;
-    @FXML
     private TableColumn<User, String> lastnameColumn;
+    @FXML
+    private TableColumn<User, String> firstnameColumn;
     @FXML
     private TableColumn<User, String> emailColumn;
     @FXML
@@ -51,12 +52,7 @@ public class GuidesController {
     private TextField emailField;
     @FXML
     private TextField phoneField;
-    @FXML
-    private TextField statusField;
-    @FXML
-    private TextField activeField;
-    @FXML
-    private TextField bannedField;
+
     @FXML
     private Label messageLabel;
     @FXML
@@ -70,12 +66,31 @@ public class GuidesController {
 
     private User currentUser;
 
+    @FXML
+    private TextField searchField;
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (user != null) {
             fullnameText.setText("Bonjour, " + user.getFirstname());
         }
     }
+
+    @FXML
+    private void handleSearch() {
+        String query = searchField.getText().toLowerCase();
+        ObservableList<User> filteredList = guidesList.stream()
+            .filter(user -> user.getLastname().toLowerCase().contains(query) ||
+                user.getFirstname().toLowerCase().contains(query) ||
+                user.getEmail().toLowerCase().contains(query) ||
+                user.getPhone().toLowerCase().contains(query) ||
+                user.getStatusGuideDisplay().toLowerCase().contains(query) ||
+                user.getIsActiveDisplay().toLowerCase().contains(query) ||
+                user.getIsBannedDisplay().toLowerCase().contains(query))
+            .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        guidesTable.setItems(filteredList);
+    }
+
     @FXML
     private void handleUserImageClick(MouseEvent event) {
         try {
@@ -128,8 +143,8 @@ public class GuidesController {
     @FXML
     public void initialize() {
         // Initialize the columns
-        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
         lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatusGuideDisplay()));
@@ -182,9 +197,6 @@ public class GuidesController {
                 selectedUser.setFirstname(firstnameField.getText());
                 selectedUser.setEmail(emailField.getText());
                 selectedUser.setPhone(phoneField.getText());
-                selectedUser.setStatusGuideDisplay(statusField.getText());
-                selectedUser.setIsActiveDisplay(activeField.getText());
-                selectedUser.setIsBannedDisplay(bannedField.getText());
 
                 guideService.updateUser(selectedUser);
                 showMessage("Guide updated successfully!", "green");
@@ -206,9 +218,6 @@ public class GuidesController {
         lastnameField.clear();
         emailField.clear();
         phoneField.clear();
-        statusField.clear();
-        activeField.clear();
-        bannedField.clear();
     }
 
     private void showGuideDetails(User user) {
@@ -218,35 +227,8 @@ public class GuidesController {
             lastnameField.setText(user.getLastname());
             emailField.setText(user.getEmail());
             phoneField.setText(user.getPhone());
-            statusField.setText(user.getStatusGuideDisplay());
-            activeField.setText(user.getIsActiveDisplay());
-            bannedField.setText(user.getIsBannedDisplay());
         } else {
             clearGuideDetails();
-        }
-    }
-
-    @FXML
-    private void handleSupprimer() {
-        User selectedUser = guidesTable.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText("Supprimer le guide");
-            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce guide ?");
-            alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    try {
-                        guideService.deleteUser(selectedUser.getId());
-                        guidesList.remove(selectedUser);
-                        showMessage("Guide deleted successfully!", "green");
-                    } catch (UserNotFoundException e) {
-                        showMessage(e.getMessage(), "red");
-                    }
-                }
-            });
-        } else {
-            showMessage("No guide selected.", "red");
         }
     }
 }

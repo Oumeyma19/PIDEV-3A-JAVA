@@ -27,12 +27,6 @@ public class AjouterGuideController {
     @FXML
     private PasswordField passwordField;
     @FXML
-    private ComboBox<String> statusComboBox;
-    @FXML
-    private ComboBox<String> activeComboBox;
-    @FXML
-    private ComboBox<String> banComboBox;
-    @FXML
     private Label messageLabel;
 
     private GuideService guideService = GuideService.getInstance();
@@ -43,8 +37,7 @@ public class AjouterGuideController {
         try {
             // Validate input fields
             if (nomField.getText().isEmpty() || prenomField.getText().isEmpty() || emailField.getText().isEmpty() ||
-                phoneField.getText().isEmpty() || passwordField.getText().isEmpty() ||
-                statusComboBox.getValue() == null || activeComboBox.getValue() == null || banComboBox.getValue() == null) {
+                phoneField.getText().isEmpty() || passwordField.getText().isEmpty()) {
                 throw new EmptyFieldException("All fields must be filled.");
             }
 
@@ -53,9 +46,6 @@ public class AjouterGuideController {
             String email = emailField.getText();
             String phone = phoneField.getText();
             String password = passwordField.getText();
-            boolean status = statusComboBox.getValue().equals("Disponible");
-            boolean isActive = activeComboBox.getValue().equals("Oui");
-            boolean isBanned = banComboBox.getValue().equals("Non");
 
             // Validate email, phone number, and password
             if (!validationService.isValidEmail(email)) {
@@ -67,6 +57,11 @@ public class AjouterGuideController {
             if (!validationService.isValidPassword(password)) {
                 throw new IncorrectPasswordException("Password does not meet the requirements.");
             }
+
+            // Set default values for status, active, and ban
+            boolean status = true; // Default to "Disponible"
+            boolean isActive = true; // Default to "Oui"
+            boolean isBanned = false; // Default to "Non"
 
             User newUser = new User(prenom, nom, email, phone, password, status, isBanned, isActive);
             newUser.setRoles(Type.GUIDE); // Set the role to GUIDE
@@ -84,12 +79,11 @@ public class AjouterGuideController {
             showMessage(e.getMessage(), "red");
         } catch (InvalidPhoneNumberException e) {
             showMessage(e.getMessage(), "red");
-        } catch (NumberFormatException e) {
-            showMessage("Invalid number format for status.", "red");
         } catch (IncorrectPasswordException e) {
             showMessage(e.getMessage(), "red");
         }
     }
+
 
     private void showMessage(String message, String color) {
         messageLabel.setText(message);

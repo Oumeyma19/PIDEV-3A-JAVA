@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
 import services.ClientService;
-import services.GuideService;
 import services.UserService;
 import services.ValidationService;
 import util.Type;
@@ -19,7 +18,6 @@ import java.io.IOException;
 public class SignUpController {
     private UserService userService = UserService.getInstance();
     private ClientService clientService = ClientService.getInstance();
-    private GuideService guideService = GuideService.getInstance();
 
     @FXML
     private TextField firstnameField;
@@ -37,13 +35,7 @@ public class SignUpController {
     private PasswordField passwordField;
 
     @FXML
-    private RadioButton clientRadioButton;
-
-    @FXML
-    private RadioButton guideRadioButton;
-
-    @FXML
-    private ToggleGroup roleGroup;
+    private PasswordField confirmPasswordField;
 
     @FXML
     private Button registerButton;
@@ -58,9 +50,7 @@ public class SignUpController {
 
     @FXML
     public void initialize() {
-        roleGroup = new ToggleGroup();
-        clientRadioButton.setToggleGroup(roleGroup);
-        guideRadioButton.setToggleGroup(roleGroup);
+        // Initialization logic if needed
     }
 
     @FXML
@@ -72,20 +62,15 @@ public class SignUpController {
             String email = emailField.getText().trim();
             String phone = phoneField.getText().trim();
             String password = passwordField.getText().trim();
+            String confirmPassword = confirmPasswordField.getText().trim();
 
-            Type role;
+            // Set role to CLIENT
+            Type role = Type.CLIENT;
 
-            // Déterminer le rôle sélectionné
-            if (clientRadioButton.isSelected()) {
-                role = Type.CLIENT;
-            } else {
-                role = Type.GUIDE;
-            }
+            // Validate fields
+            validateFields(firstname, lastname, email, phone, password, confirmPassword);
 
-            // Valider les champs
-            validateFields(firstname, lastname, email, phone, password);
-
-            // Créer un nouvel utilisateur
+            // Create a new user
             User user = new User();
             user.setFirstname(firstname);
             user.setLastname(lastname);
@@ -96,44 +81,35 @@ public class SignUpController {
             user.setIsActive(true); // Set default value
             user.setIsBanned(false); // Set default value
 
-            // Ajouter l'utilisateur au service approprié
-            if (role == Type.CLIENT) {
-                clientService.addUser(user);
-            } else {
-                guideService.addUser(user);
-            }
+            // Add the user to the client service
+            clientService.addUser(user);
 
-            // Récupérer l'utilisateur depuis la base de données pour s'assurer qu'il est correctement lié
-            User savedUser;
-            if (role == Type.CLIENT) {
-                savedUser = clientService.getUserbyEmail(email);
-            } else {
-                savedUser = guideService.getUserbyEmail(email);
-            }
+            // Retrieve the user from the database to ensure it is correctly linked
+            User savedUser = clientService.getUserbyEmail(email);
 
-            // Message de succès
+            // Success message
             errorLabel.setText("Inscription réussie !");
             errorLabel.setStyle("-fx-text-fill: green;");
             errorLabel.setVisible(true);
 
-            // Redirection en fonction du rôle
+            // Redirect based on the role
             new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         javafx.application.Platform.runLater(() -> {
                             try {
-                                redirectToProfil(savedUser); // Rediriger vers Profil.fxml pour les autres rôles
+                                redirectToProfil(savedUser); // Redirect to Profil.fxml
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });
                     }
                 },
-                2000 // Délai de 2 secondes avant la redirection
+                2000 // 2-second delay before redirection
             );
 
-        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException e) {
+        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException | PasswordMismatchException e) {
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setVisible(true);
@@ -150,7 +126,7 @@ public class SignUpController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
         Parent root = loader.load();
 
-        // Passer les données de l'utilisateur au contrôleur ProfilController
+        // Pass user data to ProfilController
         ProfilController profilController = loader.getController();
         profilController.setCurrentUser(user);
 
@@ -161,13 +137,13 @@ public class SignUpController {
 
     @FXML
     private void handleSignIn() throws IOException {
-        System.out.println("handleSignIn appelé"); // Log de débogage
+        System.out.println("handleSignIn appelé"); // Debug log
         redirectToSignIn();
     }
 
     private void redirectToSignIn() throws IOException {
         try {
-            // Redirection vers la page d'inscription (à remplir plus tard)
+            // Redirect to the sign-in page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) signInButton.getScene().getWindow();
@@ -185,26 +161,31 @@ public class SignUpController {
         errorLabel.setStyle("-fx-text-fill: red;");
     }
 
-    private void validateFields(String firstname, String lastname, String email, String phone, String password)
-        throws EmptyFieldException, InvalidEmailException, InvalidPhoneNumberException, IncorrectPasswordException {
-        // Vérifier que les champs obligatoires ne sont pas vides
-        if (firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() || password.isEmpty()) {
+    private void validateFields(String firstname, String lastname, String email, String phone, String password, String confirmPassword)
+        throws EmptyFieldException, InvalidEmailException, InvalidPhoneNumberException, IncorrectPasswordException, PasswordMismatchException {
+        // Check that required fields are not empty
+        if (firstname.isEmpty() || lastname.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             throw new EmptyFieldException("Veuillez remplir tous les champs obligatoires.");
         }
 
-        // Valider le format de l'email
+        // Validate email format
         if (!validationService.isValidEmail(email)) {
             throw new InvalidEmailException("Format d'email invalide.");
         }
 
-        // Valider le format du numéro de téléphone (s'il est fourni)
+        // Validate phone number format (if provided)
         if (!phone.isEmpty() && !validationService.isValidPhoneNumber(phone)) {
             throw new InvalidPhoneNumberException("Format de numéro de téléphone invalide.");
         }
 
-        // Valider le format du mot de passe
+        // Validate password format
         if (!validationService.isValidPassword(password)) {
             throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Check if passwords match
+        if (!password.equals(confirmPassword)) {
+            throw new PasswordMismatchException("Les mots de passe ne correspondent pas.");
         }
     }
 }

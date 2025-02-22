@@ -28,10 +28,12 @@
                                 </font>
                             </Text>
                             <Button fx:id="ajouterButton" text="Ajouter" styleClass="new_button_style" onAction="#handleAjouterGuide" />
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <TextField fx:id="searchField" promptText=" Rechercher... " onKeyReleased="#handleSearch" />
+                            </HBox>
                         </HBox>
                         <TableView fx:id="guidesTable" prefHeight="600" prefWidth="800">
                             <columns>
-
                                 <TableColumn fx:id="lastnameColumn" text="Nom" />
                                 <TableColumn fx:id="firstnameColumn" text="Prénom" />
                                 <TableColumn fx:id="emailColumn" text="Email" prefWidth="150" />
@@ -51,15 +53,9 @@
                                     <TextField fx:id="emailField" promptText="Email" />
                                     <TextField fx:id="phoneField" promptText="Phone" />
                                 </HBox>
-                                <HBox spacing="10">
-                                    <TextField fx:id="statusField" promptText="Status" />
-                                    <TextField fx:id="activeField" promptText="Active" />
-                                    <TextField fx:id="bannedField" promptText="Banned" />
-                                </HBox>
                             </VBox>
                             <VBox spacing="10">
                                 <Button text="Modifier" styleClass="new_button_style" onAction="#handleModifier" />
-                                <Button text="Supprimer" styleClass="new_button_style" onAction="#handleSupprimer" />
                                 <Label fx:id="messageLabel" text="" />
                             </VBox>
                         </HBox>
@@ -101,12 +97,12 @@
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/views/calculator.png" />
+                        <Image url="/views/hebergements.png.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/community.png" />
+                        <Image url="@/views/vols.png.png" />
                     </image>
                 </ImageView>
                 <Text fx:id="tab1" layoutX="66.0" layoutY="46.68359375" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tableau de bord" AnchorPane.leftAnchor="66.0" AnchorPane.topAnchor="31.576171875">
@@ -119,12 +115,12 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="64.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Statistiques" AnchorPane.topAnchor="262.734375">
+                <Text layoutX="64.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébèrgements" AnchorPane.topAnchor="262.734375">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="66.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Comptabilité" AnchorPane.leftAnchor="66.0">
+                <Text layoutX="66.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Vols" AnchorPane.leftAnchor="66.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -151,27 +147,27 @@
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/views/calculator.png" />
+                        <Image url="@/views/tours.png.png" />
                     </image>
                 </ImageView>
-                <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébérgements">
+                <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Text>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/calculator.png" />
+                        <Image url="@/views/recompenses.png.png" />
                     </image>
                 </ImageView>
-                <Text layoutX="66.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours">
+                <Text layoutX="66.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Récompenses">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Text>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/calculator.png" />
+                        <Image url="@/views/offres.png.png" />
                     </image>
                 </ImageView>
                 <Text layoutX="66.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Offres">

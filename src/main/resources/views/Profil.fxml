@@ -49,7 +49,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@8792047.png" />
+                                        <Image url="@/views/mdp.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="35.0" prefWidth="217.0" text="Modifier MDP" textFill="WHITE" onMouseClicked="#handleChangePassword" styleClass="white-bold-text">
@@ -69,7 +69,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@8792047.png" />
+                                        <Image url="@recompenses.png.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="50.0" prefWidth="191.0" text="Récompenses" textFill="WHITE" styleClass="white-bold-text">
@@ -89,7 +89,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@8792047.png" />
+                                        <Image url="@vols.png.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="38.0" prefWidth="169.0" text="Réservations" textFill="WHITE" styleClass="white-bold-text">
@@ -109,7 +109,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@8792047.png" />
+                                        <Image url="@tours.png.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="38.0" prefWidth="169.0" text="Tours" textFill="WHITE" styleClass="white-bold-text">
@@ -129,7 +129,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@8792047.png" />
+                                        <Image url="@offres.png.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="38.0" prefWidth="169.0" text="Offres" textFill="WHITE" styleClass="white-bold-text">
@@ -262,6 +262,14 @@
                 </VBox>
 
                 <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSave" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Enregistrer" textFill="WHITE">
+                    <font>
+                        <Font name="Gadugi" size="16.0" />
+                    </font>
+                    <opaqueInsets>
+                        <Insets top="80.0" />
+                    </opaqueInsets>
+                </Button>
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeleteAccount" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Supprimer" textFill="WHITE">
                     <font>
                         <Font name="Gadugi" size="16.0" />
                     </font>

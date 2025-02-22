@@ -1,7 +1,6 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,15 +25,7 @@ public class AjouterClientController {
     @FXML
     private TextField phoneField;
     @FXML
-    private TextField pointsFideliteField;
-    @FXML
-    private TextField niveauFideliteField;
-    @FXML
     private PasswordField passwordField;
-    @FXML
-    private ComboBox<String> activeComboBox;
-    @FXML
-    private ComboBox<String> banComboBox;
     @FXML
     private Label messageLabel;
 
@@ -46,8 +37,7 @@ public class AjouterClientController {
         try {
             // Validate input fields
             if (nomField.getText().isEmpty() || prenomField.getText().isEmpty() || emailField.getText().isEmpty() ||
-                phoneField.getText().isEmpty() || pointsFideliteField.getText().isEmpty() || niveauFideliteField.getText().isEmpty() ||
-                passwordField.getText().isEmpty() || activeComboBox.getValue() == null || banComboBox.getValue() == null) {
+                phoneField.getText().isEmpty() || passwordField.getText().isEmpty()) {
                 throw new EmptyFieldException("All fields must be filled.");
             }
 
@@ -56,10 +46,6 @@ public class AjouterClientController {
             String email = emailField.getText();
             String phone = phoneField.getText();
             String password = passwordField.getText();
-            int pointsFid = Integer.parseInt(pointsFideliteField.getText());
-            String nivFid = niveauFideliteField.getText();
-            boolean isActive = activeComboBox.getValue().equals("Oui");
-            boolean isBanned = banComboBox.getValue().equals("Non");
 
             // Validate email, phone number, and password
             if (!validationService.isValidEmail(email)) {
@@ -71,6 +57,12 @@ public class AjouterClientController {
             if (!validationService.isValidPassword(password)) {
                 throw new IncorrectPasswordException("Password does not meet the requirements.");
             }
+
+            // Set default values for points de fidélité, niveau de fidélité, active, and ban
+            int pointsFid = 0;
+            String nivFid = null;
+            boolean isActive = true;
+            boolean isBanned = false;
 
             User newUser = new User(nom, prenom, email, phone, pointsFid, nivFid, isBanned, isActive);
             newUser.setRoles(Type.CLIENT); // Set the role to CLIENT
@@ -88,8 +80,6 @@ public class AjouterClientController {
             showMessage(e.getMessage(), "red");
         } catch (InvalidPhoneNumberException e) {
             showMessage(e.getMessage(), "red");
-        } catch (NumberFormatException e) {
-            showMessage("Invalid number format for points de fidelite.", "red");
         } catch (IncorrectPasswordException e) {
             showMessage(e.getMessage(), "red");
         }

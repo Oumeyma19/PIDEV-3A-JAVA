@@ -19,8 +19,11 @@ import services.ClientService;
 
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class ClientsController {
+    @FXML
+    private TextField searchField;
 
 
     @FXML
@@ -54,14 +57,6 @@ public class ClientsController {
     private TextField emailField;
     @FXML
     private TextField phoneField;
-    @FXML
-    private TextField pointsFideliteField;
-    @FXML
-    private TextField niveauFideliteField;
-    @FXML
-    private TextField activeField;
-    @FXML
-    private TextField banField;
     @FXML
     private Label messageLabel;
     @FXML
@@ -99,6 +94,23 @@ public class ClientsController {
             System.err.println("Error loading Profil.fxml: " + e.getMessage());
         }
     }
+
+    @FXML
+    private void handleSearch() {
+        String query = searchField.getText().toLowerCase();
+        ObservableList<User> filteredList = clientsList.stream()
+            .filter(user -> user.getLastname().toLowerCase().contains(query) ||
+                user.getFirstname().toLowerCase().contains(query) ||
+                user.getEmail().toLowerCase().contains(query) ||
+                user.getPhone().toLowerCase().contains(query) ||
+                String.valueOf(user.getPointsfid()).contains(query) ||
+                (user.getNivfid() != null && user.getNivfid().toLowerCase().contains(query)) ||
+                (user.getIsActive() ? "disponible" : "indisponible").contains(query) ||
+                (user.getIsBanned() ? "oui" : "non").contains(query))
+            .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        clientsTable.setItems(filteredList);
+    }
+
     @FXML
     private void handleGuidesClick(MouseEvent event) {
         try {
@@ -187,28 +199,30 @@ public class ClientsController {
     @FXML
     private void handleModifier() {
         try {
-            User selectedUser = clientsTable.getSelectionModel().getSelectedItem();
-            if (selectedUser != null) {
-                selectedUser.setLastname(nomField.getText());
-                selectedUser.setFirstname(prenomField.getText());
-                selectedUser.setEmail(emailField.getText());
-                selectedUser.setPhone(phoneField.getText());
-                selectedUser.setPointsfid(Integer.parseInt(pointsFideliteField.getText()));
-                selectedUser.setNivfid(niveauFideliteField.getText());
-                selectedUser.setIsActive(activeField.getText().equals("Oui"));
-                selectedUser.setIsBanned(banField.getText().equals("Oui"));
+            int id = Integer.parseInt(idField.getText());
+            String nom = nomField.getText();
+            String prenom = prenomField.getText();
+            String email = emailField.getText();
+            String phone = phoneField.getText();
 
-                clientService.updateUser(selectedUser);
-                showMessage("Client updated successfully!", "green");
-                loadClients();
+            User user = clientService.getUserbyID(id);
+            if (user != null) {
+                user.setLastname(nom);
+                user.setFirstname(prenom);
+                user.setEmail(email);
+                user.setPhone(phone);
+
+                clientService.updateUser(user);
+                showMessage("Client modifié avec succès!", "green");
+                refreshTable();
             } else {
-                showMessage("No client selected.", "red");
+                showMessage("Client non trouvé.", "red");
             }
-        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException |
-                 IncorrectPasswordException | UserNotFoundException e) {
-            showMessage(e.getMessage(), "red");
         } catch (NumberFormatException e) {
-            showMessage("Invalid number format for points de fidelite.", "red");
+            showMessage("ID invalide.", "red");
+        } catch (Exception e) {
+            showMessage("Erreur lors de la modification du client.", "red");
+            e.printStackTrace();
         }
     }
 
@@ -218,11 +232,9 @@ public class ClientsController {
         prenomField.clear();
         emailField.clear();
         phoneField.clear();
-        pointsFideliteField.clear();
-        niveauFideliteField.clear();
-        activeField.clear();
-        banField.clear();
+
     }
+
     private void showClientDetails(User user) {
         if (user != null) {
             idField.setText(String.valueOf(user.getId()));
@@ -230,10 +242,6 @@ public class ClientsController {
             prenomField.setText(user.getFirstname());
             emailField.setText(user.getEmail());
             phoneField.setText(user.getPhone());
-            pointsFideliteField.setText(String.valueOf(user.getPointsfid()));
-            niveauFideliteField.setText(user.getNivfid());
-            activeField.setText(user.getIsActive() ? "Oui" : "Non");
-            banField.setText(user.getIsBanned() ? "Oui" : "Non");
         } else {
             clearClientDetails();
         }
@@ -261,6 +269,9 @@ public class ClientsController {
         } else {
             showMessage("No client selected.", "red");
         }
+    }
+    private void refreshTable() {
+        clientsTable.getItems().setAll(clientService.getUsers());
     }
 
 
