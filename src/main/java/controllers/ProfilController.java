@@ -34,6 +34,9 @@ public class ProfilController {
     private TextField nomField;
 
     @FXML
+    private ImageView homeImage;
+
+    @FXML
     private TextField prenomField;
 
     @FXML
@@ -43,7 +46,7 @@ public class ProfilController {
     private TextField telephoneField;
 
     @FXML
-    private Label errorLabel; // Référence au Label pour les messages
+    private Label errorLabel;
 
     private User currentUser;
     private UserService userService = UserService.getInstance();
@@ -88,14 +91,10 @@ public class ProfilController {
     @FXML
     private void handleLogout(javafx.scene.input.MouseEvent event) {
         try {
-            // Charger le fichier FXML du SignIn
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             Parent root = loader.load();
-
-            // Obtenir la scène actuelle et changer de scène
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,14 +104,10 @@ public class ProfilController {
     @FXML
     private void handleChangePassword() {
         try {
-            // Rediriger vers la page de modification du mot de passe (ChangePassword.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ChangePassword.fxml"));
             Parent root = loader.load();
-
-            // Passer l'utilisateur actuel au contrôleur ChangePasswordController
             ChangePasswordController changePasswordController = loader.getController();
             changePasswordController.setCurrentUser(currentUser);
-
             Stage stage = (Stage) logoutImage.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -124,14 +119,12 @@ public class ProfilController {
     @FXML
     private void handleSave() {
         if (currentUser != null) {
-            // Mettre à jour les informations de l'utilisateur
             currentUser.setFirstname(nomField.getText());
             currentUser.setLastname(prenomField.getText());
             currentUser.setEmail(emailField.getText());
             currentUser.setPhone(telephoneField.getText());
 
             try {
-                // Appeler la méthode updateBasicInfo appropriée en fonction du rôle de l'utilisateur
                 switch (currentUser.getRoles()) {
                     case ADMIN:
                         userService.updateBasicUserInfo(currentUser);
@@ -145,11 +138,7 @@ public class ProfilController {
                     default:
                         throw new IllegalArgumentException("Unknown user role: " + currentUser.getRoles());
                 }
-
-                // Mettre à jour le nomUserLabel avec les nouvelles valeurs
                 nomUserLabel.setText(currentUser.getFirstname() + " " + currentUser.getLastname());
-
-                // Afficher un message de succès
                 showMessage("Les informations ont été mises à jour avec succès.", "green");
             } catch (EmptyFieldException e) {
                 showMessage("Veuillez remplir tous les champs obligatoires.", "red");
@@ -175,7 +164,6 @@ public class ProfilController {
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     try {
-                        // Supprimer l'utilisateur en fonction de son rôle
                         switch (currentUser.getRoles()) {
                             case ADMIN:
                                 userService.deleteUser(currentUser.getId());
@@ -189,8 +177,6 @@ public class ProfilController {
                             default:
                                 throw new IllegalArgumentException("Unknown user role: " + currentUser.getRoles());
                         }
-
-                        // Rediriger vers la page de connexion
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
                         Parent root = loader.load();
                         Stage stage = (Stage) logoutImage.getScene().getWindow();
@@ -212,5 +198,20 @@ public class ProfilController {
         errorLabel.setText(message);
         errorLabel.setStyle("-fx-text-fill: " + color + ";");
         errorLabel.setVisible(true);
+    }
+
+    @FXML
+    private void handleHome(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            Parent root = loader.load();
+            HomeController homeController = loader.getController();
+            homeController.setCurrentUser(currentUser);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -21,7 +21,7 @@
             <children>
                 <VBox alignment="BOTTOM_CENTER" prefHeight="175.0" prefWidth="332.0">
                     <children>
-                        <Text fill="#d39d50" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
+                        <Text fill="#d39d50" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue">
                             <font>
                                 <Font name="System Bold" size="39.0" />
                             </font>
@@ -60,8 +60,9 @@
                                 prefHeight="38.0"
                                 prefWidth="274.0"
                                 style="-fx-background-radius: 50; -fx-border-radius: 50;"
-                                text="Login"
+                                text="Se Connecter"
                                 textFill="WHITE">
+
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font>
@@ -83,7 +84,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Forget Your Password ?" textFill="#63997f">
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Oubliez votre mot de passe ?" textFill="#63997f">
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font>
@@ -117,7 +118,16 @@
                                 <Insets left="90.0" />
                             </HBox.margin>
                             <children>
-                                <Button fx:id="signUpButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="126.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="signup_button" stylesheets="@SignIn.css" text="Sign Up">
+                                <Button
+                                    fx:id="signUpButton"
+                                    mnemonicParsing="false"
+                                    prefHeight="42.0"
+                                    prefWidth="126.0"
+                                    style="-fx-background-radius: 50; -fx-border-radius: 50;"
+                                    styleClass="signup_button"
+                                    stylesheets="@SignIn.css"
+                                    text="S'inscrire"
+                                >
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>

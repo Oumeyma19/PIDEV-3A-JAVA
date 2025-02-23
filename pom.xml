@@ -56,13 +56,12 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>
-                        test.TestProfile
+                        test.testClient
                     </mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
 
 

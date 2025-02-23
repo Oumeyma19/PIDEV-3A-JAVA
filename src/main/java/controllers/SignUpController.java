@@ -12,6 +12,9 @@ import services.ClientService;
 import services.UserService;
 import services.ValidationService;
 import util.Type;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 
@@ -22,17 +25,21 @@ public class SignUpController {
     @FXML
     private TextField firstnameField;
 
-    @FXML
-    private TextField lastnameField;
 
     @FXML
     private TextField emailField;
 
     @FXML
-    private TextField phoneField;
+    private PasswordField passwordField;
 
     @FXML
-    private PasswordField passwordField;
+    private Label errorLabel;
+
+    @FXML
+    private TextField lastnameField;
+
+    @FXML
+    private TextField phoneField;
 
     @FXML
     private PasswordField confirmPasswordField;
@@ -43,8 +50,6 @@ public class SignUpController {
     @FXML
     private Button signInButton;
 
-    @FXML
-    private Label errorLabel;
 
     private ValidationService validationService = new ValidationService();
 
@@ -54,7 +59,7 @@ public class SignUpController {
     }
 
     @FXML
-    private void handleRegister() {
+    public void handleRegister() {
         System.out.println("handleRegister appelé");
         try {
             String firstname = firstnameField.getText().trim();
@@ -99,7 +104,7 @@ public class SignUpController {
                     public void run() {
                         javafx.application.Platform.runLater(() -> {
                             try {
-                                redirectToProfil(savedUser); // Redirect to Profil.fxml
+                                redirectToHome(savedUser); // Redirect to Home.fxml
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -121,14 +126,15 @@ public class SignUpController {
         }
     }
 
-    private void redirectToProfil(User user) throws IOException {
-        System.out.println("Redirection vers Profil.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+    @FXML
+    public void redirectToHome(User user) throws IOException {
+        System.out.println("Redirection vers Home.fxml");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
         Parent root = loader.load();
 
-        // Pass user data to ProfilController
-        ProfilController profilController = loader.getController();
-        profilController.setCurrentUser(user);
+        // Pass user data to HomeController
+        HomeController homeController = loader.getController();
+        homeController.setCurrentUser(user);
 
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -136,12 +142,13 @@ public class SignUpController {
     }
 
     @FXML
-    private void handleSignIn() throws IOException {
+    public void handleSignIn() throws IOException {
         System.out.println("handleSignIn appelé"); // Debug log
         redirectToSignIn();
     }
 
-    private void redirectToSignIn() throws IOException {
+    @FXML
+    public void redirectToSignIn() throws IOException {
         try {
             // Redirect to the sign-in page
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));

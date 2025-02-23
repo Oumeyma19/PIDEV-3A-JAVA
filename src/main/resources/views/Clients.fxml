@@ -49,7 +49,7 @@
                                 <TableColumn fx:id="nivFidColumn" text="Niveau de fidélité" prefWidth="150" style="-fx-alignment: center;" />
                                 <TableColumn fx:id="isActiveColumn" text="Active" prefWidth="100" />
                                 <TableColumn fx:id="isBannedColumn" text="Banissement" prefWidth="150" style="-fx-alignment: center;" />
-                                <TableColumn fx:id="passwordColumn" text="Mot de passe" prefWidth="100" />
+                                <TableColumn fx:id="passwordColumn" text="Mot de passe" prefWidth="150" />
                             </columns>
                         </TableView>
                         <!-- Champs de texte pour chaque attribut du tableau -->
@@ -60,7 +60,7 @@
                                     <TextField fx:id="nomField" promptText="Nom" />
                                     <TextField fx:id="prenomField" promptText="Prenom" />
                                     <TextField fx:id="emailField" promptText="Email" />
-                                    <TextField fx:id="phoneField" promptText="Phone" />
+                                    <TextField fx:id="phoneField" promptText="Téléphone" />
                                 </HBox>
                             </VBox>
                             <VBox spacing="10">

@@ -8,21 +8,25 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilController">
     <left>
-        <VBox alignment="CENTER" prefHeight="605.0" prefWidth="255.0" styleClass="primary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_RIGHT" prefHeight="605.0" prefWidth="255.0" styleClass="primary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="logoutImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleLogout" pickOnBounds="true" preserveRatio="true">
-                    <VBox.margin>
-                        <Insets bottom="20.0" right="180.0" />
-                    </VBox.margin>
-                    <image>
-                        <Image url="@logout.png" />
-                    </image>
-                </ImageView>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mon Profile" styleClass="white-bold-text">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Text>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fx:id="homeImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleHome" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets top="20.0" left="20.0" />
+                            </VBox.margin>
+                            <image>
+                                <Image url="@fleche.png" />
+                            </image>
+                        </ImageView>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mon Profile" styleClass="white-bold-text">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </HBox>
                 <VBox alignment="CENTER" prefHeight="149.0" prefWidth="213.0">
                     <VBox.margin>
                         <Insets top="50.0" />
@@ -147,6 +151,14 @@
                         </HBox>
                     </children>
                 </VBox>
+                <ImageView fx:id="logoutImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleLogout" pickOnBounds="true" preserveRatio="true">
+                    <VBox.margin>
+                        <Insets top="20.0" left="20.0" />
+                    </VBox.margin>
+                    <image>
+                        <Image url="@logout.png" />
+                    </image>
+                </ImageView>
             </children>
             <padding>
                 <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
@@ -156,24 +168,13 @@
     <center>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="secondary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" prefHeight="70.0" prefWidth="734.0" text="Settings" styleClass="black-bold-large-text">
+                <Label alignment="CENTER" prefHeight="70.0" prefWidth="734.0" text="Détails du profile" styleClass="black-bold-large-text">
                     <font>
                         <Font name="Franklin Gothic Demi Italic" size="60.0" />
                     </font>
                 </Label>
                 <VBox prefHeight="340.0" prefWidth="458.0" spacing="50.0">
                     <children>
-                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="645.0" text="Détails :" styleClass="black-bold-text">
-                            <font>
-                                <Font name="Gill Sans MT Condensed" size="24.0" />
-                            </font>
-                            <padding>
-                                <Insets right="500.0" />
-                            </padding>
-                            <opaqueInsets>
-                                <Insets left="10.0" />
-                            </opaqueInsets>
-                        </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <Label alignment="TOP_LEFT" prefHeight="22.0" prefWidth="113.0" text="Nom" styleClass="black-bold-text">
@@ -260,23 +261,24 @@
                         </HBox>
                     </children>
                 </VBox>
-
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSave" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Enregistrer" textFill="WHITE">
-                    <font>
-                        <Font name="Gadugi" size="16.0" />
-                    </font>
-                    <opaqueInsets>
-                        <Insets top="80.0" />
-                    </opaqueInsets>
-                </Button>
-                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeleteAccount" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Supprimer" textFill="WHITE">
-                    <font>
-                        <Font name="Gadugi" size="16.0" />
-                    </font>
-                    <opaqueInsets>
-                        <Insets top="80.0" />
-                    </opaqueInsets>
-                </Button>
+                <HBox alignment="CENTER" spacing="20">
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSave" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Enregistrer" textFill="WHITE">
+                        <font>
+                            <Font name="Gadugi" size="16.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets top="80.0" />
+                        </opaqueInsets>
+                    </Button>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeleteAccount" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Supprimer" textFill="WHITE">
+                        <font>
+                            <Font name="Gadugi" size="16.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets top="80.0" />
+                        </opaqueInsets>
+                    </Button>
+                </HBox>
                 <HBox alignment="CENTER" prefHeight="30.0" prefWidth="332.0">
                     <children>
                         <Label fx:id="errorLabel" alignment="CENTER" textFill="red" visible="false">

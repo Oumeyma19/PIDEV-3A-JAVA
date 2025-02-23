@@ -14,14 +14,15 @@ import services.ClientService;
 import services.GuideService;
 import services.UserService;
 import services.ValidationService;
-import util.Type;
-
 import javafx.scene.image.ImageView;
 import java.io.IOException;
 
 public class ChangePasswordController {
     @FXML
     private PasswordField oldPasswordField;
+
+    @FXML
+    private ImageView homeImage;
 
     @FXML
     private PasswordField newPasswordField;
@@ -54,7 +55,6 @@ public class ChangePasswordController {
         }
     }
 
-
     @FXML
     public void initialize() {
         // Vérifier que l'utilisateur courant est défini
@@ -62,8 +62,6 @@ public class ChangePasswordController {
             nomUserLabel.setText(currentUser.getFirstname() + " " + currentUser.getLastname());
         }
     }
-
-
 
     @FXML
     private void handleLogout() {
@@ -150,9 +148,7 @@ public class ChangePasswordController {
         } catch (IOException e) {
             System.err.println("Erreur lors de l'ouverture du profil : " + e.getMessage());
         }
-}
-
-
+    }
 
     private void updatePassword(String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
         switch (currentUser.getRoles()) {
@@ -169,6 +165,7 @@ public class ChangePasswordController {
                 throw new IllegalStateException("Rôle utilisateur non reconnu.");
         }
     }
+
     @FXML
     private void handleProfileClick(javafx.scene.input.MouseEvent event) {
         try {
@@ -186,6 +183,24 @@ public class ChangePasswordController {
             stage.show();
         } catch (IOException e) {
             System.err.println("Error loading Profil.fxml: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleHome(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user data to the HomeController
+            HomeController homeController = loader.getController();
+            homeController.setCurrentUser(currentUser);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

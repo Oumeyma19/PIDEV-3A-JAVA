@@ -69,10 +69,119 @@ public class GuidesController {
     @FXML
     private TextField searchField;
 
+    private GuideService guideService = GuideService.getInstance();
+    private ObservableList<User> guidesList = FXCollections.observableArrayList();
+
+    private static GuidesController instance;
+
+    public GuidesController() {
+        instance = this;
+    }
+
+    public static GuidesController getInstance() {
+        return instance;
+    }
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (user != null) {
             fullnameText.setText("Bonjour, " + user.getFirstname());
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        // Initialize the columns
+        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatusGuideDisplay()));
+        activeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsActiveDisplay()));
+        bannedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsBannedDisplay()));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+
+        // Load data
+        loadGuides();
+
+        // Add listener to table selection
+        guidesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showGuideDetails(newValue));
+    }
+
+    private void loadGuides() {
+        guidesList.setAll(guideService.getUsers());
+        guidesTable.setItems(guidesList);
+    }
+
+    public void addGuide(User user) {
+        guidesList.add(user);
+        guidesTable.refresh();
+    }
+
+    private void showMessage(String message, String color) {
+        messageLabel.setText(message);
+        messageLabel.setStyle("-fx-text-fill: " + color + ";");
+        messageLabel.setVisible(true);
+    }
+
+    @FXML
+    private void handleAjouterGuide() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AjouterGuide.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un Guide");
+            stage.setScene(new Scene(root));
+            stage.showAndWait(); // Wait for the window to close
+
+            // Reload guides after adding a new one
+            loadGuides();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleModifier() {
+        try {
+            User selectedUser = guidesTable.getSelectionModel().getSelectedItem();
+            if (selectedUser != null) {
+                selectedUser.setLastname(lastnameField.getText());
+                selectedUser.setFirstname(firstnameField.getText());
+                selectedUser.setEmail(emailField.getText());
+                selectedUser.setPhone(phoneField.getText());
+
+                guideService.updateUser(selectedUser);
+                showMessage("Guide updated successfully!", "green");
+                loadGuides();
+            } else {
+                showMessage("No guide selected.", "red");
+            }
+        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException |
+                 IncorrectPasswordException | UserNotFoundException e) {
+            showMessage(e.getMessage(), "red");
+        } catch (NumberFormatException e) {
+            showMessage("Invalid number format.", "red");
+        }
+    }
+
+    private void clearGuideDetails() {
+        idField.clear();
+        firstnameField.clear();
+        lastnameField.clear();
+        emailField.clear();
+        phoneField.clear();
+    }
+
+    private void showGuideDetails(User user) {
+        if (user != null) {
+            idField.setText(String.valueOf(user.getId()));
+            firstnameField.setText(user.getFirstname());
+            lastnameField.setText(user.getLastname());
+            emailField.setText(user.getEmail());
+            phoneField.setText(user.getPhone());
+        } else {
+            clearGuideDetails();
         }
     }
 
@@ -121,114 +230,10 @@ public class GuidesController {
             // Get the current stage and set the new scene
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setFullScreen(true); // Set the stage to fullscreen
             stage.show();
         } catch (IOException e) {
             System.err.println("Error loading Clients.fxml: " + e.getMessage());
-        }
-    }
-
-    private GuideService guideService = GuideService.getInstance();
-    private ObservableList<User> guidesList = FXCollections.observableArrayList();
-
-    private static GuidesController instance;
-
-    public GuidesController() {
-        instance = this;
-    }
-
-    public static GuidesController getInstance() {
-        return instance;
-    }
-
-    @FXML
-    public void initialize() {
-        // Initialize the columns
-        lastnameColumn.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-        firstnameColumn.setCellValueFactory(new PropertyValueFactory<>("firstname"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatusGuideDisplay()));
-        activeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsActiveDisplay()));
-        bannedColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsBannedDisplay()));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-
-        // Load data
-        loadGuides();
-
-        // Add listener to table selection
-        guidesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showGuideDetails(newValue));
-    }
-
-    private void loadGuides() {
-        guidesList.setAll(guideService.getUsers());
-        guidesTable.setItems(guidesList);
-    }
-
-    public void addGuide(User user) {
-        guidesList.add(user);
-    }
-
-    private void showMessage(String message, String color) {
-        messageLabel.setText(message);
-        messageLabel.setStyle("-fx-text-fill: " + color + ";");
-        messageLabel.setVisible(true);
-    }
-
-    @FXML
-    private void handleAjouterGuide() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AjouterGuide.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter un Guide");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleModifier() {
-        try {
-            User selectedUser = guidesTable.getSelectionModel().getSelectedItem();
-            if (selectedUser != null) {
-                selectedUser.setLastname(lastnameField.getText());
-                selectedUser.setFirstname(firstnameField.getText());
-                selectedUser.setEmail(emailField.getText());
-                selectedUser.setPhone(phoneField.getText());
-
-                guideService.updateUser(selectedUser);
-                showMessage("Guide updated successfully!", "green");
-                loadGuides();
-            } else {
-                showMessage("No guide selected.", "red");
-            }
-        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException |
-                 IncorrectPasswordException | UserNotFoundException e) {
-            showMessage(e.getMessage(), "red");
-        } catch (NumberFormatException e) {
-            showMessage("Invalid number format.", "red");
-        }
-    }
-
-    private void clearGuideDetails() {
-        idField.clear();
-        firstnameField.clear();
-        lastnameField.clear();
-        emailField.clear();
-        phoneField.clear();
-    }
-
-    private void showGuideDetails(User user) {
-        if (user != null) {
-            idField.setText(String.valueOf(user.getId()));
-            firstnameField.setText(user.getFirstname());
-            lastnameField.setText(user.getLastname());
-            emailField.setText(user.getEmail());
-            phoneField.setText(user.getPhone());
-        } else {
-            clearGuideDetails();
         }
     }
 }

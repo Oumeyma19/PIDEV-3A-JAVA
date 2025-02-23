@@ -129,43 +129,29 @@ public class SignInController {
 
     private void redirectToHome(User user) {
         try {
+            FXMLLoader loader;
             if (user.getRoles() == Type.ADMIN) {
-                redirectToClients(user); // Rediriger l'admin vers Dashboard.fxml
+                loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
             } else {
-                redirectToProfil(user); // Rediriger les autres rôles vers Profil.fxml
+                loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
             }
+            Parent root = loader.load();
+
+            if (user.getRoles() == Type.ADMIN) {
+                ClientsController clientsController = loader.getController();
+                clientsController.setCurrentUser(user);
+            } else {
+                HomeController homeController = loader.getController();
+                homeController.setCurrentUser(user);
+            }
+
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (Exception e) {
             showError("Impossible de charger la page d'accueil.");
             e.printStackTrace();
         }
-    }
-
-    private void redirectToClients(User user) throws IOException {
-        System.out.println("Redirection vers Clients.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
-        Parent root = loader.load();
-
-        // Pass the user data to the ClientsController
-        ClientsController clientsController = loader.getController();
-        clientsController.setCurrentUser(user);
-
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    }
-
-    private void redirectToProfil(User user) throws IOException {
-        System.out.println("Redirection vers Profil.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
-        Parent root = loader.load();
-
-        // Passer les données de l'utilisateur au contrôleur ProfilController
-        ProfilController profilController = loader.getController();
-        profilController.setCurrentUser(user);
-
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
     }
 
     private void showError(String message) {

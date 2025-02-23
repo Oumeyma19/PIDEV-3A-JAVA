@@ -122,7 +122,7 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="332.0">
                     <children>
-                        <Button fx:id="registerButton" maxWidth="274.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="20.0" prefWidth="231.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Register" textFill="WHITE">
+                        <Button fx:id="registerButton" maxWidth="274.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="20.0" prefWidth="231.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Registre" textFill="WHITE">
                             <font>
                                 <Font name="Calibri" size="18.0" />
                             </font>
@@ -173,7 +173,7 @@
                                 <Insets left="90.0" />
                             </HBox.margin>
                             <children>
-                                <Button fx:id="signInButton" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="42.0" prefWidth="126.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="signup_button" stylesheets="@SignIn.css" text="Sign In">
+                                <Button fx:id="signInButton" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="42.0" prefWidth="146.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="signup_button" stylesheets="@SignIn.css" text="Se Connecter">
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>
