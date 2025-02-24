@@ -1,23 +1,17 @@
 package com.example.pidev.Util;
 
 import com.example.pidev.models.AvisHebergement;
-import com.example.pidev.services.AvisService;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import org.controlsfx.control.Rating;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class AvisListCell extends ListCell<AvisHebergement> {
 
@@ -28,8 +22,6 @@ public class AvisListCell extends ListCell<AvisHebergement> {
     private final Button btnModif;
     private final HBox container;
     private final VBox btnContainer;
-
-    private final AvisService avisService = AvisService.getInstance();
 
     public AvisListCell(
             Consumer<AvisHebergement> deleteCallback,

@@ -146,7 +146,7 @@ public class DetailHebergCController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ajouterHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listesHeberg.fxml"));
 
             Parent root = loader.load();
 

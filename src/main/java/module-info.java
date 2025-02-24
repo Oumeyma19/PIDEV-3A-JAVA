@@ -3,6 +3,7 @@ module com.example.pidev {
     requires java.sql;
     requires bcrypt;
     requires org.controlsfx.controls;
+    requires javafx.media;
 
 
     opens com.example.pidev to javafx.fxml;

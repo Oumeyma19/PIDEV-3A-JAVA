@@ -1,6 +1,7 @@
 package com.example.pidev.controllers;
 
 import com.example.pidev.Util.Helpers;
+import com.example.pidev.Util.TypeHebergement;
 import com.example.pidev.models.Hebergements;
 import com.example.pidev.models.ReservationHebergement;
 import com.example.pidev.models.User;
@@ -52,20 +53,24 @@ public class ReservController {
     @FXML
     public void submitReservation(ActionEvent event) {
         try {
+            // ✅ Vérification que tous les champs sont remplis
+            if (nbPersons.getText().isEmpty() || dateI.getValue() == null || dateO.getValue() == null) {
+                Helpers.showAlert("Error", "Veuillez remplir tous les champs!", Alert.AlertType.ERROR);
+                return;
+            }
 
             // ✅ Validation du nombre de clients
             int nbrClient;
             try {
                 nbrClient = Integer.parseInt(nbPersons.getText());
                 if ((nbrClient <= 0) || (nbrClient > hebergement.getNbrClient())) {
-                    Helpers.showAlert("Error", "Le nombre de clients doit être > 0 et inférieur ou égale à la capacité maximale de l'hébergement", Alert.AlertType.ERROR);
+                    Helpers.showAlert("Error", "Le nombre de clients doit être > 0 et inférieur ou égal à la capacité maximale de l'hébergement", Alert.AlertType.ERROR);
                     return;
                 }
             } catch (NumberFormatException e) {
                 Helpers.showAlert("Error", "Veuillez entrer un nombre valide pour les clients!", Alert.AlertType.ERROR);
                 return;
             }
-
 
             // ✅ Validation des dates
             Timestamp dateCheckin = Timestamp.valueOf(dateI.getValue().atStartOfDay());
@@ -81,11 +86,8 @@ public class ReservController {
                 return;
             }
 
-            Timestamp checkin = Timestamp.valueOf(LocalDateTime.of(dateI.getValue(), LocalDateTime.now().toLocalTime()));
-            Timestamp checkout = Timestamp.valueOf(LocalDateTime.of(dateO.getValue(), LocalDateTime.now().toLocalTime()));
-            int nbPersonnes = Integer.parseInt(nbPersons.getText());
-
-            ReservationHebergement reservation = new ReservationHebergement(checkin, checkout, owner, hebergement, nbPersonnes);
+            // ✅ Création et enregistrement de la réservation
+            ReservationHebergement reservation = new ReservationHebergement(dateCheckin, dateCheckout, owner, hebergement, nbrClient);
             reservService.ajouter(reservation);
 
             Helpers.showAlert("Succès", "Réservation ajoutée avec succès !", Alert.AlertType.INFORMATION);
@@ -93,6 +95,7 @@ public class ReservController {
             Helpers.showAlert("Erreur", "Impossible d'ajouter la réservation : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     @FXML
     void goBack(ActionEvent event) {

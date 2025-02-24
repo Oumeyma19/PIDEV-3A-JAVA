@@ -4,11 +4,17 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidev.controllers.UpdateHebergController">
     <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.41" pickOnBounds="true">
+         <image>
+            <Image url="@../../../logo/background.jpg" />
+         </image>
+      </ImageView>
         <Label layoutX="26.0" layoutY="22.0" text="Nom Hebergement" />
         <TextField fx:id="nomHeberg" layoutX="169.0" layoutY="24.0" prefWidth="174.0" />
 
@@ -25,8 +31,8 @@
 
         <ImageView fx:id="image" fitHeight="143.0" fitWidth="192.0" layoutX="394.0" layoutY="114.0" />
 
-        <Button fx:id="btnUpdate" layoutX="161.0" layoutY="271.0" onAction="#handleUpdate" prefHeight="26.0" prefWidth="175.0" text="Modifier" />
-        <Button fx:id="btnRetour" layoutX="50.0" layoutY="350.0" text="Retour" />
-      <Button fx:id="btnUpload" layoutX="416.0" layoutY="271.0" onAction="#uploadImage" prefHeight="26.0" prefWidth="136.0" text="Upload" />
+        <Button fx:id="btnUpdate" layoutX="161.0" layoutY="271.0" onAction="#handleUpdate" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #FA7335;" text="Modifier" textFill="WHITE" />
+        <Button fx:id="btnRetour" layoutX="50.0" layoutY="350.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" />
+      <Button fx:id="btnUpload" layoutX="416.0" layoutY="271.0" onAction="#uploadImage" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #FA7335;" text="Upload" textFill="WHITE" />
     </children>
 </AnchorPane>

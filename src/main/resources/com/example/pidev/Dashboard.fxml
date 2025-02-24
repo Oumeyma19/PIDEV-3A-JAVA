@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1047.0" stylesheets="SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1047.0" stylesheets="@/SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pidev.controllers.AjouterHebergController">
     <children>
         <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0" style="-fx-background-color: #EEEEEE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
             <children>
@@ -23,14 +23,14 @@
                     <children>
                         <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@/views/user.png" />
+                                <Image url="@../../../logo/user.png" />
                             </image>
                         </ImageView>
                     </children>
                 </AnchorPane>
                 <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0" AnchorPane.bottomAnchor="13.0">
                     <image>
-                        <Image url="/views/Cartago_3.png" />
+                        <Image url="@../../../logo/Cartago_6.png" />
                     </image>
                 </ImageView>
                 <Text fx:id="roleText" fill="WHITE" layoutX="958.802734375" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role" AnchorPane.rightAnchor="61.759765625" AnchorPane.topAnchor="26.0">
@@ -43,22 +43,22 @@
             <children>
                 <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/dashboard.png" />
+                        <Image url="@../../../logo/dashboard.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/community.png" />
+                        <Image url="@../../../logo/community.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/views/calculator.png" />
+                        <Image url="@../../../logo/batiment.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/community.png" />
+                        <Image url="@../../../logo/community.png" />
                     </image>
                 </ImageView>
                 <Text fx:id="tab1" layoutX="66.0" layoutY="46.68359375" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tableau de bord" AnchorPane.leftAnchor="66.0" AnchorPane.topAnchor="31.576171875">
@@ -93,39 +93,27 @@
                 </Text>
                 <ImageView fitHeight="23.0" fitWidth="16.0" layoutX="64.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="/views/arrow.png" />
+                        <Image url="@../../../logo/arrow.png" />
                     </image>
                 </ImageView>
                 <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="64.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@/views/arrow.png" />
+                        <Image url="@../../../logo/arrow.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/views/calculator.png" />
-                    </image>
-                </ImageView>
+
                 <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébérgements">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/views/calculator.png" />
-                    </image>
-                </ImageView>
+
                 <Text layoutX="66.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/views/calculator.png" />
-                    </image>
-                </ImageView>
+
                 <Text layoutX="66.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Offres">
                     <font>
                         <Font size="14.0" />
@@ -135,7 +123,7 @@
                     <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="30.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@/views/logout.png" />
+                                <Image url="@../../../logo/logout.png" />
                             </image>
                         </ImageView>
                         <Text layoutX="72.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Déconnexion">
