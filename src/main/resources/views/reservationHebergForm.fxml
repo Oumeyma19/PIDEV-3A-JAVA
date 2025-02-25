@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservController">
+
+    <children>
+      <ImageView fitHeight="400.0" fitWidth="556.0" opacity="0.53" pickOnBounds="true">
+         <image>
+            <Image url="@../logo/page1.jpg" />
+         </image>
+      </ImageView>
+        <!-- Header -->
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Formulaire de Réservation" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
+
+        <!-- Nom Client -->
+        <Label layoutX="18.0" layoutY="75.0" style="-fx-font-weight: bold;" text="Nom Client :" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="75.0" />
+
+        <!-- Nombre de Personnes -->
+        <Label layoutX="18.0" layoutY="134.0" style="-fx-font-weight: bold;" text="Nb. Personnes :" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="134.0" />
+        <TextField fx:id="nbPersons" layoutX="120.0" layoutY="130.0" prefWidth="350.0" />
+
+        <!-- Submit Reservation Button -->
+        <Button layoutX="350.0" layoutY="210.0" onAction="#submitReservation" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Soumettre" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <DatePicker fx:id="dateI" layoutX="121.0" layoutY="200.0" prefHeight="26.0" prefWidth="350.0" />
+      <DatePicker fx:id="dateO" layoutX="120.0" layoutY="262.0" prefHeight="26.0" prefWidth="350.0" />
+      <Label layoutX="18.0" layoutY="201.0" prefHeight="23.0" prefWidth="108.0" text="DateCheckIn">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="16.0" layoutY="266.0" prefHeight="18.0" prefWidth="112.0" text="DateCheckOut">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="nomClient" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="50.0" prefHeight="67.0" prefWidth="350.0" style="-fx-font-weight: bold;" text="NOM CLIENT" textAlignment="CENTER" />
+        <Button fx:id="retour" layoutX="12.0" layoutY="355.0" onAction="#goBack" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="12.0" />
+    </children>
+</AnchorPane>
