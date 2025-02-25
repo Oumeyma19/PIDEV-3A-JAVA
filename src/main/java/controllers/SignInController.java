@@ -101,20 +101,23 @@ public class SignInController {
         try {
             User user = null;
 
+            // Rechercher l'utilisateur dans la table ADMIN
             try {
                 user = userService.getUserbyEmail(email);
             } catch (UserNotFoundException e) {
-                // Handle exception if ADMIN user is not found, continue to next service
+                // Ignorer si l'utilisateur n'est pas trouvé
             }
 
+            // Si l'utilisateur n'est pas un ADMIN, rechercher dans la table CLIENT
             if (user == null) {
                 try {
                     user = clientService.getUserbyEmail(email);
                 } catch (UserNotFoundException e) {
-                    // Continue to next service
+                    // Ignorer si l'utilisateur n'est pas trouvé
                 }
             }
 
+            // Si l'utilisateur n'est pas un CLIENT, rechercher dans la table GUIDE
             if (user == null) {
                 try {
                     user = guideService.getUserbyEmail(email);
@@ -124,6 +127,7 @@ public class SignInController {
                 }
             }
 
+            // Vérifier le mot de passe et rediriger
             if (user != null && verifyPassword(user, password)) {
                 UserService.setLoggedInUser(user);
                 SessionManager.saveSession(user.getEmail(), user.getRoles().toString()); // Sauvegarder la session avec le rôle
@@ -171,6 +175,7 @@ public class SignInController {
             if (user.getRoles() == Type.ADMIN) {
                 loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
             } else {
+                // Rediriger les CLIENTS et GUIDES vers Home.fxml
                 loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
             }
             Parent root = loader.load();

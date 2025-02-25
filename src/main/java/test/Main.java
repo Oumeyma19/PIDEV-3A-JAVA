@@ -19,8 +19,8 @@ public class Main {
             // **CRUD test:**
 
             // **add new user**
-            User user = new User("Admin", "Admin", "Admin@gmail.com", "29923207", "Admin123", Type.ADMIN);
-            userService.addUser(user);
+            User user = new User("Guide", "Guide", "Guide@gmail.com", "29923207", "Guide123", Type.GUIDE);
+            guideService.addUser(user);
 
             // **update existing user**
              //User userUpdated = new User(43, "oumeyma", "zaafrane", "82@gmail.com", "12345678","Nadou000",20,"cfgvhb", Type.CLIENT, true, false);
