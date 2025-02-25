@@ -4,9 +4,9 @@ import models.Offre;
 import models.ReservationOffre;
 import models.User;
 import tools.MyDataBase;
+import util.Type;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,33 +67,12 @@ public class ReservationOffreService implements IService<ReservationOffre> {
 
     @Override
     public List<ReservationOffre> recuperer() throws SQLException {
-        String sql = "SELECT * FROM reservation_offres";
-        Statement st = cnx.createStatement();
-        ResultSet rs = st.executeQuery(sql);
-
-        List<ReservationOffre> reservations = new ArrayList<>();
-        while (rs.next()) {
-            ReservationOffre r = new ReservationOffre(
-                    rs.getInt("id"),
-                    new Offre(rs.getInt("offer_id")),  // Offer
-                    rs.getDate("startDate").toLocalDate(),  // Start date
-                    rs.getDate("endDate").toLocalDate(),    // End date
-                    rs.getString("status"),                  // Status
-                    new User(rs.getInt("id_user")),          // User
-                    rs.getInt("numberOfAdults"),           // Number of adults
-                    rs.getInt("numberOfChildren")          // Number of children
-            );
-
-            reservations.add(r);
-        }
-        return reservations;
+        return List.of();
     }
-
-    // New method: Retrieve reservations for a specific user
-    public List<ReservationOffre> recupererParUtilisateur(int userId) throws SQLException {
+    public List<ReservationOffre> getReservationsByUser(int id_user) throws SQLException {
         String sql = "SELECT * FROM reservation_offres WHERE id_user = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
+            stmt.setInt(1, id_user);
             ResultSet rs = stmt.executeQuery();
 
             List<ReservationOffre> reservations = new ArrayList<>();
@@ -104,7 +83,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
                         rs.getDate("startDate").toLocalDate(),  // Start date
                         rs.getDate("endDate").toLocalDate(),    // End date
                         rs.getString("status"),                  // Status
-                        new User(rs.getInt("id_user")),          // User
+                        new User(rs.getInt("id_user"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"), rs.getString("phone"), rs.getString("password"), rs.getString("nivfid"), Type.CLIENT, rs.getBoolean("is_banned"), rs.getBoolean("is_active")), // User
                         rs.getInt("numberOfAdults"),           // Number of adults
                         rs.getInt("numberOfChildren")          // Number of children
                 );
@@ -114,6 +93,57 @@ public class ReservationOffreService implements IService<ReservationOffre> {
             return reservations;
         }
     }
+
+
+    @Override
+    public void modifier2(ReservationOffre p, String s) throws SQLException {
+
+    }
+
+    // New method: Retrieve reservations for a specific user
+    public List<ReservationOffre> recupererParUtilisateur(int userId) throws SQLException {
+        String sql = """
+        SELECT r.*, u.firstname, u.lastname, u.email, u.phone, u.password, u.nivfid, 
+               u.is_banned, u.is_active
+        FROM reservation_offres r
+        JOIN user u ON r.id_user = u.id
+        WHERE r.id_user = ?
+    """;
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            List<ReservationOffre> reservations = new ArrayList<>();
+            while (rs.next()) {
+                ReservationOffre r = new ReservationOffre(
+                        rs.getInt("id"),                               // Reservation ID
+                        new Offre(rs.getInt("offer_id")),              // Offer object (needs full data later)
+                        rs.getDate("startDate").toLocalDate(),         // Start date
+                        rs.getDate("endDate").toLocalDate(),           // End date
+                        rs.getString("status"),                        // Status
+                        new User(                                       // User object
+                                rs.getInt("id_user"),
+                                rs.getString("firstname"),
+                                rs.getString("lastname"),
+                                rs.getString("email"),
+                                rs.getString("phone"),
+                                rs.getString("password"),
+                                rs.getString("nivfid"),
+                                Type.CLIENT,
+                                rs.getBoolean("is_banned"),
+                                rs.getBoolean("is_active")
+                        ),
+                        rs.getInt("numberOfAdults"),                   // Number of adults
+                        rs.getInt("numberOfChildren")                  // Number of children
+                );
+
+                reservations.add(r);
+            }
+            return reservations;
+        }
+    }
+
 
     // New method: Cancel a reservation (update status to "Canceled")
     public void annulerReservation(int id) throws SQLException {

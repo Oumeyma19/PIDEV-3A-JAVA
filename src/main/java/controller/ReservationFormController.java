@@ -59,21 +59,10 @@ public class ReservationFormController {
         dpStartDate.valueProperty().addListener((obs, oldVal, newVal) -> updateTotalPrice());
         dpEndDate.valueProperty().addListener((obs, oldVal, newVal) -> updateTotalPrice());
 
-        fetchLoggedInUser();
         animateForm();
     }
 
-    private void fetchLoggedInUser() {
-        try {
-            loggedInUser = userService.getUserById(6); // Replace with actual logged-in user ID
-            if (loggedInUser == null) {
-                showError("Erreur : Utilisateur introuvable !");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showError("Erreur lors de la récupération de l'utilisateur !");
-        }
-    }
+
 
     public void setSelectedOffer(Offre offer) {
         this.selectedOffer = offer;
@@ -110,6 +99,11 @@ public class ReservationFormController {
         double totalPrice = selectedOffer.getPrice() * (adults + children * 0.5); // Children at half price
 
         lblTotalPrice.setText(String.format("Prix total: %.2f €", totalPrice));
+    }
+
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+        System.out.println("User set in ReservationFormController: " + user.getFirstname()); // Debugging
     }
 
     @FXML

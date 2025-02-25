@@ -10,8 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import models.Offre;
+import java.util.Random;
+
+import models.User;
 import services.OffreService;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -24,6 +32,9 @@ public class ReservationOffersController {
 
     @FXML
     private FlowPane offersContainer;
+    @FXML
+    private VBox priceContainer; // Or HBox, Pane, etc.
+
 
     private final OffreService offreService = new OffreService();
 
@@ -63,14 +74,12 @@ public class ReservationOffersController {
         card.setPrefWidth(250);
         card.setStyle("-fx-background-color: white; -fx-border-color: #ed6637; -fx-border-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 0);");
 
-        // Offer Image
         ImageView imageView = new ImageView();
         imageView.setFitWidth(200);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
         String imagePath = offre.getImagePath();
 
-        // Load image
         if (imagePath != null && !imagePath.isEmpty()) {
             try {
                 imageView.setImage(new Image(imagePath));
@@ -82,50 +91,60 @@ public class ReservationOffersController {
             imageView.setImage(loadDefaultImage());
         }
 
-        // Offer Details
         Label title = new Label(offre.getTitle());
-        title.getStyleClass().add("offer-title");
         title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ed6637;");
 
-        Label price = new Label("Price: $" + offre.getPrice());
-        price.getStyleClass().add("offer-price");
-        price.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
+        VBox priceContainer = new VBox(5);
+        priceContainer.setAlignment(Pos.CENTER);
+
+        double originalPriceValue = offre.getPrice();
+        Random random = new Random();
+        int discountPercentage = random.nextInt(51); // Generates a number from 0 to 50
+        double discountedPriceValue = originalPriceValue * (1 - discountPercentage / 100.0);
+
+        Text originalPrice = new Text("$" + String.format("%.2f", originalPriceValue));
+        originalPrice.setFill(Color.GRAY);
+        originalPrice.setFont(Font.font("Arial", FontPosture.REGULAR, 14));
+        originalPrice.setStrikethrough(true);
+
+        Text discountText = new Text(" (" + discountPercentage + "% OFF)");
+        discountText.setFill(Color.RED);
+        discountText.setFont(Font.font("Arial", FontPosture.ITALIC, 12));
+
+        TextFlow originalPriceFlow = new TextFlow(originalPrice, discountText);
+
+        Label discountedPrice = new Label("$" + String.format("%.2f", discountedPriceValue));
+        discountedPrice.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ed6637;");
+
+        priceContainer.getChildren().addAll(originalPriceFlow, discountedPrice);
 
         Label date = new Label("From " + offre.getStartDate() + " to " + offre.getEndDate());
-        date.getStyleClass().add("offer-date");
         date.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
 
-        // Description Label (not visible by default)
-        Label descriptionLabel = new Label(offre.getDescription());
-        descriptionLabel.getStyleClass().add("offer-description");
-        descriptionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333; -fx-wrap-text: true;"); // Description style
-        descriptionLabel.setVisible(false); // Set to not visible by default
+        Label hebergementsLabel = new Label("Hebergements: " + offre.getHebergementsStr());
+        Label toursLabel = new Label("Tours: " + offre.getToursStr());
+        Label flightsLabel = new Label("Flights: " + offre.getFlightsStr());
 
         Button detailsBtn = new Button("Details");
-        detailsBtn.getStyleClass().add("details-button");
         detailsBtn.setStyle("-fx-background-color: #ed6637; -fx-text-fill: white; -fx-padding: 5 10; -fx-font-size: 12px; -fx-background-radius: 5;");
-        detailsBtn.setOnAction(event -> {
-            // Toggle description visibility
-            descriptionLabel.setVisible(!descriptionLabel.isVisible());
-        });
 
         Button reserveBtn = new Button("Reserve Now");
-        reserveBtn.getStyleClass().add("reserve-button");
         reserveBtn.setStyle("-fx-background-color: #ed6637; -fx-text-fill: white; -fx-padding: 8 15; -fx-font-size: 14px; -fx-background-radius: 5;");
         reserveBtn.setOnAction(event -> openReservationForm(offre));
 
-        HBox buttonContainer = new HBox(10, detailsBtn, reserveBtn); // Add details and reserve buttons
+        HBox buttonContainer = new HBox(10, detailsBtn, reserveBtn);
         buttonContainer.setAlignment(Pos.CENTER);
 
-        card.getChildren().addAll(imageView, title, price, date, buttonContainer, descriptionLabel); // Add description label
-
+        card.getChildren().addAll(imageView, title, priceContainer, date, hebergementsLabel, toursLabel, flightsLabel, buttonContainer);
         return card;
     }
 
+    private User currentUser;
 
-    // Method to show offer details in an alert
-
-
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        System.out.println("User received: " + currentUser.getFirstname()); // Debugging
+    }
 
     private Image loadDefaultImage() {
         return new Image(getClass().getResourceAsStream("/default.png")); // Default image
@@ -135,9 +154,12 @@ public class ReservationOffersController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ReservationForm.fxml"));
             VBox reservationForm = loader.load();
+            ReservationFormController reservationFormController = loader.getController();
 
             ReservationFormController formController = loader.getController();
             formController.setSelectedOffer(selectedOffer);
+            reservationFormController.setLoggedInUser(currentUser); // Make sure currentUser is set
+
 
             Stage stage = new Stage();
             stage.setTitle("Reservation Form");
@@ -169,7 +191,7 @@ public class ReservationOffersController {
     private void goToHome() {
         // Reload the home page
         try {
-            BorderPane root = FXMLLoader.load(getClass().getResource("/ReservationOffers.fxml"));
+            BorderPane root = FXMLLoader.load(getClass().getResource("/Home.fxml"));
             Stage stage = (Stage) offersContainer.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -203,4 +225,6 @@ public class ReservationOffersController {
             e.printStackTrace();
         }
     }
+
+
 }

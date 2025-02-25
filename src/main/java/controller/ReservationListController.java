@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.ReservationOffre;
+import models.User;
 import services.ReservationOffreService;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class ReservationListController {
             // Vider le GridPane avant de recharger les réservations
             gridPane.getChildren().clear();
 
-            List<ReservationOffre> reservations = reservationService.recupererParUtilisateur(loggedInUserId);
+            List<ReservationOffre> reservations = reservationService.recupererParUtilisateur(loggedInUser.getId());
             int row = 0;
             int col = 0;
 
@@ -106,6 +107,33 @@ public class ReservationListController {
         return card;
 
     }
+    private User loggedInUser;
+
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+        System.out.println("User set in ReservationOffersListController: " + user.getFirstname()); // Debugging
+        loadReservations();
+    }
+
+    private void loadUserReservations() {
+        if (loggedInUser == null) {
+            System.out.println("No user found!");
+            return;
+        }
+
+        try {
+            ReservationOffreService reservationService = new ReservationOffreService();
+            List<ReservationOffre> userReservations = reservationService.getReservationsByUser(loggedInUser.getId());
+
+            // Display the reservations in the UI
+            System.out.println("User has " + userReservations.size() + " reservations.");
+
+            // TODO: Update the UI (TableView/ListView) with `userReservations`
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void openUpdateReservationForm(ReservationOffre reservation) {
         try {
@@ -134,4 +162,6 @@ public class ReservationListController {
             e.printStackTrace();
         }
     }
+
+
 }

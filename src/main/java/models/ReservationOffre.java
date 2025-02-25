@@ -35,6 +35,11 @@ public class ReservationOffre {
         this.numberOfAdults = numberOfAdults;
         this.numberOfChildren = numberOfChildren;
     }
+
+    public ReservationOffre() {
+
+    }
+
     public String getOfferTitle() {
         return offre.getTitle();
     }
