@@ -13,10 +13,12 @@ import models.User;
 import services.ClientService;
 import services.GuideService;
 import services.UserService;
+import services.SessionManager; // Importer SessionManager
 import exceptions.UserNotFoundException;
 import util.Type;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class SignInController {
 
@@ -41,6 +43,40 @@ public class SignInController {
 
     @FXML
     public void initialize() {
+        // Vérifier la session au démarrage
+        String[] session = SessionManager.loadSession();
+        if (session != null && session.length == 3) { // Maintenant, la session contient email, rôle et timestamp
+            String email = session[0];
+            String role = session[1];
+            LocalDateTime lastLogin = LocalDateTime.parse(session[2]);
+
+            // Vérifier si la session est encore valide (exemple : moins de 24 heures)
+            if (lastLogin.isAfter(LocalDateTime.now().minusHours(24))) {
+                try {
+                    User user = null;
+                    switch (Type.valueOf(role)) { // Convertir le rôle en enum
+                        case ADMIN:
+                            user = userService.getUserbyEmail(email);
+                            break;
+                        case CLIENT:
+                            user = clientService.getUserbyEmail(email);
+                            break;
+                        case GUIDE:
+                            user = guideService.getUserbyEmail(email);
+                            break;
+                    }
+                    if (user != null) {
+                        final User finalUser = user;
+                        javafx.application.Platform.runLater(() -> redirectToHome(finalUser));
+                        return;
+                    }
+                } catch (UserNotFoundException e) {
+                    // Ignorer si l'utilisateur n'est pas trouvé
+                }
+            }
+        }
+
+        // Initialisation normale si aucune session valide n'est trouvée
         if (loginButton == null) {
             System.out.println("ERREUR : loginButton est NULL !");
         } else {
@@ -90,6 +126,7 @@ public class SignInController {
 
             if (user != null && verifyPassword(user, password)) {
                 UserService.setLoggedInUser(user);
+                SessionManager.saveSession(user.getEmail(), user.getRoles().toString()); // Sauvegarder la session avec le rôle
                 redirectToHome(user);
             } else {
                 showError("Email ou mot de passe incorrect.");
@@ -129,6 +166,7 @@ public class SignInController {
 
     private void redirectToHome(User user) {
         try {
+            System.out.println("Tentative de redirection pour l'utilisateur : " + user.getEmail() + " (Rôle : " + user.getRoles() + ")");
             FXMLLoader loader;
             if (user.getRoles() == Type.ADMIN) {
                 loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
@@ -145,11 +183,16 @@ public class SignInController {
                 homeController.setCurrentUser(user);
             }
 
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene currentScene = emailField.getScene();
+            if (currentScene != null) {
+                Stage stage = (Stage) currentScene.getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } else {
+                System.err.println("Erreur : Impossible d'accéder à la scène actuelle.");
+            }
         } catch (Exception e) {
-            showError("Impossible de charger la page d'accueil.");
+            System.err.println("Erreur lors de la redirection : " + e.getMessage());
             e.printStackTrace();
         }
     }
