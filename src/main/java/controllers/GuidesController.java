@@ -132,9 +132,9 @@ public class GuidesController {
             Stage stage = new Stage();
             stage.setTitle("Ajouter un Guide");
             stage.setScene(new Scene(root));
-            stage.showAndWait(); // Wait for the window to close
+            stage.showAndWait(); // Attendre que la fenêtre se ferme
 
-            // Reload guides after adding a new one
+            // Recharger les guides après l'ajout
             loadGuides();
         } catch (IOException e) {
             e.printStackTrace();
@@ -236,4 +236,6 @@ public class GuidesController {
             System.err.println("Error loading Clients.fxml: " + e.getMessage());
         }
     }
+
+
 }

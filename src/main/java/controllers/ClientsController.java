@@ -191,7 +191,10 @@ public class ClientsController {
             Stage stage = new Stage();
             stage.setTitle("Ajouter un Client");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait(); // Attendre que la fenêtre se ferme
+
+            // Recharger les clients après l'ajout
+            loadClients();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -248,29 +251,7 @@ public class ClientsController {
         }
     }
 
-    @FXML
-    private void handleSupprimer() {
-        User selectedUser = clientsTable.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText("Supprimer le client");
-            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce client ?");
-            alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    try {
-                        clientService.deleteUser(selectedUser.getId());
-                        clientsList.remove(selectedUser);
-                        showMessage("Client deleted successfully!", "green");
-                    } catch (UserNotFoundException e) {
-                        showMessage(e.getMessage(), "red");
-                    }
-                }
-            });
-        } else {
-            showMessage("No client selected.", "red");
-        }
-    }
+
     private void refreshTable() {
         clientsTable.getItems().setAll(clientService.getUsers());
     }

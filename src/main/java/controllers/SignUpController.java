@@ -9,12 +9,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
 import services.ClientService;
+import services.SessionManager; // Importer SessionManager
 import services.UserService;
 import services.ValidationService;
 import util.Type;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Label;
 
 import java.io.IOException;
 
@@ -24,7 +22,6 @@ public class SignUpController {
 
     @FXML
     private TextField firstnameField;
-
 
     @FXML
     private TextField emailField;
@@ -49,7 +46,6 @@ public class SignUpController {
 
     @FXML
     private Button signInButton;
-
 
     private ValidationService validationService = new ValidationService();
 
@@ -91,6 +87,9 @@ public class SignUpController {
 
             // Retrieve the user from the database to ensure it is correctly linked
             User savedUser = clientService.getUserbyEmail(email);
+
+            // Save session
+            SessionManager.saveSession(savedUser.getEmail(), savedUser.getRoles().toString());
 
             // Success message
             errorLabel.setText("Inscription réussie !");
