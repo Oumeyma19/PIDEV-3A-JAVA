@@ -1,11 +1,10 @@
 package services;
-
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import Util.Type;
+import exceptions.*;
 import interfaces.UserInterface;
 import models.User;
 import tools.MyConnection;
-import exceptions.*;
+import util.Type;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +16,16 @@ public class GuideService implements UserInterface {
     private Connection connection = MyConnection.getInstance().getConnection();
     ValidationService validationService = new ValidationService();
     private static GuideService instance;
+
+    private static User loggedInUser;
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
 
     private GuideService() {
     }
@@ -30,10 +39,10 @@ public class GuideService implements UserInterface {
 
     @Override
     public void addUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException,
-            IncorrectPasswordException {
+        IncorrectPasswordException {
         // Vérifier que les champs obligatoires ne sont pas vides
         if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
-                user.getPassword().isEmpty()) {
+            user.getPassword().isEmpty()) {
             throw new EmptyFieldException("Please fill in all required fields.");
         }
         // Valider le format de l'email
@@ -50,10 +59,10 @@ public class GuideService implements UserInterface {
         // Valider le format du mot de passe
         if (!validationService.isValidPassword(user.getPassword())) {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
-                    "one lowercase letter, one digit, and be at least 6 characters long.");
+                "one lowercase letter, one digit, and be at least 6 characters long.");
         }
         String request = "INSERT INTO `user`(`firstname`, `lastname`, `email` ,`phone`,`password`,`statusGuide`,`roles`,`is_active`,`is_banned`) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)";
+            "VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setString(1, user.getFirstname());
@@ -72,21 +81,46 @@ public class GuideService implements UserInterface {
         }
     }
 
-    private String cryptPassword(String passwordToCrypt) {
+    public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
+        // Vérifier que le nouveau mot de passe n'est pas vide
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new EmptyFieldException("Le nouveau mot de passe ne peut pas être vide.");
+        }
+
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(newPassword)) {
+            throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Crypter le nouveau mot de passe
+        String encryptedPassword = cryptPassword(newPassword);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String request = "UPDATE user SET password = ? WHERE id = ? AND roles = 'GUIDE'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, encryptedPassword);
+            preparedStatement.setInt(2, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserNotFoundException("Aucun guide trouvé avec l'ID : " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour du mot de passe : " + ex.getMessage());
+        }
+    }
+
+    public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
-                .of(bcryptChars)
-                .map(String::valueOf)
-                .collect(Collectors.joining(""));
+            .of(bcryptChars)
+            .map(String::valueOf)
+            .collect(Collectors.joining(""));
     }
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
         BCrypt.Result result = BCrypt.verifyer().verify(passwordToBeVerified.toCharArray(), encryptedPassword);
-        boolean verified = result.verified;
-        if (!verified) {
-            System.out.println("Password incorrect. Forgotten your password? ");
-        }
-        return verified;
+        return result.verified;
     }
 
     private boolean isEmailExists(String email) {
@@ -161,6 +195,43 @@ public class GuideService implements UserInterface {
         }
     }
 
+    public void updateBasicGuideInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
+        // Validation des champs obligatoires
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all required fields.");
+        }
+
+        // Validation de l'email
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("Invalid email address.");
+        }
+
+
+        // Validation du numéro de téléphone (si fourni)
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Invalid phone number format.");
+        }
+
+        // Requête SQL pour mettre à jour les informations de base
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Guide basic info updated successfully!");
+            } else {
+                System.out.println("Failed to update guide basic info.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error updating guide basic info: " + ex.getMessage());
+        }
+    }
+
     @Override
     public void deleteUser(int id)throws UserNotFoundException {
         User user = getUserbyID(id);
@@ -185,16 +256,16 @@ public class GuideService implements UserInterface {
 
             while (resultSet.next()) {
                 User user = new User(
-                        resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        resultSet.getString("email"),
-                        resultSet.getString("phone"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("statusGuide"),
-                        Type.GUIDE,
-                        resultSet.getBoolean("is_banned"),
-                        resultSet.getBoolean("is_active")
+                    resultSet.getInt("id"),
+                    resultSet.getString("firstname"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("password"),
+                    resultSet.getBoolean("statusGuide"),
+                    Type.GUIDE,
+                    resultSet.getBoolean("is_banned"),
+                    resultSet.getBoolean("is_active")
                 );
                 users.add(user);
             }

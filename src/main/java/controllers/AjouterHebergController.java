@@ -172,7 +172,7 @@ public class AjouterHebergController implements Initializable {
                     if ((event.getClickCount() == 2) && (!row.isEmpty())) {
 
                         try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/detailsHeberg.fxml"));
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/detailsHeberg.fxml"));
                             Parent root = loader.load();
                             btnAdd.getScene().setRoot(root);
 
@@ -293,7 +293,7 @@ public class AjouterHebergController implements Initializable {
     @FXML
     private void afficherListeHebergements(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listesHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listesHeberg.fxml"));
             Parent root = loader.load();
             listes.getScene().setRoot(root);
 

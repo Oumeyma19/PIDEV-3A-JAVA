@@ -72,7 +72,7 @@ public class ListesHebergController implements Initializable {
 
     private void openHebergementDetails(Hebergements hebergement) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/detailsHebergC.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/detailsHebergC.fxml"));
             Parent root = loader.load();
             DetailHebergCController detailsController = loader.getController();
             detailsController.setHebergementDetails(hebergement);

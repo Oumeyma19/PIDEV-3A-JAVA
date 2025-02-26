@@ -100,7 +100,7 @@ public class ReservController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ReservationHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ReservationHeberg.fxml"));
 
             Parent root = loader.load();
 

@@ -1,39 +1,33 @@
 package tools;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-
-    public final String URL = "jdbc:mysql://localhost:3306/integ";
-    public final String USER = "root";
-    public final String PASSWORD = "";
-
-
+    private final String url = "jdbc:mysql://localhost:3306/integ";
+    private final String login = "root";
+    private final String pwd = "";
     private Connection connection;
     private static MyConnection instance;
+
+    private MyConnection() {
+        try {
+            connection = DriverManager.getConnection(url, login, pwd);
+            System.out.println("You have been successfully connected to the database !");
+        } catch (SQLException e) {
+            System.err.print(e.getMessage());
+        }
+    }
 
     public Connection getConnection() {
         return connection;
     }
 
-    public MyConnection() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Connected to database");
-
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    public static MyConnection getInstance() {
+    public static synchronized MyConnection getInstance() {
         if (instance == null) {
             instance = new MyConnection();
         }
-
         return instance;
     }
 }

@@ -102,7 +102,7 @@ public class UpdateHebergController implements Initializable {
 
         try {
             hebergementService.modifier(this.hebergement);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ajouterHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajouterHeberg.fxml"));
             Parent root = loader.load();
             AjouterHebergController ajouterHebergController = loader.getController();
             ajouterHebergController.refreshList();
@@ -125,7 +125,7 @@ public class UpdateHebergController implements Initializable {
     @FXML
     void btnRetour(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/detailsHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/detailsHeberg.fxml"));
             Parent root = loader.load();
             btnRetour.getScene().setRoot(root);
 

@@ -59,7 +59,7 @@ public class DetailHebergController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/updateHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/updateHeberg.fxml"));
 
             Parent root = loader.load();
 
@@ -96,7 +96,7 @@ public class DetailHebergController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/ajouterHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajouterHeberg.fxml"));
 
             Parent root = loader.load();
 
@@ -111,7 +111,7 @@ public class DetailHebergController {
     // 📌 Retourner à la liste des hébergements après suppression
     private void retourAListe() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listeHebergements.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listeHebergements.fxml"));
             Parent root = loader.load();
             btnBack.getScene().setRoot(root);
         } catch (IOException ex) {

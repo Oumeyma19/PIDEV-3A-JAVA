@@ -19,7 +19,7 @@ public class ReservationHebergController {
     @FXML
     void afficherListeHebergements(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listesHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listesHeberg.fxml"));
             Parent root = loader.load();
             navlistes.getScene().setRoot(root);
 
@@ -32,7 +32,7 @@ public class ReservationHebergController {
     @FXML
     void goToMyReservations(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listReservationsHebergements.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listReservationsHebergements.fxml"));
             Parent root = loader.load();
             navlistes.getScene().setRoot(root);
 

@@ -145,7 +145,7 @@ public class DetailHebergCController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/listesHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listesHeberg.fxml"));
 
             Parent root = loader.load();
 
@@ -163,7 +163,7 @@ public class DetailHebergCController {
         if (result.isPresent()) {
             AvisProperties avis = result.get();
             try {
-                avisService.ajouter(new AvisHebergement(avis.getComment(), avis.getRating(), new User(7, null, null, null, null, null, null), hebergement));
+                avisService.ajouter(new AvisHebergement(avis.getComment(), avis.getRating(), UserService.getLoggedInUser(), hebergement));
                 Helpers.showAlert("Avis", "ajout succes", Alert.AlertType.CONFIRMATION);
                 fetchAvis();
             } catch (Exception e) {
@@ -178,7 +178,7 @@ public class DetailHebergCController {
     @FXML
     public void openReservationPage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/pidev/reservationHebergForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reservationHebergForm.fxml"));
             Parent root = loader.load();
             btnReservation.getScene().setRoot(root);
 

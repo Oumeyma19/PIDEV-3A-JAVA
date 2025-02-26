@@ -1,18 +1,16 @@
 package interfaces;
 
-
-import models.User;
 import exceptions.*;
+import models.User;
 
 import java.util.List;
 
 public interface UserInterface {
-    void addUser(User p) throws EmptyFieldException, InvalidEmailException, IncorrectPasswordException, InvalidPhoneNumberException;
-    void updateUser(User p) throws EmptyFieldException,InvalidPhoneNumberException, InvalidEmailException, IncorrectPasswordException, UserNotFoundException;
-    void deleteUser(int id) throws UserNotFoundException;
+    public void addUser(User p) throws EmptyFieldException, InvalidEmailException, IncorrectPasswordException, InvalidPhoneNumberException,CustomIllegalStateException;
+    public void updateUser( User p) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException, IncorrectPasswordException, UserNotFoundException;
+    public void deleteUser(int id) throws UserNotFoundException;
 
-    List<User> getUsers();
+    public List<User> getUsers();
 
-    User getUserbyID(int id) throws UserNotFoundException;
-    User getUserbyEmail(String email) throws UserNotFoundException;
-}
+    public User getUserbyID(int id) throws UserNotFoundException;
+    public User getUserbyEmail(String email) throws UserNotFoundException;}

@@ -1,11 +1,11 @@
 package services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import Util.Type;
+import exceptions.*;
 import interfaces.UserInterface;
 import models.User;
 import tools.MyConnection;
-import exceptions.*;
+import util.Type;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,9 +14,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class UserService implements UserInterface {
-    private final Connection connection = MyConnection.getInstance().getConnection();
+    private Connection connection = MyConnection.getInstance().getConnection();
     ValidationService validationService = new ValidationService();
     private static UserService instance;
+
+    private static User loggedInUser;
+
+    public static User getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public static void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
 
     private UserService() {
     }
@@ -27,31 +37,83 @@ public class UserService implements UserInterface {
         }
         return instance;
     }
+    private List<User> users = new ArrayList<>(); // Example user list
+
+    // Other methods...
+
+   // public int countAdmins() {
+     //   return (int) users.stream().filter(user -> user.getRoles() == Type.ADMIN).count();
+    //}
+
+    public int countAdmins() {
+        // Créer une liste vide pour stocker les administrateurs
+        List<User> admins = new ArrayList<>();
+        try {
+            // Effectuer une requête SQL pour récupérer les utilisateurs ayant le rôle ADMIN
+            String query = "SELECT * FROM user WHERE roles = 'ADMIN' AND is_active = true"; // Par exemple, si vous voulez uniquement les admins actifs
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // Parcourir les résultats de la requête et les ajouter à la liste des administrateurs
+            while (resultSet.next()) {
+                User user = new User(
+                    resultSet.getInt("id"),
+                    resultSet.getString("firstname"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("password"),
+                    Type.valueOf(resultSet.getString("roles")),  // On suppose que le rôle est correctement récupéré
+                    resultSet.getBoolean("is_banned"),
+                    resultSet.getBoolean("is_active")
+                );
+                admins.add(user);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving admins from database: " + ex.getMessage());
+        }
+
+        // Retourner le nombre d'administrateurs
+        return admins.size();
+    }
 
     @Override
     public void addUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException,
-            IncorrectPasswordException {
-        // Vérifier que les champs obligatoires ne sont pas vides
+        IncorrectPasswordException, CustomIllegalStateException {
+        // Check if an admin already exists
+        if (user.getRoles() == Type.ADMIN && countAdmins() > 0) {
+            throw new CustomIllegalStateException("Un administrateur existe déjà dans la BD.");
+        }
+
+        // Validate required fields
         if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
-                user.getPassword().isEmpty()) {
+            user.getPassword().isEmpty()) {
             throw new EmptyFieldException("Please fill in all required fields.");
         }
-        // Valider le format de l'email
+
+        // Validate email format
         if (!validationService.isValidEmail(user.getEmail())) {
             throw new InvalidEmailException("Invalid email, please check your email address.");
         }
+
         if (isEmailExists(user.getEmail())) {
             throw new InvalidEmailException("Email already exists. Please use a different email.");
         }
-        // Valider le format du numéro de téléphone (s'il est fourni)
+
+        // Validate phone number format (if provided)
         if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
             throw new InvalidPhoneNumberException("Invalid phone number format.");
         }
-        // Valider le format du mot de passe
+
+        // Validate password format
         if (!validationService.isValidPassword(user.getPassword())) {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
-                    "one lowercase letter, one digit, and be at least 6 characters long.");
+                "one lowercase letter, one digit, and be at least 6 characters long.");
         }
+
+        // SQL insertion query
         String request = "INSERT INTO `user`(`firstname`, `lastname`, `email`, `phone`, `password`, `roles`, `is_active`, `is_banned`) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -63,8 +125,8 @@ public class UserService implements UserInterface {
             preparedStatement.setString(4, user.getPhone());
             preparedStatement.setString(5, cryptPassword(user.getPassword()));
             preparedStatement.setString(6, user.getRoles().toString());
-            preparedStatement.setBoolean(7, true);
-            preparedStatement.setBoolean(8, false);
+            preparedStatement.setBoolean(7, true);  // is_active = true
+            preparedStatement.setBoolean(8, false); // is_banned = false
 
             preparedStatement.executeUpdate();
             System.out.println("User added successfully!");
@@ -73,21 +135,18 @@ public class UserService implements UserInterface {
         }
     }
 
-    private String cryptPassword(String passwordToCrypt) {
+
+    public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
-                .of(bcryptChars)
-                .map(String::valueOf)
-                .collect(Collectors.joining(""));
+            .of(bcryptChars)
+            .map(String::valueOf)
+            .collect(Collectors.joining(""));
     }
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
         BCrypt.Result result = BCrypt.verifyer().verify(passwordToBeVerified.toCharArray(), encryptedPassword);
-        boolean verified = result.verified;
-        if (!verified) {
-            System.out.println("Password incorrect. Forgotten your password? ");
-        }
-        return verified;
+        return result.verified;
     }
 
 
@@ -105,6 +164,68 @@ public class UserService implements UserInterface {
             System.err.println("Error checking email existence: " + ex.getMessage());
         }
         return false;
+    }
+    public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
+        // Vérifier que le nouveau mot de passe n'est pas vide
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new EmptyFieldException("Le nouveau mot de passe ne peut pas être vide.");
+        }
+
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(newPassword)) {
+            throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Crypter le nouveau mot de passe
+        String encryptedPassword = cryptPassword(newPassword);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String request = "UPDATE user SET password = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, encryptedPassword);
+            preparedStatement.setInt(2, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserNotFoundException("Aucun utilisateur trouvé avec l'ID : " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour du mot de passe : " + ex.getMessage());
+        }
+    }
+
+    public void updateBasicUserInfo(User user) throws EmptyFieldException, InvalidEmailException, InvalidPhoneNumberException {
+        // Validation des champs
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty()) {
+            throw new EmptyFieldException("Veuillez remplir tous les champs obligatoires.");
+        }
+
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("L'adresse email est invalide.");
+        }
+
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Le numéro de téléphone est invalide.");
+        }
+
+        // Requête SQL pour mettre à jour les informations
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Informations mises à jour avec succès !");
+            } else {
+                System.out.println("Aucune modification effectuée.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour : " + ex.getMessage());
+        }
     }
 
     @Override
@@ -128,6 +249,7 @@ public class UserService implements UserInterface {
         if (!validationService.isValidEmail(user.getEmail())) {
             throw new InvalidEmailException("Invalid email address.");
         }
+
 
         // Validate phone number format (if provided)
         if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
@@ -215,16 +337,16 @@ public class UserService implements UserInterface {
     public User getUserbyID(int id) throws UserNotFoundException {
         User user = null;
         try {
-            String query = "SELECT * FROM user WHERE id = ?";
+            String query = "SELECT * FROM user WHERE id = ? AND roles = ? LIMIT 1";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
-        //    preparedStatement.setString(2, Type.ADMIN.name());
+            preparedStatement.setString(2, Type.ADMIN.name());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 user = createUserFromResultSet(resultSet);
             } else {
-                throw new UserNotFoundException("No user found with ID: " + id);
+                throw new UserNotFoundException("No ADMIN user found with ID: " + id);
             }
 
             resultSet.close();
@@ -258,21 +380,21 @@ public class UserService implements UserInterface {
         return user;
     }
 
-    private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String firstname = resultSet.getString("firstname");
-        String lastname = resultSet.getString("lastname");
-        String email = resultSet.getString("email");
-        String phone = resultSet.getString("phone");
-        String password = resultSet.getString("password");
-        String roleString = resultSet.getString("roles");
-        Type roles = null;
-        try {
-            roles = Type.valueOf(roleString);
-        } catch (IllegalArgumentException ignored) {
-        }
-        boolean is_banned = resultSet.getBoolean("is_banned");
-        boolean is_active = resultSet.getBoolean("is_active");
-        return new User(id, firstname, lastname, email, phone, password, roles, is_banned, is_active);
+    public User createUserFromResultSet(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setFirstname(rs.getString("firstname"));
+        user.setLastname(rs.getString("lastname"));
+        user.setEmail(rs.getString("email"));
+        user.setPhone(rs.getString("phone"));
+        user.setPassword(rs.getString("password"));
+        user.setRoles(Type.valueOf(rs.getString("roles")));
+
+        // Ensure the boolean value is correctly parsed
+        String isActiveStr = rs.getString("is_active");
+        boolean isActive = "1".equals(isActiveStr) || "true".equalsIgnoreCase(isActiveStr);
+        user.setIsActive(isActive);
+
+        return user;
     }
 }
