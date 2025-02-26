@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controllers.ReservationOffersController"
+           stylesheets="@StyleReser.css">
+
+    <!-- Background Image -->
+    <ImageView fitWidth="1200" fitHeight="800" preserveRatio="true">
+        <Image url="@background.jpg" />
+    </ImageView>
+
+    <VBox alignment="CENTER" spacing="20" style="-fx-background-color: rgba(255, 255, 255, 0.5);
+        -fx-border-radius: 10px; -fx-padding: 20px; -fx-background-radius: 10;">
+
+        <!-- Navigation Bar -->
+        <HBox styleClass="navbar" style="-fx-background-color: #ed6637; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Button text="Home" styleClass="nav-button" onAction="#goToHome" />
+            <Button text="Reservation List" styleClass="nav-button" onAction="#goToReservationList" />
+            <Button text="Profile" styleClass="nav-button" onAction="#goToProfile" />
+        </HBox>
+
+        <!-- Title -->
+        <Label text="Explore Our Travel Offers" styleClass="title-label" style="-fx-text-fill: white;"/>
+
+        <!-- Offers List -->
+        <ScrollPane fitToWidth="true" fitToHeight="false" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <FlowPane fx:id="offersContainer" hgap="20" vgap="20" alignment="CENTER" prefWrapLength="800" style="-fx-padding: 20;">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+            </FlowPane>
+        </ScrollPane>
+
+    </VBox>
+</StackPane>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilController">
+    <left>
+        <VBox alignment="TOP_RIGHT" prefHeight="605.0" prefWidth="255.0" styleClass="primary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <ImageView fx:id="homeImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleHome" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets top="20.0" left="20.0" />
+                            </VBox.margin>
+                            <image>
+                                <Image url="@fleche.png" />
+                            </image>
+                        </ImageView>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mon Profile" styleClass="white-bold-text">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </HBox>
+                <VBox alignment="CENTER" prefHeight="149.0" prefWidth="213.0">
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                    <children>
+                        <ImageView fitHeight="104.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@8792047.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="nomUserLabel" text="Nom_User" textFill="WHITE" styleClass="white-bold-text">
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox prefHeight="276.0" prefWidth="246.0">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
+                            <children>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@mdp.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="35.0" prefWidth="217.0" text="Modifier MDP" textFill="WHITE" onMouseClicked="#handleChangePassword" styleClass="white-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
+                            <children>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@recompenses.png.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="50.0" prefWidth="191.0" text="Récompenses" textFill="WHITE" styleClass="white-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
+                            <children>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@vols.png.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="38.0" prefWidth="169.0" text="Réservations Offers" textFill="WHITE" onMouseClicked="#handleReservationO" styleClass="white-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
+                            <children>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@tours.png.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="38.0" prefWidth="169.0" text="Tours" textFill="WHITE" styleClass="white-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
+                            <children>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@offres.png.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="38.0" prefWidth="169.0" text="Offres" textFill="WHITE" styleClass="white-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="20.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets top="20.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                </VBox>
+                <ImageView fx:id="logoutImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleLogout" pickOnBounds="true" preserveRatio="true">
+                    <VBox.margin>
+                        <Insets top="20.0" left="20.0" />
+                    </VBox.margin>
+                    <image>
+                        <Image url="@logout.png" />
+                    </image>
+                </ImageView>
+            </children>
+            <padding>
+                <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+            </padding>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="secondary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" prefHeight="70.0" prefWidth="734.0" text="Détails du profile" styleClass="black-bold-large-text">
+                    <font>
+                        <Font name="Franklin Gothic Demi Italic" size="60.0" />
+                    </font>
+                </Label>
+                <VBox prefHeight="340.0" prefWidth="458.0" spacing="50.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" prefHeight="22.0" prefWidth="113.0" text="Nom" styleClass="black-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                </Label>
+                                <Pane prefHeight="200.0" prefWidth="140.0">
+                                    <children>
+                                        <TextField fx:id="nomField" prefHeight="11.0" prefWidth="292.0" styleClass="text">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </Pane>
+                            </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="96.0" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Prénom" styleClass="black-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                </Label>
+                                <Pane prefHeight="200.0" prefWidth="140.0">
+                                    <children>
+                                        <TextField fx:id="prenomField" prefHeight="25.0" prefWidth="292.0" styleClass="text">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </Pane>
+                            </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="91.0" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Email" styleClass="black-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                </Label>
+                                <Pane prefHeight="200.0" prefWidth="140.0">
+                                    <children>
+                                        <TextField fx:id="emailField" prefHeight="25.0" prefWidth="292.0" styleClass="text">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </Pane>
+                            </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="220.0" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Téléphone" styleClass="black-bold-text">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                </Label>
+                                <Pane prefHeight="200.0" prefWidth="140.0">
+                                    <children>
+                                        <TextField fx:id="telephoneField" prefHeight="25.0" prefWidth="292.0" styleClass="text">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </Pane>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <HBox alignment="CENTER" spacing="20">
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSave" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Enregistrer" textFill="WHITE">
+                        <font>
+                            <Font name="Gadugi" size="16.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets top="80.0" />
+                        </opaqueInsets>
+                    </Button>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeleteAccount" prefHeight="50.0" prefWidth="155.0" styleClass="login_button" text="Supprimer" textFill="WHITE">
+                        <font>
+                            <Font name="Gadugi" size="16.0" />
+                        </font>
+                        <opaqueInsets>
+                            <Insets top="80.0" />
+                        </opaqueInsets>
+                    </Button>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="332.0">
+                    <children>
+                        <Label fx:id="errorLabel" alignment="CENTER" textFill="red" visible="false">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

@@ -112,6 +112,7 @@ public class FlightDetailsController {
             FlightService flightService = new FlightService(); // Service to handle flight updates
 
             // Fetch the user with id = 117
+            User currentUser = ClientService.getLoggedInUser();
             User user = new User(117);
 
             // Ensure that the selected flight is not null

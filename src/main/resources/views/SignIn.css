@@ -1,0 +1,300 @@
+.primary-color {
+    -fx-background-color: #14251a;
+}
+
+.secondary-color {
+    -fx-background-color: #f8f2e6;
+}
+
+.text-input {
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #242551;
+    -fx-text-fill: black;
+}
+
+.text {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+.button {
+    -fx-background-color: #ed6637;
+    -fx-background-radius: 30px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #d39d50;
+}
+
+.login_button {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-background-radius: 50px;
+    -fx-cursor: hand;
+}
+
+.login_button:hover {
+    -fx-background-color: #d39d50;
+}
+
+.selected {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.selected:hover {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.selected-border {
+    -fx-border-color: #fff;
+    -fx-border-width: 0 3 0 0;
+}
+
+.vbox_background_center {
+    -fx-background-image: url("bgcenter.jpg");
+}
+
+.vbox_background_right {
+    -fx-background-image: url("bgright.jpg");
+}
+
+.cursor_hand {
+    -fx-cursor: hand;
+}
+
+.signup_button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.signup_button:hover {
+    -fx-background-color: #ed6637;
+}
+
+.root {
+    -fx-base: #f4f4f4;
+    -fx-background: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.anchor-pane, .pane {
+    -fx-background-color: -fx-background;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
+}
+
+.text-button {
+    -fx-fill: #0078d7;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.text-button:hover {
+    -fx-fill: #005bb5;
+    -fx-underline: true;
+}
+
+.image-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 3, 0, 0, 0);
+}
+
+.text {
+    -fx-fill: -fx-text-fill;
+    -fx-font-size: 14px;
+}
+
+.text-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-fill: #0078d7;
+    -fx-font-family: "Franklin Gothic Demi Italic";
+}
+
+#logoutPane {
+    -fx-background-color: #adadad;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+}
+
+#logoutPane .text {
+    -fx-fill: #ffffff;
+}
+
+#logoutPane:hover {
+    -fx-background-color: #9c9c9c;
+}
+
+#dashContent {
+    -fx-background-color: #eeeeee;
+    -fx-padding: 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+#sidebar {
+    -fx-background-color: #cccccc;
+    -fx-border-color: #bbbbbb;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+#topBar {
+    -fx-background-color: #333333;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+#topBar .text {
+    -fx-fill: #ffffff;
+}
+
+#topBar .image-view {
+    -fx-effect: none;
+}
+
+.interactive:hover {
+    -fx-opacity: 0.8;
+    -fx-cursor: hand;
+}
+
+.separator {
+    -fx-background-color: #e0e0e0;
+    -fx-pref-height: 1px;
+    -fx-pref-width: 100%;
+}
+
+.table-view {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #DDDDDD;
+    -fx-border-radius: 5px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #d39d50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+.table-row-cell {
+    -fx-font-size: 13px;
+}
+
+.button {
+    -fx-background-color: #28A745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 3px;
+}
+
+.button:hover {
+    -fx-background-color: #218838;
+}
+
+.text-field, .combo-box, .button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 30px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #d39d50;
+}
+
+.new_button_style {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 30px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.new_button_style:hover {
+    -fx-background-color: #d39d50;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.table-column {
+    -fx-background-color: transparent;
+}
+
+.radio-button {
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 18px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+}
+
+.radio-button .text {
+    fill: white; /* White text */
+    font-size: 18px; /* Font size */
+    font-weight: bold; /* Bold text */
+}
+/* Style for white, bold text */
+.white-bold-text {
+    -fx-text-fill: white;
+    -fx-font-weight:  Bold;
+    -fx-font-size: 30px
+}
+
+/* Style for black, bold, and larger text */
+.black-bold-large-text {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 49px;
+}
+
+/* Style for white, bold text */
+.white-bold-text {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style for black, bold, and larger text */
+.black-bold-large-text {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 60px; /* Increased font size */
+}
+
+/* Style for black, bold text */
+.black-bold-text {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.text-field, .password-field {
+   /* -fx-background-insets: 5;*/
+}
