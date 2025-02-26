@@ -172,8 +172,7 @@ public class GuideService implements UserInterface {
 
         // Prepare SQL update statement
         String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, statusGuide = ?, is_banned = ?, is_active = ? WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(request);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
             preparedStatement.setString(3, user.getEmail());
@@ -183,16 +182,16 @@ public class GuideService implements UserInterface {
             preparedStatement.setBoolean(7, user.getIsActive());
             preparedStatement.setInt(8, user.getId());
 
-            // Execute the update statement
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Guide updated successfully!");
             } else {
-                System.out.println("Failed to update guide. Client not found or no changes made.");
+                System.out.println("Failed to update guide. Guide not found or no changes made.");
             }
         } catch (SQLException ex) {
-            System.err.println("Error updating user: " + ex.getMessage());
+            System.err.println("Error updating guide: " + ex.getMessage());
         }
+
     }
 
     public void updateBasicGuideInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
@@ -350,6 +349,60 @@ public class GuideService implements UserInterface {
         boolean is_active = resultSet.getBoolean("is_active");// Ensure the correct column index
 
         return new User(id, firstname, lastname, email, phone, password, statusGuide, roles, is_banned,is_active);
+    }
+
+    public void banUser(int userId) throws PermissionException, UserNotFoundException {
+        // Vérifier si l'utilisateur actuel a les permissions nécessaires
+        if (SessionService.getInstance().getCurrentUser().getRoles() != Type.ADMIN) {
+            throw new PermissionException("You don't have permission to ban a guide.");
+        }
+
+        // Vérifier si l'utilisateur existe
+        User user = getUserbyID(userId);
+        if (user == null) {
+            throw new UserNotFoundException("Guide with ID " + userId + " not found.");
+        }
+
+        // Bannir l'utilisateur
+        String query = "UPDATE user SET is_banned = true WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Guide with ID " + userId + " has been banned.");
+            } else {
+                throw new UserNotFoundException("Failed to ban guide with ID " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error banning guide: " + ex.getMessage());
+        }
+    }
+
+    public void unbanUser(int userId) throws PermissionException, UserNotFoundException {
+        // Vérifier si l'utilisateur actuel a les permissions nécessaires
+        if (SessionService.getInstance().getCurrentUser().getRoles() != Type.ADMIN) {
+            throw new PermissionException("You don't have permission to unban a guide.");
+        }
+
+        // Vérifier si l'utilisateur existe
+        User user = getUserbyID(userId);
+        if (user == null) {
+            throw new UserNotFoundException("Guide with ID " + userId + " not found.");
+        }
+
+        // Débannir l'utilisateur
+        String query = "UPDATE user SET is_banned = false WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Guide with ID " + userId + " has been unbanned.");
+            } else {
+                throw new UserNotFoundException("Failed to unban guide with ID " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error unbanning guide: " + ex.getMessage());
+        }
     }
 
 }

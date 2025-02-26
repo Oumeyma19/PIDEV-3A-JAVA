@@ -1,5 +1,8 @@
 package controllers;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import services.SessionService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +16,16 @@ import models.User;
 import services.ClientService;
 import services.GuideService;
 import services.UserService;
-import services.SessionManager; // Importer SessionManager
-import exceptions.UserNotFoundException;
+import services.SessionManager;
+import exceptions.*;
 import util.Type;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SignInController {
 
@@ -40,21 +47,23 @@ public class SignInController {
     private UserService userService = UserService.getInstance();
     private ClientService clientService = ClientService.getInstance();
     private GuideService guideService = GuideService.getInstance();
+    private SessionService sessionService = SessionService.getInstance();
+    private Map<String, Integer> loginAttemptsMap = new HashMap<>();
+    private Timer timer;
 
     @FXML
     public void initialize() {
         // Vérifier la session au démarrage
         String[] session = SessionManager.loadSession();
-        if (session != null && session.length == 3) { // Maintenant, la session contient email, rôle et timestamp
+        if (session != null && session.length == 3) {
             String email = session[0];
             String role = session[1];
             LocalDateTime lastLogin = LocalDateTime.parse(session[2]);
 
-            // Vérifier si la session est encore valide (exemple : moins de 24 heures)
             if (lastLogin.isAfter(LocalDateTime.now().minusHours(24))) {
                 try {
                     User user = null;
-                    switch (Type.valueOf(role)) { // Convertir le rôle en enum
+                    switch (Type.valueOf(role)) {
                         case ADMIN:
                             user = userService.getUserbyEmail(email);
                             break;
@@ -99,16 +108,18 @@ public class SignInController {
         }
 
         try {
-            User user = null;
+            // Vérifier si le compte est banni
+            if (sessionService.isAccountLocked(email)) {
+                throw new AccountLockedException("Votre compte est banni. Veuillez réinitialiser votre mot de passe.");
+            }
 
-            // Rechercher l'utilisateur dans la table ADMIN
+            User user = null;
             try {
                 user = userService.getUserbyEmail(email);
             } catch (UserNotFoundException e) {
                 // Ignorer si l'utilisateur n'est pas trouvé
             }
 
-            // Si l'utilisateur n'est pas un ADMIN, rechercher dans la table CLIENT
             if (user == null) {
                 try {
                     user = clientService.getUserbyEmail(email);
@@ -117,7 +128,6 @@ public class SignInController {
                 }
             }
 
-            // Si l'utilisateur n'est pas un CLIENT, rechercher dans la table GUIDE
             if (user == null) {
                 try {
                     user = guideService.getUserbyEmail(email);
@@ -127,15 +137,36 @@ public class SignInController {
                 }
             }
 
-            // Vérifier le mot de passe et rediriger
-            if (user != null && verifyPassword(user, password)) {
-                UserService.setLoggedInUser(user);
-                SessionManager.saveSession(user.getEmail(), user.getRoles().toString()); // Sauvegarder la session avec le rôle
-                redirectToHome(user);
-            } else {
-                showError("Email ou mot de passe incorrect.");
+            // Vérifier si le compte est banni (sauf pour les admins)
+            if (user.getRoles() != Type.ADMIN && user.getIsBanned()) {
+                throw new AccountLockedException("Votre compte est banni. Veuillez réinitialiser votre mot de passe.");
             }
 
+            // Vérifier le mot de passe et rediriger
+            if (verifyPassword(user, password)) {
+                UserService.setLoggedInUser(user);
+                SessionManager.saveSession(user.getEmail(), user.getRoles().toString());
+                loginAttemptsMap.put(email, 0); // Réinitialiser les tentatives
+                redirectToHome(user);
+            } else {
+                int attempts = loginAttemptsMap.getOrDefault(email, 0) + 1;
+                loginAttemptsMap.put(email, attempts);
+
+                if (attempts >= sessionService.MAX_LOGIN_ATTEMPTS) {
+                    // Bannir le compte après trop de tentatives (sauf pour les admins)
+                    if (user.getRoles() != Type.ADMIN) {
+                        sessionService.lockAccount(email);
+                        showError("Trop de tentatives infructueuses. Votre compte est banni.");
+                    } else {
+                        showError("Trop de tentatives infructueuses. Veuillez contacter l'administrateur.");
+                    }
+                } else {
+                    showError("Email ou mot de passe incorrect. Tentatives restantes : " + (sessionService.MAX_LOGIN_ATTEMPTS - attempts));
+                }
+            }
+
+        } catch (AccountLockedException e) {
+            showError(e.getMessage());
         } catch (Exception e) {
             showError("Une erreur s'est produite lors de la connexion.");
             e.printStackTrace();
@@ -143,6 +174,9 @@ public class SignInController {
     }
 
     private boolean verifyPassword(User user, String password) {
+        if (user.getRoles() != Type.ADMIN && user.getIsBanned()) {
+            return false; // Le compte est banni, la connexion est refusée (sauf pour les admins)
+        }
         switch (user.getRoles()) {
             case ADMIN:
                 return userService.verifyPassword(password, user.getPassword());
@@ -175,7 +209,6 @@ public class SignInController {
             if (user.getRoles() == Type.ADMIN) {
                 loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
             } else {
-                // Rediriger les CLIENTS et GUIDES vers Home.fxml
                 loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
             }
             Parent root = loader.load();
@@ -206,5 +239,38 @@ public class SignInController {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
         errorLabel.setStyle("-fx-text-fill: red;");
+
+        // Masquer le message après 5 secondes
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event -> errorLabel.setVisible(false));
+        pause.play();
+    }
+
+    private void startCountdown(int seconds, String email) {
+        if (timer != null) {
+            timer.cancel(); // Annuler le timer existant
+        }
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int remainingSeconds = seconds;
+
+            public void run() {
+                javafx.application.Platform.runLater(() -> {
+                    errorLabel.setText("Déverrouillage dans : " + remainingSeconds + "s");
+                    errorLabel.setVisible(true);
+                    loginButton.setDisable(true);
+                });
+                remainingSeconds--;
+                if (remainingSeconds <= 0) {
+                    timer.cancel();
+                    javafx.application.Platform.runLater(() -> {
+                        sessionService.unlockAccount(email);
+                        errorLabel.setText("Votre compte a été déverrouillé. Vous pouvez réessayer.");
+                        errorLabel.setVisible(true);
+                        loginButton.setDisable(false);
+                    });
+                }
+            }
+        }, 0, 1000);
     }
 }

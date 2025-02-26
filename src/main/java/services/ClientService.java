@@ -183,9 +183,7 @@ public class ClientService implements UserInterface {
 
         // Prepare SQL update statement
         String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, pointsfid = ?, nivfid = ?, is_banned = ?, is_active = ? WHERE id = ?";
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(request);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
             preparedStatement.setString(3, user.getEmail());
@@ -193,10 +191,9 @@ public class ClientService implements UserInterface {
             preparedStatement.setInt(5, user.getPointsfid());
             preparedStatement.setString(6, user.getNivfid());
             preparedStatement.setBoolean(7, user.getIsBanned());
-            preparedStatement.setBoolean(8, user.getIsActive());// Ajout de is_banned
+            preparedStatement.setBoolean(8, user.getIsActive());
             preparedStatement.setInt(9, user.getId());
 
-            // Execute the update statement
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Client updated successfully!");
@@ -206,6 +203,7 @@ public class ClientService implements UserInterface {
         } catch (SQLException ex) {
             System.err.println("Error updating client: " + ex.getMessage());
         }
+
     }
 
     public void updateBasicClientInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
@@ -361,5 +359,59 @@ public class ClientService implements UserInterface {
         boolean is_banned = resultSet.getBoolean(9);
         boolean is_active = resultSet.getBoolean(10);
         return new User(id, firstname, lastname, email, phone, password, pointsfid, nivfid, roles, is_banned,is_active);
+    }
+
+    public void banUser(int userId) throws PermissionException, UserNotFoundException {
+        // Vérifier si l'utilisateur actuel a les permissions nécessaires
+        if (SessionService.getInstance().getCurrentUser().getRoles() != Type.ADMIN) {
+            throw new PermissionException("You don't have permission to ban a client.");
+        }
+
+        // Vérifier si l'utilisateur existe
+        User user = getUserbyID(userId);
+        if (user == null) {
+            throw new UserNotFoundException("Client with ID " + userId + " not found.");
+        }
+
+        // Bannir l'utilisateur
+        String query = "UPDATE user SET is_banned = true WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Client with ID " + userId + " has been banned.");
+            } else {
+                throw new UserNotFoundException("Failed to ban client with ID " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error banning client: " + ex.getMessage());
+        }
+    }
+
+    public void unbanUser(int userId) throws PermissionException, UserNotFoundException {
+        // Vérifier si l'utilisateur actuel a les permissions nécessaires
+        if (SessionService.getInstance().getCurrentUser().getRoles() != Type.ADMIN) {
+            throw new PermissionException("You don't have permission to unban a client.");
+        }
+
+        // Vérifier si l'utilisateur existe
+        User user = getUserbyID(userId);
+        if (user == null) {
+            throw new UserNotFoundException("Client with ID " + userId + " not found.");
+        }
+
+        // Débannir l'utilisateur
+        String query = "UPDATE user SET is_banned = false WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Client with ID " + userId + " has been unbanned.");
+            } else {
+                throw new UserNotFoundException("Failed to unban client with ID " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error unbanning client: " + ex.getMessage());
+        }
     }
 }

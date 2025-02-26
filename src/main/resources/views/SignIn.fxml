@@ -73,11 +73,17 @@
 
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="332.0">
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="332.0">
                     <children>
-                        <Label fx:id="errorLabel" alignment="CENTER" textFill="red" visible="false">
+                        <Label fx:id="errorLabel"
+                               alignment="CENTER"
+                               textFill="red"
+                               visible="false"
+                               wrapText="true"
+                               prefHeight="50.0"
+                               prefWidth="300.0">
                             <font>
-                                <Font name="System Bold" size="14.0" /> <!-- Police en gras et taille 14 -->
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Label>
                     </children>
