@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.AddFlightController"
+      stylesheets="/views/AddFlight.css">
+
+    <Label text="Add New Flight" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- Departure Airport -->
+    <Label text="Departure Airport:"/>
+    <ComboBox fx:id="departureComboBox"/>
+
+    <!-- Arrival Airport -->
+    <Label text="Arrival Airport:"/>
+    <ComboBox fx:id="arrivalComboBox"/>
+
+    <!-- Departure Location TextField -->
+    <Label text="Departure Location:"/>
+    <TextField fx:id="departureField" promptText="Enter departure location"/>
+
+    <!-- Arrival Location TextField -->
+    <Label text="Arrival Location:"/>
+    <TextField fx:id="destinationField" promptText="Enter arrival location"/>
+
+    <!-- Departure Date -->
+    <Label text="Departure Date:"/>
+    <DatePicker fx:id="departureDatePicker"/>
+
+    <!-- Arrival Date -->
+    <Label text="Arrival Date:"/>
+    <DatePicker fx:id="arrivalDatePicker"/>
+
+    <!-- Price -->
+    <TextField fx:id="priceField" promptText="Price"/>
+
+    <!-- Flight Number -->
+    <TextField fx:id="flightNumberField" promptText="Flight Number"/>
+    <TextField fx:id="numberPlaceField" promptText="Numbre de Place" />
+
+    <!-- Save and Cancel Buttons -->
+    <Button fx:id="saveButton" text="Save" onAction="#handleSave"/>
+    <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
+
+</VBox>

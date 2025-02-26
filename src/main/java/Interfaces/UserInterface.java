@@ -1,7 +1,7 @@
 package Interfaces;
 
-import Exceptions.*;
-import Models.User;
+import exceptions.*;
+import models.User;
 
 import java.util.List;
 
