@@ -93,7 +93,7 @@ public class ViewOffresController {
             @Override
             protected ObservableList<Offre> call() throws SQLException {
                 ObservableList<Offre> offers = FXCollections.observableArrayList();
-                offers.addAll(offreService.recuperer());
+                offers.addAll(offreService.afficher());
                 return offers;
             }
 

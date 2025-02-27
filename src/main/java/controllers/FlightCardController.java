@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent; // ✅ FIXED import
 
 import models.Flight;
+import models.User;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,7 @@ public class FlightCardController {
 
             // Get the controller and pass flight data
             FlightDetailsController detailsController = loader.getController();
+            detailsController.setCurrentUser(currentUser);
             detailsController.setFlightData(flight);
 
             // Get current stage
@@ -79,5 +81,11 @@ public class FlightCardController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private User currentUser;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        System.out.println("User received: " + currentUser.getFirstname()); // Debugging
     }
 }

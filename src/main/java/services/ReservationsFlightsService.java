@@ -1,9 +1,7 @@
 package services;
 
 import Interfaces.IService;
-import models.Flight;
-import models.ReservationsFlights;
-import models.User;
+import models.*;
 import tools.MyDataBase;
 
 import java.sql.*;
@@ -90,5 +88,25 @@ public class ReservationsFlightsService implements IService<ReservationsFlights>
             e.printStackTrace();
         }
         return reservations;
+    }
+
+    @Override
+    public void modifier(Offre o) throws SQLException {
+
+    }
+
+    @Override
+    public void modifier(Hebergements H) {
+
+    }
+
+    @Override
+    public List<Hebergements> recuperer() throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public void modifier2(Hebergements p, String s) throws SQLException {
+
     }
 }

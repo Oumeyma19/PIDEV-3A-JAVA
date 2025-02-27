@@ -1,9 +1,6 @@
 package controllers;
 
-import exceptions.EmptyFieldException;
-import exceptions.IncorrectPasswordException;
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPhoneNumberException;
+import exceptions.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -122,7 +119,8 @@ public class SignUpController {
                 2000 // 2-second delay before redirection
             );
 
-        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException | PasswordMismatchException e) {
+        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException |
+                 PasswordMismatchException e) {
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setVisible(true);

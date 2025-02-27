@@ -24,6 +24,9 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    public String getStatusGuideDisplay() {
+        return statusGuide ? "Disponible" : "Indisponible";
+    }
     //Modif user
     public User(int id, String firstname, String lastname, String email, String phone, String password, Type roles, boolean is_banned ,boolean is_active) {
         this.id = id;
@@ -48,6 +51,13 @@ public class User {
         this.is_banned = false;
         this.is_active = true;
 
+    }
+
+    public String getIsActiveDisplay() {
+        return is_active ? "Active" : "Inactive";
+    }
+    public String getIsBannedDisplay() {
+        return is_banned ? "Bannissement" : "Non Bannissement";
     }
     public User(int id,String firstname, String lastname, String email, String phone, String password, Type roles) {
         this.id = id;
@@ -141,6 +151,15 @@ public class User {
 
     public User(int idClient) {
         this.id = idClient;
+    }
+
+    public User(int idUser, String firstname, String lastname, String email, String phone, String password, String nivfid, Type type, boolean isBanned, boolean isActive) {
+    }
+
+    public User(String nom, String prenom, String email, String phone, int pointsFid, String nivFid, boolean isBanned, boolean isActive) {
+    }
+
+    public User(String prenom, String nom, String email, String phone, String password, boolean status, boolean isBanned, boolean isActive) {
     }
 
     public int getId() {

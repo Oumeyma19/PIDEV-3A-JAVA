@@ -17,7 +17,7 @@
     <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: rgba(255, 255, 255, 0.5); -fx-border-radius: 10px; -fx-padding: 20px; -fx-background-radius: 10;">
         <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #ed6637; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
             <Button text="Acceuil" style="-fx-text-fill: white;" styleClass="nav-button" />
-            <Button text="Vols" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button text="Vols" style="-fx-text-fill: white;" styleClass="nav-button" onAction="#handleVol"/>
             <Button text="Hébèrgements" style="-fx-text-fill: white;" styleClass="nav-button" />
             <Button text="Tours" style="-fx-text-fill: white;" styleClass="nav-button" />
             <Button text="Offres" style="-fx-text-fill: white;" styleClass="nav-button" onAction="#handleOffers"/>

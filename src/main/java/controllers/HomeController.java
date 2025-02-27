@@ -68,6 +68,28 @@ public class HomeController {
         }
     }
     @FXML
+    private void handleVol() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FlightSearch.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user data to the ReservationOffersController
+            FlightSearchController flightSearchController = loader.getController();
+            if (currentUser != null) {
+                flightSearchController.setCurrentUser(currentUser);
+                System.out.println("User passed to ReservationOffersController: " + currentUser.getFirstname()); // Debugging
+            } else {
+                System.out.println("currentUser is NULL!"); // Debugging
+            }
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
     private void handleMyReservations() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reservation_list.fxml"));

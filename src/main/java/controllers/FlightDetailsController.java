@@ -112,8 +112,8 @@ public class FlightDetailsController {
             FlightService flightService = new FlightService(); // Service to handle flight updates
 
             // Fetch the user with id = 117
-            User currentUser = ClientService.getLoggedInUser();
-            User user = new User(117);
+            /*User currentUser = ClientService.getLoggedInUser();
+            User user = new User(117);*/
 
             // Ensure that the selected flight is not null
             if (flight == null) {
@@ -139,7 +139,7 @@ public class FlightDetailsController {
 
             // Create a reservation with the current date
             Date bookingDate = new Date();
-            ReservationsFlights reservation = new ReservationsFlights(user, flight, bookingDate);
+            ReservationsFlights reservation = new ReservationsFlights(currentUser, flight, bookingDate);
 
             // Save reservation
             reservationService.ajouter(reservation);
@@ -167,4 +167,10 @@ public class FlightDetailsController {
             alert.showAndWait();
         }
     }
-}
+
+    private User currentUser;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        System.out.println("User received: " + currentUser.getFirstname()); // Debugging
+    }}

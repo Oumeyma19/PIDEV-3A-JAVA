@@ -2,7 +2,9 @@ package services;
 
 
 
+import Interfaces.IService;
 import models.Hebergements;
+import models.Offre;
 import tools.MyDataBase;
 
 import java.sql.*;
@@ -39,7 +41,7 @@ public class HebergementsService implements IService<Hebergements> {
     }
 
     @Override
-    public void supprimer(Hebergements H)throws SQLException  {
+    public void supprimer(Hebergements H) {
         try {
             String sql = "DELETE FROM hebergements WHERE idHberg = ?";
             PreparedStatement st = cnx.prepareStatement(sql);
@@ -53,6 +55,21 @@ public class HebergementsService implements IService<Hebergements> {
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
         }
+    }
+
+    @Override
+    public void modifier(Hebergements p, String nom) {
+
+    }
+
+    @Override
+    public List<Hebergements> afficher() throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public void modifier(Offre o) throws SQLException {
+
     }
 
     @Override

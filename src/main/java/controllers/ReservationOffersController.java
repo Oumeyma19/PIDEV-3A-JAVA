@@ -46,7 +46,7 @@ public class ReservationOffersController {
         offersContainer.getChildren().clear(); // Clear existing offers
 
         try {
-            List<Offre> offres = offreService.recuperer(); // Fetch offers from the database
+            List<Offre> offres = offreService.afficher(); // Fetch offers from the database
 
             if (offres.isEmpty()) {
                 showAlert(Alert.AlertType.INFORMATION, "No Offers Available", "There are no travel offers at the moment.");

@@ -1,5 +1,7 @@
 package services;
 
+import Interfaces.IService;
+import models.Hebergements;
 import models.Offre;
 import models.ReservationOffre;
 import models.User;
@@ -47,6 +49,36 @@ public class ReservationOffreService implements IService<ReservationOffre> {
     }
 
     @Override
+    public void modifier(ReservationOffre p, String nom) throws SQLException {
+
+    }
+
+    @Override
+    public List<ReservationOffre> afficher() throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public void modifier(Offre o) throws SQLException {
+
+    }
+
+    @Override
+    public void modifier(Hebergements H) {
+
+    }
+
+    @Override
+    public List<Hebergements> recuperer() throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public void modifier2(Hebergements p, String s) throws SQLException {
+
+    }
+
+
     public void modifier(ReservationOffre r) throws SQLException {
         String sql = "UPDATE reservation_offres SET offer_id = ?, startDate = ?, endDate = ?, status = ?, id_user = ?, " +
                 "numberOfAdults = ?, numberOfChildren = ? WHERE id = ?";
@@ -65,10 +97,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
         }
     }
 
-    @Override
-    public List<ReservationOffre> recuperer() throws SQLException {
-        return List.of();
-    }
+
     public List<ReservationOffre> getReservationsByUser(int id_user) throws SQLException {
         String sql = "SELECT * FROM reservation_offres WHERE id_user = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
@@ -95,10 +124,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
     }
 
 
-    @Override
-    public void modifier2(ReservationOffre p, String s) throws SQLException {
 
-    }
 
     // New method: Retrieve reservations for a specific user
     public List<ReservationOffre> recupererParUtilisateur(int userId) throws SQLException {

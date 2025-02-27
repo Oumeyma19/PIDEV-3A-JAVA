@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import models.Flight;
+import models.User;
 import services.FlightService;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -175,6 +176,7 @@ public class FlightSearchController implements Initializable {
                 VBox flightCard = loader.load();
 
                 FlightCardController cardController = loader.getController();
+                cardController.setCurrentUser(currentUser);
                 cardController.setFlightData(flight);
 
                 flightResultsContainer.getChildren().add(flightCard);
@@ -200,5 +202,13 @@ public class FlightSearchController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private User currentUser;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        System.out.println("User received: " + currentUser.getFirstname()); // Debugging
+    }
+
 }
 

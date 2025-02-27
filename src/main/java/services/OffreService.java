@@ -104,15 +104,8 @@
 
         }
 
-        @Override
-        public List<Offre> afficher() throws SQLException {
-            return List.of();
-        }
 
-        @Override
-    public void modifier2(Offre p, String s) throws SQLException {
 
-    }
         @Override
         public void modifier(Offre o) throws SQLException {
             String sql = "UPDATE offers SET title = ?, description = ?, price = ?, start_date = ?, end_date = ? WHERE id = ?";
@@ -127,9 +120,24 @@
             System.out.println("Offre modifiée");
         }
 
+        @Override
+        public void modifier(Hebergements H) {
+
+        }
 
         @Override
-        public List<Offre> recuperer() throws SQLException {
+        public List<Hebergements> recuperer() throws SQLException {
+            return List.of();
+        }
+
+        @Override
+        public void modifier2(Hebergements p, String s) throws SQLException {
+
+        }
+
+
+        @Override
+        public List<Offre> afficher() throws SQLException {
             String sql = "SELECT * FROM offers";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(sql);

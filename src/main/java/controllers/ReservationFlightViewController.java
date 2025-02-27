@@ -136,7 +136,7 @@ public class ReservationFlightViewController implements Initializable {
     private void loadUserReservations() {
         // Get the current logged-in user from ClientService
         User currentUser = ClientService.getLoggedInUser();
-        currentUser = new User(117);
+
 
         if (currentUser == null) {
             Alert alert = new Alert(AlertType.WARNING);

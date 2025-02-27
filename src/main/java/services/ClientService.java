@@ -1,7 +1,8 @@
 package services;
 
-import exceptions.*;
 import Interfaces.UserInterface;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import exceptions.*;
 import models.User;
 import tools.MyDataBase;
 import util.Type;
@@ -9,10 +10,12 @@ import util.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ClientService implements UserInterface {
     private Connection connection = MyDataBase.getInstance().getCnx();
-
+    ValidationService validationService = new ValidationService();
     private static ClientService instance;
 
     private static User loggedInUser;
@@ -35,20 +38,225 @@ public class ClientService implements UserInterface {
         return instance;
     }
 
-
     @Override
-    public void addUser(User p) throws EmptyFieldException, InvalidEmailException, IncorrectPasswordException, InvalidPhoneNumberException, CustomIllegalStateException {
+    public void addUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException,
+            IncorrectPasswordException {
+        // Vérifier que les champs obligatoires ne sont pas vides
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
+                user.getPassword().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all required fields.");
+        }
+        // Valider le format de l'email
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("Invalid email, please check your email address.");
+        }
+        if (isEmailExists(user.getEmail())) {
+            throw new InvalidEmailException("Email already exists. Please use a different email.");
+        }
+        // Valider le format du numéro de téléphone (s'il est fourni)
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Invalid phone number format.");
+        }
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(user.getPassword())) {
+            throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
+                    "one lowercase letter, one digit, and be at least 6 characters long.");
+        }
 
+        // Requête SQL sans l'id (auto-incrémenté)
+        String request = "INSERT INTO `user`(`firstname`, `lastname`, `email`, `phone`, `password`, `pointsfid`, `nivfid`, `roles`, `is_active`, `is_banned`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setString(5, cryptPassword(user.getPassword()));
+            preparedStatement.setInt(6, user.getPointsfid());
+            preparedStatement.setString(7, user.getNivfid());
+            preparedStatement.setString(8, user.getRoles().toString());
+            preparedStatement.setBoolean(9, user.getIsActive());
+            preparedStatement.setBoolean(10, user.getIsBanned());
+
+            preparedStatement.executeUpdate();
+
+            // Récupérer l'id généré automatiquement
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int id = generatedKeys.getInt(1);
+                user.setId(id); // Mettre à jour l'id dans l'objet User
+            }
+
+            System.out.println("Client added successfully !");
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
+        // Vérifier que le nouveau mot de passe n'est pas vide
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            throw new EmptyFieldException("Le nouveau mot de passe ne peut pas être vide.");
+        }
+
+        // Valider le format du mot de passe
+        if (!validationService.isValidPassword(newPassword)) {
+            throw new IncorrectPasswordException("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et faire au moins 6 caractères.");
+        }
+
+        // Crypter le nouveau mot de passe
+        String encryptedPassword = cryptPassword(newPassword);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String request = "UPDATE user SET password = ? WHERE id = ? AND roles = 'CLIENT'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, encryptedPassword);
+            preparedStatement.setInt(2, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new UserNotFoundException("Aucun client trouvé avec l'ID : " + userId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour du mot de passe : " + ex.getMessage());
+        }
+    }
+
+    public String cryptPassword(String passwordToCrypt) {
+        char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
+        return Stream
+                .of(bcryptChars)
+                .map(String::valueOf)
+                .collect(Collectors.joining(""));
+    }
+
+    public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
+        BCrypt.Result result = BCrypt.verifyer().verify(passwordToBeVerified.toCharArray(), encryptedPassword);
+        return result.verified;
+    }
+
+    private boolean isEmailExists(String email) {
+        String query = "SELECT COUNT(*) FROM user WHERE email = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error checking email existence: " + ex.getMessage());
+        }
+        return false;
     }
 
     @Override
-    public void updateUser(User p) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException, IncorrectPasswordException, UserNotFoundException {
+    public void updateUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException, IncorrectPasswordException, UserNotFoundException {
+        // Check if the user object is null
+        if (user == null) {
+            throw new UserNotFoundException("This account doesn't exist. Cannot update account.");
+        }
 
+        // Check if the user ID is valid
+        if (user.getId() <= 0) {
+            throw new UserNotFoundException("This account doesn't exist. Cannot update account.");
+        }
+
+        // Check if any of the mandatory fields are empty
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all required fields.");
+        }
+
+        // Validate email format
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("Invalid email address.");
+        }
+
+        // Validate phone number format (if provided)
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Invalid phone number format.");
+        }
+
+        if (!validationService.isValidPassword(user.getPassword())) {
+            throw new IncorrectPasswordException("Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 6 characters long.");
+        }
+
+        // Prepare SQL update statement
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ?, pointsfid = ?, nivfid = ?, is_banned = ?, is_active = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(request);
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getPointsfid());
+            preparedStatement.setString(6, user.getNivfid());
+            preparedStatement.setBoolean(7, user.getIsBanned());
+            preparedStatement.setBoolean(8, user.getIsActive());// Ajout de is_banned
+            preparedStatement.setInt(9, user.getId());
+
+            // Execute the update statement
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Client updated successfully!");
+            } else {
+                System.out.println("Failed to update client. Client not found or no changes made.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error updating client: " + ex.getMessage());
+        }
+    }
+
+    public void updateBasicClientInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
+        // Validation des champs obligatoires
+        if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty()) {
+            throw new EmptyFieldException("Please fill in all required fields.");
+        }
+
+        // Validation de l'email
+        if (!validationService.isValidEmail(user.getEmail())) {
+            throw new InvalidEmailException("Invalid email address.");
+        }
+
+
+        // Validation du numéro de téléphone (si fourni)
+        if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
+            throw new InvalidPhoneNumberException("Invalid phone number format.");
+        }
+
+        // Requête SQL pour mettre à jour les informations de base
+        String request = "UPDATE user SET firstname = ?, lastname = ?, email = ?, phone = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(request)) {
+            preparedStatement.setString(1, user.getFirstname());
+            preparedStatement.setString(2, user.getLastname());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPhone());
+            preparedStatement.setInt(5, user.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Client basic info updated successfully!");
+            } else {
+                System.out.println("Failed to update client basic info.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error updating client basic info: " + ex.getMessage());
+        }
     }
 
     @Override
-    public void deleteUser(int id) throws UserNotFoundException {
+    public void deleteUser(int id)throws UserNotFoundException {
+        User user = getUserbyID(id);
+        String request = "DELETE FROM `user` WHERE `Id` =" + user.getId() + ";";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(request);
+            System.out.println("Client is deleted successfully");
 
+        } catch (SQLException ex) {
+            System.err.println();
+        }
     }
 
     @Override
