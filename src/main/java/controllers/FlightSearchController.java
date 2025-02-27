@@ -7,8 +7,13 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Flight;
 import models.User;
 import services.FlightService;
@@ -34,6 +39,8 @@ public class FlightSearchController implements Initializable {
 
   /*  @FXML
     private ComboBox<String> arrivalField;*/
+    @FXML
+    private ImageView homeImage;
 
     @FXML
     private DatePicker departureDatePicker;
@@ -64,6 +71,22 @@ public class FlightSearchController implements Initializable {
 
 
     }
+
+    private User currentUser;
+    @FXML
+    private void handleHome(javafx.scene.input.MouseEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            Parent root = loader.load();
+            HomeController homeController = loader.getController();
+            homeController.setCurrentUser(currentUser);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }}
 
     private void setupAutoComplete(ComboBox<String> comboBox, ObservableList<String> dataList) {
         if (dataList == null || dataList.isEmpty()) {
@@ -203,7 +226,7 @@ public class FlightSearchController implements Initializable {
         alert.showAndWait();
     }
 
-    private User currentUser;
+
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
