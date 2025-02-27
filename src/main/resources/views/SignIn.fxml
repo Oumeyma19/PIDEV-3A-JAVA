@@ -90,7 +90,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Label fx:id="forgotPasswordLabel" alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Oubliez votre mot de passe ?" textFill="WHITE" onMouseClicked="#redirectToRandomCode">
+                        <Label fx:id="forgotPasswordLabel" alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Oubliez votre mot de passe ?" textFill="WHITE" onMouseClicked="#redirectToRandomCode" underline="true">
                             <font>
                                 <Font name="Bold" size="20.0" />
                             </font>

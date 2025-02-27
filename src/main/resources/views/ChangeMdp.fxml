@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="302.0" prefWidth="510.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChangeMdpController">
+<AnchorPane prefHeight="453.0" prefWidth="603.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ChangeMdpController">
     <children>
-        <VBox alignment="CENTER" spacing="20.0" prefWidth="500.0" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.bottomAnchor="50.0">
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Changer votre mot de passe">
+
+        <ImageView fitHeight="486.0" fitWidth="625.0" layoutX="-9.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@bckg_mdp2.jpg" />
+            </image>
+        </ImageView>
+        <VBox alignment="CENTER" prefWidth="500.0" spacing="20.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Changer votre mot de passe" wrappingWidth="438.18945467472076">
                 <font>
-                    <Font name="System Bold" size="24.0" />
+                    <Font name="Imprint MT Shadow" size="37.0" />
                 </font>
             </Text>
             <PasswordField fx:id="newPasswordField" maxWidth="300.0" promptText="Nouveau mot de passe" styleClass="text-input" />

@@ -43,7 +43,7 @@ public class RandomCodeController {
             stage.setScene(new Scene(root));
             stage.show();
         } else {
-            InvalidCode.setText("Code de vérification invalide. Veuillez réessayer.");
+            InvalidCode.setText("Code de vérification invalide");
             InvalidCode.setVisible(true);
         }
     }

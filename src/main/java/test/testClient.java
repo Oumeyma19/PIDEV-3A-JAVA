@@ -23,7 +23,7 @@ public class testClient extends Application {
             Scene scene = new Scene(root);
 
             // Set the title of the window
-            primaryStage.setTitle("Home");
+            primaryStage.setTitle("Carthago_Booking");
 
             // Set the Scene to the primaryStage
             primaryStage.setScene(scene);

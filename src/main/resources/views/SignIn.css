@@ -179,11 +179,6 @@
     -fx-text-fill: black;
 }
 
-.text {
-    -fx-font-size: 14px;
-    -fx-text-fill: black;
-}
-
 .button {
     -fx-background-color: #ed6637;
     -fx-background-radius: 30px;
@@ -463,4 +458,10 @@
     -fx-font-weight: bold;
     -fx-text-alignment: center;
     -fx-alignment: center;
+}
+
+#forgotPasswordLabel{
+    -fx-text-fill:white;
+    -fx-font-weight: bold;
+     underline:"true";
 }
