@@ -25,5 +25,5 @@
 
         </FlowPane>
     </ScrollPane>
-   <Button layoutY="1.0" mnemonicParsing="false" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" />
+   <Button fx:id="btnBack" layoutY="1.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" />
 </AnchorPane>

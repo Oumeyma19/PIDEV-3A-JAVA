@@ -96,9 +96,11 @@ public class DetailHebergController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajouterHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Heberg.fxml"));
 
             Parent root = loader.load();
+
+
 
             btnBack.getScene().setRoot(root);
         } catch (Exception ex) {

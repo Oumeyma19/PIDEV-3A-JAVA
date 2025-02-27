@@ -2,6 +2,8 @@ package controllers;
 
 import Util.Helpers;
 import Util.TypeHebergement;
+import javafx.scene.text.Text;
+import models.User;
 import services.HebergementService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,6 +53,18 @@ public class UpdateHebergController implements Initializable {
 
     @FXML
     private ImageView image;
+
+    private User currentUser;
+
+    @FXML
+    private Text fullnameText;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (user != null) {
+            fullnameText.setText("Bonjour, " + user.getFirstname());
+        }
+    }
 
     private String selectedImagePath;
 
@@ -102,7 +116,7 @@ public class UpdateHebergController implements Initializable {
 
         try {
             hebergementService.modifier(this.hebergement);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajouterHeberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Heberg.fxml"));
             Parent root = loader.load();
             AjouterHebergController ajouterHebergController = loader.getController();
             ajouterHebergController.refreshList();

@@ -2,6 +2,7 @@ package services;
 
 import exceptions.UserNotFoundException;
 import models.ReservationHebergement;
+import models.User;
 import tools.MyConnection;
 
 import java.sql.*;
@@ -64,6 +65,25 @@ public class ReservHebergService {
         String sql = "SELECT * FROM reservationhebergement";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
+        List<ReservationHebergement> reservations = new ArrayList<>();
+        while (rs.next()) {
+            ReservationHebergement R = new ReservationHebergement();
+            R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
+            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
+            R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
+            R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));
+            R.setNbPersonnes(rs.getInt("nbPersonnes"));
+            reservations.add(R);
+        }
+        return reservations;
+    }
+
+    public List<ReservationHebergement> getMyReservations(int userId) throws SQLException, UserNotFoundException {
+        String sql = "SELECT * FROM reservationhebergement WHERE idUser = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery(sql);
         List<ReservationHebergement> reservations = new ArrayList<>();
         while (rs.next()) {
             ReservationHebergement R = new ReservationHebergement();

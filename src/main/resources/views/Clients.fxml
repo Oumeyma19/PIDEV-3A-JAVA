@@ -1,59 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Label?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ClientsController">
     <children>
-        <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+        <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
             <children>
-                <VBox fx:id="content" spacing="30" layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox fx:id="content" layoutX="-3.0" spacing="30" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <!-- Titre "Liste des Clients" -->
-                        <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header">
-                            <Text text="Liste Des Clients" style="-fx-translate-x: 20;">
+                        <HBox alignment="CENTER_LEFT" spacing="50" styleClass="header">
+                            <Text style="-fx-translate-x: 20;" text="Liste Des Clients">
                                 <font>
                                     <Font name="Impact" size="48.0" />
                                 </font>
                             </Text>
-                            <Button fx:id="ajouterButton" text="Ajouter" styleClass="new_button_style" onAction="#handleAjouterClient" />
-                            <HBox spacing="10" alignment="CENTER_LEFT">
-                                <TextField fx:id="searchField" promptText=" Rechercher... " onKeyReleased="#handleSearch" />
+                            <Button fx:id="ajouterButton" onAction="#handleAjouterClient" styleClass="new_button_style" text="Ajouter" />
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <TextField fx:id="searchField" onKeyReleased="#handleSearch" promptText=" Rechercher... " />
                             </HBox>
                         </HBox>
                         <!-- TableView -->
                         <TableView fx:id="clientsTable" prefHeight="400.0" prefWidth="800.0">
                             <columns>
-                                <TableColumn fx:id="nomColumn" text="Nom" prefWidth="100" />
-                                <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="100" />
-                                <TableColumn fx:id="emailColumn" text="Email" prefWidth="250" />
-                                <TableColumn fx:id="phoneColumn" text="Téléphone" prefWidth="100" />
-                                <TableColumn fx:id="pointsFidColumn" text="Points de fidélité" prefWidth="150" style="-fx-alignment: center;" />
-                                <TableColumn fx:id="nivFidColumn" text="Niveau de fidélité" prefWidth="150" style="-fx-alignment: center;" />
-                                <TableColumn fx:id="isActiveColumn" text="Active" prefWidth="100" />
-                                <TableColumn fx:id="isBannedColumn" text="Banissement" prefWidth="150" style="-fx-alignment: center;" />
-                                <TableColumn fx:id="passwordColumn" text="Mot de passe" prefWidth="150" />
+                                <TableColumn fx:id="nomColumn" prefWidth="100" text="Nom" />
+                                <TableColumn fx:id="prenomColumn" prefWidth="100" text="Prénom" />
+                                <TableColumn fx:id="emailColumn" prefWidth="250" text="Email" />
+                                <TableColumn fx:id="phoneColumn" prefWidth="100" text="Téléphone" />
+                                <TableColumn fx:id="pointsFidColumn" prefWidth="150" style="-fx-alignment: center;" text="Points de fidélité" />
+                                <TableColumn fx:id="nivFidColumn" prefWidth="150" style="-fx-alignment: center;" text="Niveau de fidélité" />
+                                <TableColumn fx:id="isActiveColumn" prefWidth="100" text="Active" />
+                                <TableColumn fx:id="isBannedColumn" prefWidth="150" style="-fx-alignment: center;" text="Banissement" />
+                                <TableColumn fx:id="passwordColumn" prefWidth="150" text="Mot de passe" />
                             </columns>
                         </TableView>
                         <!-- Champs de texte pour chaque attribut du tableau -->
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
                             <VBox spacing="10">
                                 <HBox spacing="10">
                                     <TextField fx:id="idField" promptText="ID" />
@@ -64,7 +58,7 @@
                                 </HBox>
                             </VBox>
                             <VBox spacing="10">
-                                <Button text="Modifier" styleClass="new_button_style" onAction="#handleModifier" />
+                                <Button onAction="#handleModifier" styleClass="new_button_style" text="Modifier" />
                                 <Label fx:id="messageLabel" text="" />
                             </VBox>
                         </HBox>
@@ -78,21 +72,21 @@
                 <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
                 <AnchorPane fx:id="imagePane" layoutX="1003.0" layoutY="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
                     <children>
-                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleUserImageClick">
+                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" onMouseClicked="#handleUserImageClick" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@user.png" />
                             </image>
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0" AnchorPane.bottomAnchor="13.0">
+                <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
                     <image>
                         <Image url="@Cartago_3.png" />
                     </image>
                 </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane prefHeight="459.0" prefWidth="224.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
+        <AnchorPane prefHeight="459.0" prefWidth="224.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
             <children>
                 <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -124,7 +118,7 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="64.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébèrgements" AnchorPane.topAnchor="262.734375">
+                <Text layoutX="64.0" layoutY="280.0" onMouseClicked="#handleHebergClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébèrgements" AnchorPane.topAnchor="262.734375">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -139,7 +133,7 @@
                         <Font size="14.0" />
                     </font>
                 </Text>
-                <Text layoutX="98.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375" onMouseClicked="#handleGuidesClick">
+                <Text layoutX="98.0" layoutY="158.0" onMouseClicked="#handleGuidesClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375">
                     <font>
                         <Font size="14.0" />
                     </font>

@@ -2,8 +2,14 @@ package controllers;
 
 import Util.Helpers;
 import Util.TypeHebergement;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import models.Hebergements;
 import models.ReservationHebergement;
+import models.User;
 import services.HebergementService;
 import services.ReservHebergService;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import services.UserService;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,8 +107,6 @@ public class AjouterHebergController implements Initializable {
     @FXML
     private Button btnSupprimer;
 
-    @FXML
-    private Button listes;
 
     private Hebergements hebergementActuel;
 
@@ -117,6 +122,17 @@ public class AjouterHebergController implements Initializable {
 
     private String selectedImagePath;
 
+    private User currentUser;
+
+    @FXML
+    private Text fullnameText;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (user != null) {
+            fullnameText.setText("Bonjour, " + user.getFirstname());
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,6 +145,63 @@ public class AjouterHebergController implements Initializable {
 
     public void refreshList() throws SQLException {
         hebergementList.setAll(hebergementService.recuperer());
+    }
+
+    @FXML
+    private void handleUserImageClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+            Parent root = loader.load();
+
+            ProfilController profilController = loader.getController();
+            profilController.setCurrentUser(currentUser);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading Profil.fxml: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleGuidesClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Guides.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set the current user
+            GuidesController guidesController = loader.getController();
+            guidesController.setCurrentUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true); // Set the stage to fullscreen
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading Guides.fxml: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleClientsClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set the current user
+            ClientsController clientsController = loader.getController();
+            clientsController.setCurrentUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true); // Set the stage to fullscreen
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading Clients.fxml: " + e.getMessage());
+        }
     }
 
     private void loadReservationsData() {
@@ -291,19 +364,6 @@ public class AjouterHebergController implements Initializable {
     }
 
     @FXML
-    private void afficherListeHebergements(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listesHeberg.fxml"));
-            Parent root = loader.load();
-            listes.getScene().setRoot(root);
-
-        } catch (IOException e) {
-            Helpers.showAlert("Erreur", "Impossible de charger la liste des hébergements.", Alert.AlertType.ERROR);
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private void supprimerHebergement() {
 
         if (hebergementActuel == null) {
@@ -335,5 +395,6 @@ public class AjouterHebergController implements Initializable {
             }
         });
     }
+
 }
 

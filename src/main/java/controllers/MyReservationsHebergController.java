@@ -3,6 +3,7 @@ package controllers;
 import Util.Helpers;
 import models.Hebergements;
 import models.ReservationHebergement;
+import models.User;
 import services.AvisService;
 import services.ReservHebergService;
 import javafx.collections.FXCollections;
@@ -35,6 +36,7 @@ public class MyReservationsHebergController implements Initializable {
 
     @FXML
     private Button retourr;
+    private User currentUser;
 
     private final ReservHebergService reservHebergService = ReservHebergService.getInstance();
 
@@ -53,7 +55,7 @@ public class MyReservationsHebergController implements Initializable {
 
     private void fetchData() {
         try {
-            reservations.setAll(reservHebergService.recuperer());
+            reservations.setAll(reservHebergService.getMyReservations(currentUser.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,10 +112,11 @@ public class MyReservationsHebergController implements Initializable {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
 
             Parent root = loader.load();
-
+            ProfilController profilController = loader.getController();
+            profilController.setCurrentUser(currentUser);
             retourr.getScene().setRoot(root);
         } catch (Exception ex) {
             Logger.getLogger(DetailHebergController.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,5 +151,9 @@ public class MyReservationsHebergController implements Initializable {
                 }
             }
         });
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 }

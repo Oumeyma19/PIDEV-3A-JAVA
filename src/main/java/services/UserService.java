@@ -337,16 +337,15 @@ public class UserService implements UserInterface {
     public User getUserbyID(int id) throws UserNotFoundException {
         User user = null;
         try {
-            String query = "SELECT * FROM user WHERE id = ? AND roles = ? LIMIT 1";
+            String query = "SELECT * FROM user WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, Type.ADMIN.name());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 user = createUserFromResultSet(resultSet);
             } else {
-                throw new UserNotFoundException("No ADMIN user found with ID: " + id);
+                throw new UserNotFoundException("No user found with ID: " + id);
             }
 
             resultSet.close();

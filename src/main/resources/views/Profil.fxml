@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProfilController">
     <left>
         <VBox alignment="TOP_RIGHT" prefHeight="605.0" prefWidth="255.0" styleClass="primary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
             <children>
@@ -14,13 +21,13 @@
                     <children>
                         <ImageView fx:id="homeImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleHome" pickOnBounds="true" preserveRatio="true">
                             <VBox.margin>
-                                <Insets top="20.0" left="20.0" />
+                                <Insets left="20.0" top="20.0" />
                             </VBox.margin>
                             <image>
                                 <Image url="@fleche.png" />
                             </image>
                         </ImageView>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Mon Profile" styleClass="white-bold-text">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="white-bold-text" text="Mon Profile">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
@@ -37,7 +44,7 @@
                                 <Image url="@8792047.png" />
                             </image>
                         </ImageView>
-                        <Label fx:id="nomUserLabel" text="Nom_User" textFill="WHITE" styleClass="white-bold-text">
+                        <Label fx:id="nomUserLabel" styleClass="white-bold-text" text="Nom_User" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
@@ -56,7 +63,7 @@
                                         <Image url="@/views/mdp.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="35.0" prefWidth="217.0" text="Modifier MDP" textFill="WHITE" onMouseClicked="#handleChangePassword" styleClass="white-bold-text">
+                                <Label onMouseClicked="#handleChangePassword" prefHeight="35.0" prefWidth="217.0" styleClass="white-bold-text" text="Modifier MDP" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -76,7 +83,7 @@
                                         <Image url="@recompenses.png.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="50.0" prefWidth="191.0" text="Récompenses" textFill="WHITE" styleClass="white-bold-text">
+                                <Label prefHeight="50.0" prefWidth="191.0" styleClass="white-bold-text" text="Récompenses" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -96,7 +103,7 @@
                                         <Image url="@vols.png.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="38.0" prefWidth="169.0" text="Réservations" textFill="WHITE" styleClass="white-bold-text">
+                                <Label onMouseClicked="#goReservations" prefHeight="38.0" prefWidth="169.0" styleClass="white-bold-text" text="Réservations" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -116,7 +123,7 @@
                                         <Image url="@tours.png.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="38.0" prefWidth="169.0" text="Tours" textFill="WHITE" styleClass="white-bold-text">
+                                <Label prefHeight="38.0" prefWidth="169.0" styleClass="white-bold-text" text="Tours" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -136,7 +143,7 @@
                                         <Image url="@offres.png.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="38.0" prefWidth="169.0" text="Offres" textFill="WHITE" styleClass="white-bold-text">
+                                <Label prefHeight="38.0" prefWidth="169.0" styleClass="white-bold-text" text="Offres" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -153,7 +160,7 @@
                 </VBox>
                 <ImageView fx:id="logoutImage" fitHeight="24.0" fitWidth="45.0" onMouseClicked="#handleLogout" pickOnBounds="true" preserveRatio="true">
                     <VBox.margin>
-                        <Insets top="20.0" left="20.0" />
+                        <Insets left="20.0" top="20.0" />
                     </VBox.margin>
                     <image>
                         <Image url="@logout.png" />
@@ -168,7 +175,7 @@
     <center>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="secondary-color" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" prefHeight="70.0" prefWidth="734.0" text="Détails du profile" styleClass="black-bold-large-text">
+                <Label alignment="CENTER" prefHeight="70.0" prefWidth="734.0" styleClass="black-bold-large-text" text="Détails du profile">
                     <font>
                         <Font name="Franklin Gothic Demi Italic" size="60.0" />
                     </font>
@@ -177,7 +184,7 @@
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label alignment="TOP_LEFT" prefHeight="22.0" prefWidth="113.0" text="Nom" styleClass="black-bold-text">
+                                <Label alignment="TOP_LEFT" prefHeight="22.0" prefWidth="113.0" styleClass="black-bold-text" text="Nom">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -198,7 +205,7 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="96.0" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Prénom" styleClass="black-bold-text">
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" styleClass="black-bold-text" text="Prénom">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -219,7 +226,7 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="91.0" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Email" styleClass="black-bold-text">
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" styleClass="black-bold-text" text="Email">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -240,7 +247,7 @@
                         </HBox>
                         <HBox layoutX="10.0" layoutY="220.0" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" text="Téléphone" styleClass="black-bold-text">
+                                <Label alignment="TOP_LEFT" prefHeight="27.0" prefWidth="118.0" styleClass="black-bold-text" text="Téléphone">
                                     <font>
                                         <Font size="18.0" />
                                     </font>

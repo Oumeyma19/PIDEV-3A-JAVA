@@ -130,6 +130,24 @@ public class ClientsController {
             System.err.println("Error loading Guides.fxml: " + e.getMessage());
         }
     }
+    @FXML
+    private void handleHebergClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Heberg.fxml"));
+            Parent root = loader.load();
+            AjouterHebergController ajouterHebergController = loader.getController();
+
+            ajouterHebergController.setCurrentUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true); // Set the stage to fullscreen
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error loading heberg.fxml: " + e.getMessage());
+        }
+    }
 
 
     private ClientService clientService = ClientService.getInstance();

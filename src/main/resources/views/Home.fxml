@@ -17,7 +17,7 @@
         <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #ed6637; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
             <Button style="-fx-text-fill: white;" styleClass="nav-button" text="Acceuil" />
             <Button style="-fx-text-fill: white;" styleClass="nav-button" text="Vols" />
-            <Button fx:id="navlistes" style="-fx-text-fill: white;" styleClass="nav-button" text="Hébèrgements" onAction="#afficherListeHebergements" />
+            <Button fx:id="navlistes" onAction="#afficherListeHebergements" style="-fx-text-fill: white;" styleClass="nav-button" text="Hébèrgements" />
             <Button style="-fx-text-fill: white;" styleClass="nav-button" text="Tours" />
             <Button style="-fx-text-fill: white;" styleClass="nav-button" text="Offres" />
             <Button style="-fx-text-fill: white;" styleClass="nav-button" text="Récompenses" />

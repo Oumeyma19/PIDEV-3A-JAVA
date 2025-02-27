@@ -39,6 +39,8 @@ public class HomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listesHeberg.fxml"));
             Parent root = loader.load();
+            ListesHebergController listesHebergController = loader.getController();
+            listesHebergController.setCurrentUser(currentUser);
             navlistes.getScene().setRoot(root);
 
         } catch (IOException e) {

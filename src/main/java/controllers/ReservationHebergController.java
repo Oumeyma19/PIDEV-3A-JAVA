@@ -34,6 +34,7 @@ public class ReservationHebergController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listReservationsHebergements.fxml"));
             Parent root = loader.load();
+
             navlistes.getScene().setRoot(root);
 
         } catch (IOException e) {
