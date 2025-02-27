@@ -298,3 +298,9 @@
 .text-field, .password-field {
    /* -fx-background-insets: 5;*/
 }
+
+.black-large-text {
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}

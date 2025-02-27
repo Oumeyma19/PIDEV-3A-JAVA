@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RandomCodeController">
+<AnchorPane prefHeight="400.0" prefWidth="666.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RandomCodeController">
     <children>
         <!-- Image de fond -->
         <ImageView fitHeight="242.0" fitWidth="294.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
@@ -15,66 +15,22 @@
         </ImageView>
 
         <!-- Titre de la page -->
-        <Text layoutX="310.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Réinitialiser le mot de passe">
+        <Text layoutX="310.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Réinitialiser le mot de passe -">
             <font>
-                <Font name="Berlin Sans FB Demi Bold" size="24.0" />
+                <Font name="System Bold" size="24.0" />
             </font>
         </Text>
 
         <!-- Message d'instructions -->
-        <Label layoutX="310.0" layoutY="130.0" text="Entrez le code de vérification envoyé à votre numéro.">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Label>
-
-        <!-- Champs pour le code de vérification -->
-        <TextField fx:id="digit1" alignment="CENTER" layoutX="321.0" layoutY="180.0" prefHeight="38.0" prefWidth="43.0" promptText="*">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </TextField>
-        <TextField fx:id="digit2" alignment="CENTER" layoutX="371.0" layoutY="180.0" prefHeight="37.0" prefWidth="43.0" promptText="*">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </TextField>
-        <TextField fx:id="digit3" alignment="CENTER" layoutX="422.0" layoutY="180.0" prefHeight="37.0" prefWidth="43.0" promptText="*">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </TextField>
-        <TextField fx:id="digit4" alignment="CENTER" layoutX="473.0" layoutY="180.0" prefHeight="37.0" prefWidth="43.0" promptText="*">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </TextField>
-
-        <!-- Bouton de validation -->
-        <Button fx:id="Submit" layoutX="368.0" layoutY="250.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="91.0" text="Valider" onAction="#submitBtn">
-            <font>
-                <Font size="16.0" />
-            </font>
-        </Button>
-
-        <!-- Message en cas de code invalide -->
-        <Label fx:id="InvalidCode" layoutX="327.0" layoutY="220.0" prefHeight="15.0" prefWidth="150.0" textFill="RED" visible="false">
-            <font>
-                <Font size="12.0" />
-            </font>
-        </Label>
-
-        <!-- Lien pour renvoyer le code -->
-        <Label layoutX="340.0" layoutY="300.0" prefHeight="18.0" prefWidth="172.0" text="Vous n'avez pas reçu le code ?">
-            <font>
-                <Font name="System Italic" size="12.0" />
-            </font>
-        </Label>
-        <Label fx:id="ResendCode" layoutX="446.0" layoutY="318.0" prefHeight="0.0" prefWidth="91.0" text="Renvoyer le code" underline="true">
-            <font>
-                <Font name="System Italic" size="12.0" />
-            </font>
-        </Label>
+        <Label layoutX="310.0" layoutY="130.0" styleClass="text" text="Entrez le code de vérification envoyé à votre numéro." />
+        <TextField fx:id="digit1" alignment="CENTER" layoutX="321.0" layoutY="200.0" prefHeight="38.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit2" alignment="CENTER" layoutX="371.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit3" alignment="CENTER" layoutX="422.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit4" alignment="CENTER" layoutX="473.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <Button fx:id="Submit" layoutX="368.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitBtn" prefHeight="38.0" prefWidth="91.0" styleClass="button" text="Valider" />
+        <Label fx:id="InvalidCode" layoutX="327.0" layoutY="220.0" prefHeight="15.0" prefWidth="150.0" textFill="RED" visible="false" />
+        <Label layoutX="340.0" layoutY="300.0" prefHeight="18.0" prefWidth="213.0" styleClass="text" text="Vous n'avez pas reçu le code ?" />
+        <Label fx:id="ResendCode" layoutX="446.0" layoutY="318.0" prefHeight="18.0" prefWidth="167.0" styleClass="text-button" text="Renvoyer le code" underline="true" />
 
         <!-- Bouton de retour -->
         <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
