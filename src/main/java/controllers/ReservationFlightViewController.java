@@ -23,14 +23,13 @@ import models.User;
 import services.ClientService;
 import services.FlightService;
 import services.ReservationsFlightsService;
+import services.UserService;
 
 public class ReservationFlightViewController implements Initializable {
 
     @FXML
     private TableView<ReservationViewModel> reservationTable;
 
-    @FXML
-    private TableColumn<ReservationViewModel, Integer> idResFlightColumn;
 
     @FXML
     private TableColumn<ReservationViewModel, String> flightNumberColumn;
@@ -61,7 +60,14 @@ public class ReservationFlightViewController implements Initializable {
 
     private ReservationsFlightsService reservationService;
     private FlightService flightService;
+    private UserService userService;
     private ObservableList<ReservationViewModel> reservationsList = FXCollections.observableArrayList();
+    private User currentUser;
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
 
     // View model class to display reservation data in the table
     public static class ReservationViewModel {
@@ -104,9 +110,9 @@ public class ReservationFlightViewController implements Initializable {
         // Initialize services
         reservationService = new ReservationsFlightsService();
         flightService = new FlightService();
+        userService = new UserService();
 
         // Set up table columns
-        idResFlightColumn.setCellValueFactory(new PropertyValueFactory<>("idResFlight"));
         flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
         departureColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
         destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
@@ -135,7 +141,12 @@ public class ReservationFlightViewController implements Initializable {
     // Load the current user's reservations
     private void loadUserReservations() {
         // Get the current logged-in user from ClientService
-        User currentUser = ClientService.getLoggedInUser();
+
+
+
+        currentUser = userService.getLoggedInUser();
+        System.out.println("Current user: " + currentUser);
+
 
 
         if (currentUser == null) {

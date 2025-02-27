@@ -33,7 +33,6 @@
                 </HBox>
                 <TableView fx:id="reservationTable" prefHeight="450.0" prefWidth="780.0">
                     <columns>
-                        <TableColumn fx:id="idResFlightColumn" prefWidth="100.0" text="Reservation ID" />
                         <TableColumn fx:id="flightNumberColumn" prefWidth="100.0" text="Flight Number" />
                         <TableColumn fx:id="departureColumn" prefWidth="150.0" text="Departure" />
                         <TableColumn fx:id="destinationColumn" prefWidth="150.0" text="Destination" />

@@ -53,7 +53,7 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@mdp.png" />
+                                        <Image url="@/views/mdp.png" />
                                     </image>
                                 </ImageView>
                                 <Label prefHeight="35.0" prefWidth="217.0" text="Modifier MDP" textFill="WHITE" onMouseClicked="#handleChangePassword" styleClass="white-bold-text">
@@ -91,12 +91,12 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="200.0" styleClass="selected" stylesheets="@SignIn.css">
                             <children>
-                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" >
                                     <image>
                                         <Image url="@vols.png.png" />
                                     </image>
                                 </ImageView>
-                                <Label prefHeight="38.0" prefWidth="169.0" text="Réservations Offers" textFill="WHITE" onMouseClicked="#handleReservationO" styleClass="white-bold-text">
+                                <Label prefHeight="38.0" prefWidth="169.0" text="Réservations" textFill="WHITE" styleClass="white-bold-text" onMouseClicked="#NavigateToReservationFlight">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
