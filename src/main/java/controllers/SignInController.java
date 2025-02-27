@@ -1,8 +1,9 @@
 package controllers;
 
 import javafx.animation.PauseTransition;
+import javafx.scene.Node;
 import javafx.util.Duration;
-import services.SessionService;
+import services.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +14,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
-import services.ClientService;
-import services.GuideService;
-import services.UserService;
-import services.SessionManager;
 import exceptions.*;
 import util.Type;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -272,5 +270,35 @@ public class SignInController {
                 }
             }
         }, 0, 1000);
+    }
+
+    @FXML
+    public void redirectToRandomCode() {
+        String email = emailField.getText().trim();
+
+        if (email.isEmpty()) {
+            showError("Veuillez saisir votre e-mail.");
+            return;
+        }
+
+        try {
+            User user = clientService.getUserbyEmail(email);
+            String phoneNumber = user.getPhone();
+            PasswordResetService resetService = PasswordResetService.getInstance();
+            resetService.sendVerificationCode(phoneNumber);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RandomCode.fxml"));
+            Parent root = loader.load();
+            RandomCodeController randomCodeController = loader.getController();
+            randomCodeController.setPhoneNumber(phoneNumber);
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (UserNotFoundException e) {
+            showError("Aucun utilisateur trouvé avec cet e-mail.");
+        } catch (IOException e) {
+            showError("Une erreur s'est produite lors de la redirection.");
+            e.printStackTrace();
+        }
     }
 }

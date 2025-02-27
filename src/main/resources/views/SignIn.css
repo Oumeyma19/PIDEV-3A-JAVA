@@ -13,9 +13,9 @@
     -fx-text-fill: black;
 }
 
-.text {
-    -fx-font-size: 14px;
-    -fx-text-fill: black;
+
+#forgotPasswordLabel {
+    -fx-text-fill: white; /* Assurez-vous que le texte est blanc */
 }
 
 .button {

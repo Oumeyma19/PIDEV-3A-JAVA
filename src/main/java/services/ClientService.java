@@ -93,6 +93,7 @@ public class ClientService implements UserInterface {
             System.err.println(ex.getMessage());
         }
     }
+
     public void updatePassword(int userId, String newPassword) throws UserNotFoundException, IncorrectPasswordException, EmptyFieldException {
         // Vérifier que le nouveau mot de passe n'est pas vide
         if (newPassword == null || newPassword.trim().isEmpty()) {
@@ -203,7 +204,6 @@ public class ClientService implements UserInterface {
         } catch (SQLException ex) {
             System.err.println("Error updating client: " + ex.getMessage());
         }
-
     }
 
     public void updateBasicClientInfo(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException {
@@ -216,7 +216,6 @@ public class ClientService implements UserInterface {
         if (!validationService.isValidEmail(user.getEmail())) {
             throw new InvalidEmailException("Invalid email address.");
         }
-
 
         // Validation du numéro de téléphone (si fourni)
         if (!user.getPhone().isEmpty() && !validationService.isValidPhoneNumber(user.getPhone())) {
@@ -244,7 +243,7 @@ public class ClientService implements UserInterface {
     }
 
     @Override
-    public void deleteUser(int id)throws UserNotFoundException {
+    public void deleteUser(int id) throws UserNotFoundException {
         User user = getUserbyID(id);
         String request = "DELETE FROM `user` WHERE `Id` =" + user.getId() + ";";
         try {
@@ -291,8 +290,6 @@ public class ClientService implements UserInterface {
         return users;
     }
 
-
-
     @Override
     public User getUserbyID(int id) throws UserNotFoundException {
         User user = null;
@@ -329,6 +326,7 @@ public class ClientService implements UserInterface {
 
             if (resultSet.next()) {
                 user = createUserFromResultSet(resultSet);
+                setLoggedInUser(user); // Set the logged-in user
             } else {
                 throw new UserNotFoundException("No CLIENT user found with email: " + email);
             }
@@ -358,7 +356,7 @@ public class ClientService implements UserInterface {
         }
         boolean is_banned = resultSet.getBoolean(9);
         boolean is_active = resultSet.getBoolean(10);
-        return new User(id, firstname, lastname, email, phone, password, pointsfid, nivfid, roles, is_banned,is_active);
+        return new User(id, firstname, lastname, email, phone, password, pointsfid, nivfid, roles, is_banned, is_active);
     }
 
     public void banUser(int userId) throws PermissionException, UserNotFoundException {
