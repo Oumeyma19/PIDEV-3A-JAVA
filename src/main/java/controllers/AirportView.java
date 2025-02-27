@@ -16,8 +16,10 @@ import util.AirportCSVUtil;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static util.AirportAPIUtil.searchAirports;
+import static util.AirportAPIUtil.searchAirportsByName;
 
 public class AirportView {
     @FXML private TableView<Airport> airportTable;
@@ -133,15 +135,21 @@ public class AirportView {
             TextField nameField = (TextField) root.lookup("#nameField");
             TextField locationField = (TextField) root.lookup("#locationField");
             TextField codeField = (TextField) root.lookup("#codeField");
-            ListView<Airport> suggestionsListView = (ListView<Airport>) root.lookup("#suggestionsListView");
+            ListView<String> suggestionsListView = (ListView<String>) root.lookup("#suggestionsListView");
 
             // Load airports from the CSV file
             List<Airport> airports = AirportCSVUtil.loadAirportsFromCSV("src/main/resources/airports.csv");
+            List<String> airportNames = airports.stream()
+                    .map(Airport::getNameAirport)
+                    .collect(Collectors.toList());
+
+            // Debugging: Print airport names
+            /*System.out.println(airportNames);*/
 
             // Set up auto-complete for the name field
             nameField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue.length() >= 3) { // Trigger search after 3 characters
-                    List<Airport> filteredAirports = searchAirports(newValue, airports);
+                    List<String> filteredAirports = searchAirportsByName(newValue, airportNames);
                     suggestionsListView.getItems().setAll(filteredAirports); // Update the ListView with results
                 } else {
                     suggestionsListView.getItems().clear(); // Clear the ListView if the input is too short
@@ -151,9 +159,17 @@ public class AirportView {
             // Handle selection from the ListView
             suggestionsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-                    nameField.setText(newValue.getNameAirport());
-                    locationField.setText(newValue.getLocation());
-                    codeField.setText(newValue.getCode());
+                    // Find the corresponding Airport object
+                    Airport selectedAirport = airports.stream()
+                            .filter(a -> a.getNameAirport().equals(newValue))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (selectedAirport != null) {
+                        nameField.setText(selectedAirport.getNameAirport());
+                        locationField.setText(selectedAirport.getLocation());
+                        codeField.setText(selectedAirport.getCode());
+                    }
                 }
             });
 
@@ -169,5 +185,6 @@ public class AirportView {
             e.printStackTrace();
         }
     }
+
 
 }

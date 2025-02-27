@@ -29,6 +29,23 @@ public class AirportAPIUtil {
         System.out.println("Airports found: " + filteredAirports.size()); // Debug: Print number of airports found
         return filteredAirports;
     }
+
+    public static List<String> searchAirportsByName(String query, List<String> airportNames) {
+        List<String> filteredAirports = new ArrayList<>();
+
+        for (String name : airportNames) {
+            if (name.toLowerCase().contains(query.toLowerCase())) {
+                filteredAirports.add(name);
+            }
+        }
+
+        System.out.println("Airports found: " + filteredAirports.size()); // Debug: Print number of airports found
+        return filteredAirports;
+    }
+
+
+
+
    /* public static List<Airport> searchAirports(String query) {
         // Hardcoded data for testing
         List<Airport> airports = List.of(

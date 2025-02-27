@@ -29,11 +29,15 @@ public class AddAirportController {
             return;
         }
 
-        // Validate airport name (only letters and spaces)
-        if (!name.matches("^[A-Za-z\\s]+$")) {
-            showAlert("Validation Error", "Airport name must contain only letters and spaces.");
+
+
+        // Validate airport name (allows letters, hyphens (-), spaces, but no leading/trailing spaces)
+        if (!name.matches("^[A-Za-z][A-Za-z\\-]*( [A-Za-z\\-]+)*$")) {
+            showAlert("Validation Error", "Airport name can only contain letters, hyphens (-), and spaces (but no leading spaces).");
             return;
         }
+
+
 
         // Validate location (only letters and spaces)
         if (!location.matches("^[A-Za-z\\s]+$")) {

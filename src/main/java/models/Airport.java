@@ -34,6 +34,10 @@ public class Airport {
 
     }
 
+    public Airport(String nameAirport){
+        this.nameAirport = new SimpleStringProperty(nameAirport);
+    }
+
 
 
 
