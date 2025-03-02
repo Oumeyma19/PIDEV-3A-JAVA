@@ -20,22 +20,28 @@
     <spacing>5</spacing>
 
     <!-- Flight Time and Duration -->
-    <HBox spacing="5" alignment="CENTER">
+    <HBox spacing="10" alignment="CENTER">
+        <!-- Departure Time -->
         <Label fx:id="departureTimeLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
         <Label text="→" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+        <!-- Arrival Time -->
         <Label fx:id="arrivalTimeLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+        <!-- Duration -->
         <Label fx:id="durationLabel" style="-fx-font-size: 12px; -fx-text-fill: #666666;" />
     </HBox>
 
     <!-- Flight Details -->
-    <HBox spacing="5" alignment="CENTER">
+    <HBox spacing="10" alignment="CENTER">
+        <!-- Departure Airport -->
         <Label fx:id="departureAirportLabel" style="-fx-font-size: 12px; -fx-text-fill: #333333;" />
         <Label text="Direct" style="-fx-font-size: 12px; -fx-text-fill: #666666;" />
+        <!-- Arrival Airport -->
         <Label fx:id="arrivalAirportLabel" style="-fx-font-size: 12px; -fx-text-fill: #333333;" />
     </HBox>
 
     <!-- Price and Offers -->
-    <HBox spacing="5" alignment="CENTER_RIGHT">
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <!-- Price -->
         <Label fx:id="priceLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #007bff;" />
         <Label text="2 offres clés" style="-fx-font-size: 12px; -fx-text-fill: #666666;" />
     </HBox>

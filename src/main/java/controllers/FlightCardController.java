@@ -8,20 +8,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent; // ✅ FIXED import
+import javafx.event.ActionEvent;
 
 import models.Flight;
 import models.User;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
 public class FlightCardController {
 
     private Flight flight;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     @FXML
-    private Label departureTimeLabel, arrivalTimeLabel, departureAirportLabel, arrivalAirportLabel, priceLabel;
+    private Label departureTimeLabel, arrivalTimeLabel, departureAirportLabel, arrivalAirportLabel, priceLabel, durationLabel;
 
     @FXML
     private Button viewDetailsButton;
@@ -29,8 +31,31 @@ public class FlightCardController {
     public void setFlightData(Flight flight) {
         this.flight = flight;
 
-        departureTimeLabel.setText(sdf.format(flight.getDepartureTime()));
-        arrivalTimeLabel.setText(sdf.format(flight.getArrivalTime()));
+        // Format time
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+// Format departure and arrival times
+        String departureTime = timeFormat.format(flight.getDepartureTime());
+        String arrivalTime = timeFormat.format(flight.getArrivalTime());
+
+// Use LocalTime for better accuracy
+        LocalTime depTime = flight.getDepartureTime().toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalTime();
+        LocalTime arrTime = flight.getArrivalTime().toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalTime();
+
+// Calculate duration correctly
+        Duration duration = Duration.between(depTime, arrTime);
+        long durationHours = duration.toHours();
+        long durationMinutes = duration.toMinutes() % 60;
+
+// Format duration
+        String formattedDuration = String.format("%02d h %02d min", durationHours, durationMinutes);
+
+        // Set labels
+        departureTimeLabel.setText(departureTime);
+        arrivalTimeLabel.setText(arrivalTime);
+        durationLabel.setText(formattedDuration);
         departureAirportLabel.setText(flight.getDepartureAirport().getCode());
         arrivalAirportLabel.setText(flight.getArrivalAirport().getCode());
         priceLabel.setText(flight.getPrice() + " €");
@@ -82,6 +107,7 @@ public class FlightCardController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private User currentUser;
 
     public void setCurrentUser(User user) {

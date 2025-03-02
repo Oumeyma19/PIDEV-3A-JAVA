@@ -25,7 +25,7 @@ public class MainFX extends Application {
 
 
         FXMLLoader loader = new FXMLLoader(getClass()
-                .getResource("/views/AirportView.fxml"));
+                .getResource("/views/FlightView.fxml"));
 
 
         Parent root = loader.load(); // classe java qui charque le fichier XML

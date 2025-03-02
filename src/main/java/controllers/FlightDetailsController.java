@@ -86,7 +86,7 @@ public class FlightDetailsController {
             String condition = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("text");
             double temp = jsonResponse.getJSONObject("current").getDouble("temp_c");
 
-            weatherLabel.setText("Weather: " + condition + ", " + temp + "°C");
+            weatherLabel.setText(condition + ", " + temp + "°C");
         } catch (Exception e) {
             weatherLabel.setText("Weather: Not Available");
             e.printStackTrace();

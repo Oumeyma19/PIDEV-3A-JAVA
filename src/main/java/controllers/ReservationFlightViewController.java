@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -9,14 +10,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import models.Flight;
 import models.ReservationsFlights;
 import models.User;
@@ -28,23 +39,7 @@ import services.UserService;
 public class ReservationFlightViewController implements Initializable {
 
     @FXML
-    private TableView<ReservationViewModel> reservationTable;
-
-
-    @FXML
-    private TableColumn<ReservationViewModel, String> flightNumberColumn;
-
-    @FXML
-    private TableColumn<ReservationViewModel, String> departureColumn;
-
-    @FXML
-    private TableColumn<ReservationViewModel, String> destinationColumn;
-
-    @FXML
-    private TableColumn<ReservationViewModel, String> dateColumn;
-
-    @FXML
-    private TableColumn<ReservationViewModel, String> bookingDateColumn;
+    private FlowPane reservationsFlowPane;
 
     @FXML
     private Button viewDetailsBtn;
@@ -63,6 +58,7 @@ public class ReservationFlightViewController implements Initializable {
     private UserService userService;
     private ObservableList<ReservationViewModel> reservationsList = FXCollections.observableArrayList();
     private User currentUser;
+    private ReservationViewModel selectedReservation;
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
@@ -112,27 +108,9 @@ public class ReservationFlightViewController implements Initializable {
         flightService = new FlightService();
         userService = new UserService();
 
-        // Set up table columns
-        flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
-        departureColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
-        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("flightDate"));
-        bookingDateColumn.setCellValueFactory(new PropertyValueFactory<>("bookingDate"));
-
         // Set up buttons
         cancelReservationBtn.setDisable(true);
         viewDetailsBtn.setDisable(true);
-
-        // Add selection listener
-        reservationTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                cancelReservationBtn.setDisable(false);
-                viewDetailsBtn.setDisable(false);
-            } else {
-                cancelReservationBtn.setDisable(true);
-                viewDetailsBtn.setDisable(true);
-            }
-        });
 
         // Load the logged-in user's reservations
         loadUserReservations();
@@ -140,14 +118,9 @@ public class ReservationFlightViewController implements Initializable {
 
     // Load the current user's reservations
     private void loadUserReservations() {
-        // Get the current logged-in user from ClientService
-
-
-
+        // Get the current logged-in user from UserService
         currentUser = userService.getLoggedInUser();
         System.out.println("Current user: " + currentUser);
-
-
 
         if (currentUser == null) {
             Alert alert = new Alert(AlertType.WARNING);
@@ -160,6 +133,9 @@ public class ReservationFlightViewController implements Initializable {
 
         List<ReservationsFlights> allReservations = reservationService.afficher();
         reservationsList.clear();
+
+        // Clear the flow pane
+        reservationsFlowPane.getChildren().clear();
 
         for (ReservationsFlights res : allReservations) {
             if (res.getUser().getId() == currentUser.getId()) {
@@ -174,10 +150,12 @@ public class ReservationFlightViewController implements Initializable {
 
                 ReservationViewModel viewModel = new ReservationViewModel(res, flight);
                 reservationsList.add(viewModel);
+
+                // Create and add a card for this reservation
+                VBox card = createReservationCard(viewModel);
+                reservationsFlowPane.getChildren().add(card);
             }
         }
-
-        reservationTable.setItems(reservationsList);
 
         if (reservationsList.isEmpty()) {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -188,20 +166,89 @@ public class ReservationFlightViewController implements Initializable {
         }
     }
 
+    private VBox createReservationCard(ReservationViewModel reservation) {
+        // Create card container
+        VBox card = new VBox();
+        card.setPrefWidth(230);
+        card.setPrefHeight(200);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 10;");
+        card.setPadding(new Insets(15));
+        card.setSpacing(8);
+
+        // Add drop shadow effect
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.gray(0.4));
+        shadow.setRadius(5);
+        card.setEffect(shadow);
+
+        // Flight number with larger font
+        Label flightNumberLabel = new Label(reservation.getFlightNumber());
+        flightNumberLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+
+        // Route information
+        Label routeLabel = new Label(reservation.getDeparture() + " → " + reservation.getDestination());
+        routeLabel.setStyle("-fx-font-size: 14;");
+
+        // Flight date information
+        Label flightDateLabel = new Label("Flight: " + reservation.getFlightDate());
+        flightDateLabel.setStyle("-fx-font-size: 12;");
+
+        // Booking date information
+        Label bookingDateLabel = new Label("Booked: " + reservation.getBookingDate());
+        bookingDateLabel.setStyle("-fx-font-size: 12;");
+
+        // Reservation ID information
+
+
+
+        // Add all elements to card
+        card.getChildren().addAll(
+                flightNumberLabel,
+                routeLabel,
+                flightDateLabel,
+                bookingDateLabel
+
+        );
+
+        // Handle card selection
+        card.setCursor(Cursor.HAND);
+        card.setOnMouseClicked(event -> {
+            // Deselect all cards first
+            for (int i = 0; i < reservationsFlowPane.getChildren().size(); i++) {
+                reservationsFlowPane.getChildren().get(i).setStyle(
+                        "-fx-background-color: white; -fx-background-radius: 10;"
+                );
+            }
+
+            // Select this card
+            card.setStyle(
+                    "-fx-background-color: #e6f2ff; -fx-background-radius: 10; -fx-border-color: #0078d7; -fx-border-width: 2; -fx-border-radius: 10;"
+            );
+
+            // Update selected reservation
+            selectedReservation = reservation;
+
+            // Enable action buttons
+            viewDetailsBtn.setDisable(false);
+            cancelReservationBtn.setDisable(false);
+        });
+
+        return card;
+    }
+
     @FXML
     private void handleViewDetails(ActionEvent event) {
-        ReservationViewModel selected = reservationTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
+        if (selectedReservation != null) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Reservation Details");
-            alert.setHeaderText("Details for Reservation #" + selected.getIdResFlight());
+            alert.setHeaderText("Details for Reservation #" + selectedReservation.getIdResFlight());
 
             // Get the full flight details
-            Flight flight = flightService.getFlightById(selected.getReservation().getFlight().getIdFlight());
+            Flight flight = flightService.getFlightById(selectedReservation.getReservation().getFlight().getIdFlight());
 
             StringBuilder content = new StringBuilder();
-            content.append("Flight Number: ").append(selected.getFlightNumber()).append("\n\n");
-            content.append("Route: ").append(selected.getDeparture()).append(" to ").append(selected.getDestination()).append("\n\n");
+            content.append("Flight Number: ").append(selectedReservation.getFlightNumber()).append("\n\n");
+            content.append("Route: ").append(selectedReservation.getDeparture()).append(" to ").append(selectedReservation.getDestination()).append("\n\n");
 
             if (flight != null) {
                 content.append("Departure Airport: ").append(flight.getDepartureAirportName()).append("\n");
@@ -209,8 +256,8 @@ public class ReservationFlightViewController implements Initializable {
                 content.append("Price: ").append(flight.getPrice()).append(" TND\n\n");
             }
 
-            content.append("Flight Date: ").append(selected.getFlightDate()).append("\n");
-            content.append("Booking Date: ").append(selected.getBookingDate());
+            content.append("Flight Date: ").append(selectedReservation.getFlightDate()).append("\n");
+            content.append("Booking Date: ").append(selectedReservation.getBookingDate());
 
             alert.setContentText(content.toString());
             alert.showAndWait();
@@ -219,20 +266,24 @@ public class ReservationFlightViewController implements Initializable {
 
     @FXML
     private void handleCancelReservation(ActionEvent event) {
-        ReservationViewModel selected = reservationTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
+        if (selectedReservation != null) {
             Alert confirmation = new Alert(AlertType.CONFIRMATION);
             confirmation.setTitle("Cancel Reservation");
             confirmation.setHeaderText("Confirm Cancellation");
-            confirmation.setContentText("Are you sure you want to cancel reservation #" + selected.getIdResFlight() + "?");
+            confirmation.setContentText("Are you sure you want to cancel reservation #" + selectedReservation.getIdResFlight() + "?");
 
             confirmation.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    ReservationsFlights reservation = selected.getReservation();
+                    ReservationsFlights reservation = selectedReservation.getReservation();
                     reservationService.supprimer(reservation);
 
-                    // Refresh the table
+                    // Refresh the view
                     loadUserReservations();
+
+                    // Reset selection state
+                    selectedReservation = null;
+                    viewDetailsBtn.setDisable(true);
+                    cancelReservationBtn.setDisable(true);
 
                     Alert success = new Alert(AlertType.INFORMATION);
                     success.setTitle("Cancellation Successful");
@@ -246,14 +297,38 @@ public class ReservationFlightViewController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        // Navigate back to the previous screen
-        // This would typically be implemented by the parent controller or navigation service
-        // For example:
-        // mainController.showDashboard();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set the current user
+            ProfilController profilController = loader.getController();
+            profilController.setCurrentUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // Better error handling with user feedback
+            System.err.println("Error loading Profil view: " + e.getMessage());
+            e.printStackTrace();
+
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Navigation Error");
+            alert.setHeaderText("Cannot Return to Profile");
+            alert.setContentText("An error occurred while trying to navigate back to the profile page. Please try again.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadUserReservations();
+        // Reset selection state
+        selectedReservation = null;
+        viewDetailsBtn.setDisable(true);
+        cancelReservationBtn.setDisable(true);
     }
 }

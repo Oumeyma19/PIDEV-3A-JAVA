@@ -72,7 +72,7 @@
     </HBox>
 
     <!-- Flight Results -->
-    <ScrollPane fitToWidth="true" prefHeight="500" prefWidth="860.0">
+    <ScrollPane fitToWidth="true" prefHeight="500" prefWidth="860.0" >
         <VBox fx:id="flightResultsContainer" spacing="10">
             <!-- Flight cards will be dynamically added here -->
         </VBox>
