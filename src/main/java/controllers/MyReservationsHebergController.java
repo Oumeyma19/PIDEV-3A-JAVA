@@ -23,39 +23,34 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import services.UserService;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MyReservationsHebergController implements Initializable {
+public class MyReservationsHebergController {
 
     @FXML
     private FlowPane reservationsFlowPane;
 
     @FXML
     private Button retourr;
+
     private User currentUser;
 
     private final ReservHebergService reservHebergService = ReservHebergService.getInstance();
 
     private final ObservableList<ReservationHebergement> reservations = FXCollections.observableArrayList();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        fetchData();
-
-        for (ReservationHebergement reservationHebergement : reservations) {
-            VBox hebergementContainer = createHebergementContainer(reservationHebergement);
-            hebergementContainer.setId(reservationHebergement.getReservationHeberg_id() + "");
-            reservationsFlowPane.getChildren().add(hebergementContainer);
-        }
-    }
 
     private void fetchData() {
         try {
-            reservations.setAll(reservHebergService.getMyReservations(currentUser.getId()));
+            List<ReservationHebergement> myReservations = reservHebergService.getMyReservations(this.currentUser.getId());
+            System.out.println(myReservations);
+            reservations.setAll(myReservations);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,5 +150,12 @@ public class MyReservationsHebergController implements Initializable {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
+        fetchData();
+        System.out.println("[MY RESERVATIONS CONTROLLER] logged in user: " + currentUser);
+        for (ReservationHebergement reservationHebergement : reservations) {
+            VBox hebergementContainer = createHebergementContainer(reservationHebergement);
+            hebergementContainer.setId(reservationHebergement.getReservationHeberg_id() + "");
+            reservationsFlowPane.getChildren().add(hebergementContainer);
+        }
     }
 }

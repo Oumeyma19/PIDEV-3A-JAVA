@@ -216,13 +216,13 @@ public class ProfilController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void goReservations(javafx.scene.input.MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/listReservationsHebergements.fxml"));
             Parent root = loader.load();
-            MyReservationsHebergController controller  = loader.getController();
-
+            MyReservationsHebergController controller = loader.getController();
             controller.setCurrentUser(currentUser);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

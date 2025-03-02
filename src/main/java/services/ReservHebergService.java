@@ -83,7 +83,7 @@ public class ReservHebergService {
         String sql = "SELECT * FROM reservationhebergement WHERE idUser = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, userId);
-        ResultSet rs = ps.executeQuery(sql);
+        ResultSet rs = ps.executeQuery();
         List<ReservationHebergement> reservations = new ArrayList<>();
         while (rs.next()) {
             ReservationHebergement R = new ReservationHebergement();

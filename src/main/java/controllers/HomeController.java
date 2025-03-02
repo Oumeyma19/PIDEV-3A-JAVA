@@ -57,6 +57,7 @@ public class HomeController {
             // Pass the user data to the ProfilController
             ProfilController profilController = loader.getController();
             profilController.setCurrentUser(currentUser);
+            System.out.println("[HOME CONTROLLER] logged in user: " + currentUser);
 
             Stage stage = (Stage) profileButton.getScene().getWindow();
             stage.setScene(new Scene(root));

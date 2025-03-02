@@ -1,14 +1,20 @@
 package controllers;
 
 import Util.Helpers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.DragEvent;
 import javafx.stage.Stage;
 import models.Hebergements;
 import models.User;
+import org.controlsfx.control.RangeSlider;
 import services.HebergementService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -27,6 +33,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,8 +45,21 @@ public class ListesHebergController implements Initializable {
     @FXML
     private Button btnBack;
 
+    @FXML
+    private RangeSlider priceRangeSlider;
+
+    @FXML
+    private Label minPriceLabel;
+
+    @FXML
+    private Label maxPriceLabel;
+
     private HebergementService hebergementService = HebergementService.getInstance();
     private User currentUser;
+
+    private final ObservableList<Hebergements> hebergementList = FXCollections.observableArrayList();
+
+    private FilteredList<Hebergements> items;
 
     private VBox createHebergementContainer(Hebergements hebergement) {
         VBox hebergementContainer = new VBox(10);
@@ -99,14 +119,46 @@ public class ListesHebergController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            List<Hebergements> hebergements = hebergementService.recuperer();
-            for (Hebergements hebergement : hebergements) {
-                VBox hebergementContainer = createHebergementContainer(hebergement);
-                hebergementsFlowPane.getChildren().add(hebergementContainer);
-            }
-
+            loadData();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void loadData() throws SQLException {
+        hebergementList.setAll(hebergementService.recuperer());
+
+        priceRangeSlider.setLowValue(1000);
+        priceRangeSlider.setHighValue(9999);
+
+        // Add listeners to the RangeSlider to trigger filtering when values change
+        priceRangeSlider.lowValueProperty().addListener((obs, oldVal, newVal) -> filterLodgingsByPrice());
+        priceRangeSlider.highValueProperty().addListener((obs, oldVal, newVal) -> filterLodgingsByPrice());
+
+
+        items = new FilteredList<>(hebergementList);
+
+        updateFlowPane();
+    }
+
+    @FXML
+    public void filterLodgingsByPrice() {
+        Predicate<Hebergements> rangeBetween = h -> h.getPrixHeberg() >= priceRangeSlider.getLowValue()
+                && h.getPrixHeberg() <= priceRangeSlider.getHighValue();
+
+        items.setPredicate(rangeBetween);
+
+        updateFlowPane();
+    }
+
+    private void updateFlowPane() {
+        // Clear the existing items in the FlowPane
+        hebergementsFlowPane.getChildren().clear();
+
+        // Add the filtered items to the FlowPane
+        for (Hebergements hebergement : items) {
+            VBox hebergementContainer = createHebergementContainer(hebergement);
+            hebergementsFlowPane.getChildren().add(hebergementContainer);
         }
     }
 
