@@ -99,11 +99,7 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0" AnchorPane.bottomAnchor="13.0">
-                    <image>
-                        <Image url="/views/Cartago_3.png" />
-                    </image>
-                </ImageView>
+                <Label text="Dashboard" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
             </children>
         </AnchorPane>
         <AnchorPane prefHeight="459.0" prefWidth="224.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
@@ -128,7 +124,7 @@
                         <Image url="@/views/vols.png.png" />
                     </image>
                 </ImageView>
-                <Text fx:id="tab1" layoutX="66.0" layoutY="46.68359375" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tableau de bord" AnchorPane.leftAnchor="66.0" AnchorPane.topAnchor="31.576171875">
+                <Text fx:id="tab1" layoutX="66.0" layoutY="46.68359375" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tableau de bord" onMouseClicked="#handleDashboardClick">
                     <font>
                         <Font size="14.0" />
                     </font>

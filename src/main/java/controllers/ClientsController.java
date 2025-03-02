@@ -329,5 +329,24 @@ public class ClientsController {
         clientsTable.getItems().setAll(clientService.getUsers());
     }
 
+    @FXML
+    private void handleDashboardClick(MouseEvent event) {
+        try {
+            // Charger le fichier FXML de Dashboard
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Text) event.getSource()).getScene().getWindow();
+
+            // Changer la scène
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de Dashboard.fxml");
+        }
+    }
+
 
 }

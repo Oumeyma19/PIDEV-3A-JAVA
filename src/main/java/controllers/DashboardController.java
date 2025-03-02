@@ -11,13 +11,19 @@ import models.User;
 
 import java.io.IOException;
 
-public class  DashboardController {
+public class DashboardController {
 
     @FXML
     private Label welcomeLabel;
 
     @FXML
     private Button profileButton;
+
+    @FXML
+    private Button clientsButton; // Bouton Clients
+
+    @FXML
+    private Button guidesButton; // Bouton Guides
 
     private User currentUser;
 
@@ -32,26 +38,33 @@ public class  DashboardController {
             welcomeLabel.setText("Bienvenue, " + currentUser.getFirstname() + " " + currentUser.getLastname() + " !");
         }
 
-        // Gérer le clic sur le bouton "Profil"
-        profileButton.setOnAction(event -> {
-            try {
-                redirectToProfil();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        // Gestionnaire d'événements pour le bouton Clients
+        clientsButton.setOnAction(event -> loadPage("/views/Clients.fxml"));
+
+        // Gestionnaire d'événements pour le bouton Guides
+        guidesButton.setOnAction(event -> loadPage("/views/Guides.fxml"));
     }
 
-    private void redirectToProfil() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
-        Parent root = loader.load();
+    /**
+     * Méthode pour charger une page FXML.
+     *
+     * @param fxmlFile Chemin du fichier FXML à charger.
+     */
+    private void loadPage(String fxmlFile) {
+        try {
+            // Charger le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
 
-        // Passer les données de l'utilisateur au contrôleur ProfilController
-        ProfilController profilController = loader.getController();
-        profilController.setCurrentUser(currentUser);
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) clientsButton.getScene().getWindow();
 
-        Stage stage = (Stage) profileButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+            // Changer la scène
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de la page : " + fxmlFile);
+        }
     }
 }
