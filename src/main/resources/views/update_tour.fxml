@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -14,54 +15,64 @@
    <children>
       <AnchorPane prefHeight="391.0" prefWidth="411.0" style="-fx-background-color: #FFFFFF;">
          <children>
-             <Label layoutX="121.0" layoutY="14.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Update Your Tour" textFill="#012e41">
+            <Label layoutX="121.0" layoutY="14.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Update Your Tour" textFill="#012e41">
                <font>
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-         
-                <TextField fx:id="titleField" layoutX="29.0" layoutY="94.0" promptText="Title" />
-             <TextField fx:id="descriptionField" layoutX="238.0" layoutY="94.0" promptText="Description" />
-             <TextField fx:id="priceField" layoutX="29.0" layoutY="163.0" promptText="Price" />
-             <TextField fx:id="locationField" layoutX="238.0" layoutY="163.0" promptText="Location" />
-             <TextField fx:id="guideIdField" layoutX="238.0" layoutY="231.0" promptText="Guide ID" />
-         
-                <Button layoutX="18.0" layoutY="328.0" onAction="#handleUpdateTour" prefHeight="26.0" prefWidth="374.0" style="-fx-background-color: #26A59E;" text="Update Tour" textFill="WHITE">
+
+            <TextField fx:id="titleField" layoutX="29.0" layoutY="94.0" promptText="Title" />
+            <TextField fx:id="descriptionField" layoutX="238.0" layoutY="94.0" promptText="Description" />
+            <TextField fx:id="priceField" layoutX="29.0" layoutY="163.0" promptText="Price" />
+            <TextField fx:id="locationField" layoutX="238.0" layoutY="163.0" promptText="Location" />
+            <TextField fx:id="nbPlaceDisponibleField" layoutX="29.0" layoutY="231.0" promptText="Available Places" />
+
+            <Button layoutX="18.0" layoutY="328.0" onAction="#handleUpdateTour" prefHeight="26.0" prefWidth="374.0" style="-fx-background-color: #FA7335;" text="Update Tour" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <DatePicker fx:id="dateField" layoutX="28.0" layoutY="231.0" prefHeight="26.0" prefWidth="150.0" />
+
+            <DatePicker fx:id="dateField" layoutX="238.0" layoutY="231.0" prefHeight="26.0" prefWidth="150.0" />
+
             <Text fill="#012e41" fontSmoothingType="LCD" layoutX="29.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="238.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
+
+            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="238.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+
             <Text fill="#012e41" fontSmoothingType="LCD" layoutX="29.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+
             <Text fill="#012e41" fontSmoothingType="LCD" layoutX="238.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="29.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
+
+            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="29.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Places">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
-            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="238.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guide ID">
+
+            <Text fill="#012e41" fontSmoothingType="LCD" layoutX="238.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Text>
+
+            <!-- ImageView for displaying and changing the image -->
+            <ImageView fx:id="imageView" layoutX="29.0" layoutY="270.0" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#handleImageClick" />
          </children>
          <effect>
             <Blend />

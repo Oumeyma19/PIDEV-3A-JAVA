@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardToursController">
+    <children>
+        <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+            <children>
+                <VBox fx:id="content" spacing="30" layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <!-- Titre "Liste des Tours" -->
+                        <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header">
+                            <Text text="Liste Des Tours" style="-fx-translate-x: 20;">
+                                <font>
+                                    <Font name="Impact" size="48.0" />
+                                </font>
+                            </Text>
+                            <Button fx:id="ajouterButton" text="Ajouter" styleClass="new_button_style" onAction="#handleAjouterTour" />
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <TextField fx:id="searchField" promptText=" Rechercher... " />
+                            </HBox>
+                        </HBox>
+
+                        <!-- Add the ComboBox here -->
+                        <ComboBox fx:id="typeComboBox" promptText="Select Type" styleClass="combo-box" />
+
+                        <!-- TableView for Tours -->
+                        <TableView fx:id="toursTable" prefHeight="400.0" prefWidth="800.0" styleClass="custom-table">
+                            <columns>
+                                <TableColumn fx:id="idColumn" text="ID" prefWidth="50" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="titleColumn" text="Titre" prefWidth="150" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="title"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="description"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="priceColumn" text="Prix" prefWidth="100" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="price"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="locationColumn" text="Lieu" prefWidth="150" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="location"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="dateColumn" text="Date" prefWidth="100" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="date"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="nbPlaceDisponibleColumn" text="Places Disponibles" prefWidth="150" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="nbPlaceDisponible"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="nbPlaceReserverColumn" text="Places Réservées" prefWidth="150" styleClass="table-column">
+                                    <cellValueFactory><PropertyValueFactory property="nbPlaceReserver"/></cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+
+                        <!-- Input fields for updating a tour -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <TextField fx:id="updateTitleField" promptText="Title" styleClass="text-field" />
+                            <TextField fx:id="updateDescriptionField" promptText="Description" styleClass="text-field" />
+                            <TextField fx:id="updatePriceField" promptText="Price" styleClass="text-field" />
+                            <TextField fx:id="updateLocationField" promptText="Location" styleClass="text-field" />
+                            <DatePicker fx:id="updateDateField" promptText="Date" styleClass="date-picker" />
+                            <TextField fx:id="updateNbPlaceDisponibleField" promptText="Places Disponibles" styleClass="text-field" />
+                            <ComboBox fx:id="updateTypeComboBox" promptText="Type" styleClass="combo-box" />
+                        </HBox>
+
+                        <!-- Buttons for Update and Delete -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button fx:id="updateButton" text="Update" styleClass="update-button" onAction="#handleUpdateTour" />
+                            <Button fx:id="deleteButton" text="Delete" styleClass="delete-button" onAction="#handleDeleteTour" />
+                        </HBox>
+
+                        <!-- Buttons for Reservations and Reviews -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button fx:id="reservationsButton" text="Voir Réservations" styleClass="new_button_style" onAction="#handleVoirReservations" />
+                            <Button fx:id="avisButton" text="Voir Avis" styleClass="new_button_style" onAction="#handleVoirAvis" />
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+
+        <!-- Top Bar -->
+        <Pane layoutX="77.0" layoutY="114.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="806.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+        <!-- Header with User Info -->
+        <AnchorPane layoutX="569.0" layoutY="33.0" prefHeight="52.0" prefWidth="1047.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
+                <AnchorPane fx:id="imagePane" layoutX="1003.0" layoutY="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+                    <children>
+                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/photos/user.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+                <ImageView fitHeight="50.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0" AnchorPane.bottomAnchor="13.0">
+                    <image>
+                        <Image url="/photos/Cartago_3.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+
+        <!-- Sidebar -->
+        <AnchorPane prefHeight="459.0" prefWidth="224.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
+            <children>
+                <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/dashboard.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/community.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/photos/hebergements.png.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/vols.png.png" />
+                    </image>
+                </ImageView>
+                <Text fx:id="tab1" layoutX="66.0" layoutY="46.68359375" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tableau de bord" AnchorPane.leftAnchor="66.0" AnchorPane.topAnchor="31.576171875">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="66.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Communauté" AnchorPane.leftAnchor="66.0">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="64.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébèrgements" AnchorPane.topAnchor="262.734375">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="66.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Vols" AnchorPane.leftAnchor="66.0">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="98.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours" wrappingWidth="95.9375">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="98.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375" >
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="23.0" fitWidth="16.0" layoutX="64.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/photos/arrow.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="64.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/arrow.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/tours.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/recompenses.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Récompenses">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/photos/offres.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Offres">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <AnchorPane fx:id="logoutPane" layoutX="12.0" layoutY="515.0" prefHeight="40.0" prefWidth="224.0" style="-fx-background-color: #adadad;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="30.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/photos/logout.png" />
+                            </image>
+                        </ImageView>
+                        <Text layoutX="72.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Déconnexion">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

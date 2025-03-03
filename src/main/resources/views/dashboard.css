@@ -51,11 +51,11 @@
 }
 
 .vbox_background_center {
-    -fx-background-image: url("bgcenter.jpg");
+    -fx-background-image: url("../photos/bgcenter.jpg");
 }
 
 .vbox_background_right {
-    -fx-background-image: url("bgright.jpg");
+    -fx-background-image: url("../photos/bgright.jpg");
 }
 
 .cursor_hand {

@@ -1,19 +1,21 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import models.Tour;
-import services.TourService;
-import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import models.Tour;
+import models.Activites;
+import models.User;
+import services.TourService;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -22,19 +24,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TourController {
-
     @FXML private TextField titleField;
-    @FXML private TextField descriptionField;
+    @FXML private TextArea descriptionField;
     @FXML private TextField priceField;
     @FXML private TextField locationField;
     @FXML private DatePicker dateField;
-    @FXML private TextField guideIdField;
     @FXML private ImageView imageView;
+    @FXML private Spinner<Integer> nbPlaceDisponibleField;
+    @FXML private ComboBox<String> typeComboBox;
+    @FXML private TextField activityNameField;
+    @FXML private DatePicker activityStartDateField;
+    @FXML private DatePicker activityEndDateField;
+    @FXML private TextField activityLocationField;
+    @FXML private TextArea activityDescriptionField;
+    @FXML private ImageView activityImageView;
+    @FXML private WebView streetViewWebView;
 
-    private TourService tourService = new TourService();
-    private List<String> selectedImages = new ArrayList<>();
+    private User currentUser;
+    private final TourService tourService = new TourService();
+    private String selectedImagePath = null;
+    private String selectedActivityImagePath = null;
+    private List<Activites> activities = new ArrayList<>();
+    @FXML private ListView<String> activityListView; // ListView to display activities
+    private ObservableList<String> activityDescriptions = FXCollections.observableArrayList();
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+    private static final String GOOGLE_MAPS_API_KEY = "https://maps.gomaps.pro/maps/api/js?key=AlzaSyGYJ8EowF46cIL5fGxWmv6QDQ5JUtwngsb"; // Replace with your API key
 
-    // 📌 Handle Image Selection
+
+    @FXML
+    private void initialize() {
+        typeComboBox.getItems().addAll("Touristique", "Académique", "Religieux", "Esthétique");
+        activityListView.setItems(activityDescriptions);
+
+        // Initialize the Spinner
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 500, 10);
+        nbPlaceDisponibleField.setValueFactory(valueFactory);
+
+        locationField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                updateStreetView(newValue);
+            }
+        });
+    }
+    private void updateStreetView(String location) {
+        String streetViewUrl = GOOGLE_MAPS_API_KEY + "&location=" + location + "&heading=210&pitch=10&fov=90";
+        streetViewWebView.getEngine().load(streetViewUrl);
+    }
+
     @FXML
     private void handleSelectImage() {
         FileChooser fileChooser = new FileChooser();
@@ -43,117 +81,207 @@ public class TourController {
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             try {
-                String destDir = "uploads/tour_photos/";
+                String destDir = System.getProperty("user.home") + "/uploads/tour_photos/";
                 File destFile = new File(destDir + selectedFile.getName());
 
-                // Create folder if not exists
                 if (!destFile.getParentFile().exists()) {
                     destFile.getParentFile().mkdirs();
                 }
 
-                // Copy the file to destination
                 Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                // Update UI
                 imageView.setImage(new Image(destFile.toURI().toString()));
-                selectedImages.add(destFile.getAbsolutePath());
+                selectedImagePath = destFile.getAbsolutePath(); // Set the selected image path
             } catch (Exception e) {
-                showAlert("Error", "Failed to upload image!", AlertType.ERROR);
+                showAlert("Error", "Failed to upload image!", Alert.AlertType.ERROR);
             }
         }
     }
 
-    // 📌 Handle Adding Tour and Navigate to Tours View
+    @FXML
+    private void handleSelectActivityImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                String destDir = System.getProperty("user.home") + "/uploads/activity_photos/";
+                File destFile = new File(destDir + selectedFile.getName());
+
+                if (!destFile.getParentFile().exists()) {
+                    destFile.getParentFile().mkdirs();
+                }
+
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                activityImageView.setImage(new Image(destFile.toURI().toString()));
+                selectedActivityImagePath = destFile.getAbsolutePath(); // Set the selected activity image path
+            } catch (Exception e) {
+                showAlert("Error", "Failed to upload image!", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void handleAddActivity() {
+        String name = activityNameField.getText();
+        String startDate = (activityStartDateField.getValue() != null) ? activityStartDateField.getValue().toString() : null;
+        String endDate = (activityEndDateField.getValue() != null) ? activityEndDateField.getValue().toString() : null;
+        String location = activityLocationField.getText();
+        String description = activityDescriptionField.getText();
+        String photo = selectedActivityImagePath;
+
+        // Validate all fields
+        if (name.isEmpty() || startDate == null || endDate == null || location.isEmpty() || description.isEmpty()) {
+            showAlert("Error", "All fields are required!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Validate that an image is selected
+        if (photo == null || photo.trim().isEmpty()) {
+            showAlert("Error", "Please select an image for the activity!", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Create the activity
+        Activites activity = new Activites();
+        activity.setNomActivite(name);
+        activity.setDateDebut(startDate);
+        activity.setDateFin(endDate);
+        activity.setLocalisation(location);
+        activity.setDescription(description);
+        activity.setPhoto(photo);
+
+        // Add the activity to the list
+        activities.add(activity);
+
+        // Add the activity description to the ListView
+        activityDescriptions.add(description); // You can customize this to show more details
+
+        // Clear the input fields
+        activityNameField.clear();
+        activityStartDateField.setValue(null);
+        activityEndDateField.setValue(null);
+        activityLocationField.clear();
+        activityDescriptionField.clear();
+        activityImageView.setImage(null);
+        selectedActivityImagePath = null;
+
+        showAlert("Success", "Activity added successfully!", Alert.AlertType.INFORMATION);
+    }
+
     @FXML
     private void handleAddTour() {
         try {
-            // Get values from fields
-            String title = titleField.getText();
-            String description = descriptionField.getText();
-            String priceStr = priceField.getText();
-            String location = locationField.getText();
-            String date = String.valueOf(dateField.getValue());
-            String guideIdStr = guideIdField.getText();
+            // Validate and create the tour
+            String title = titleField.getText(); // Use getText() for TextField
+            String description = descriptionField.getText(); // Use getText() for TextArea
+            String priceStr = priceField.getText(); // Use getText() for TextField
+            String location = locationField.getText(); // Use getText() for TextField
+            String date = (dateField.getValue() != null) ? dateField.getValue().toString() : null; // Use getValue() for DatePicker
+            int nbPlaceDisponible = nbPlaceDisponibleField.getValue(); // Use getValue() for Spinner<Integer>
+            String type = typeComboBox.getValue(); // Use getValue() for ComboBox
 
-            // Validate that none of the fields are empty
-            if (title == null || title.isEmpty()) {
-                showAlert("Error", "Title cannot be empty!", AlertType.ERROR);
-                return;
-            }
-            if (description == null || description.isEmpty()) {
-                showAlert("Error", "Description cannot be empty!", AlertType.ERROR);
-                return;
-            }
-            if (priceStr == null || priceStr.isEmpty()) {
-                showAlert("Error", "Price cannot be empty!", AlertType.ERROR);
-                return;
-            }
-            if (location == null || location.isEmpty()) {
-                showAlert("Error", "Location cannot be empty!", AlertType.ERROR);
-                return;
-            }
-            if (date == null || date.isEmpty()) {
-                showAlert("Error", "Date cannot be empty!", AlertType.ERROR);
-                return;
-            }
-            if (guideIdStr == null || guideIdStr.isEmpty()) {
-                showAlert("Error", "Guide ID cannot be empty!", AlertType.ERROR);
+            // Auto-set guide ID from authenticated user
+            String guideIdStr = String.valueOf(currentUser.getId());
+
+            // Validate all fields
+            if (title == null || title.trim().isEmpty()) {
+                showAlert("Error", "Title cannot be empty!", Alert.AlertType.ERROR);
                 return;
             }
 
-            // Convert the price and guideId fields to the correct types
-            double price = Double.parseDouble(priceStr);
+            if (description.isEmpty() || priceStr.isEmpty() || location.isEmpty() || date == null || type == null) {
+                showAlert("Error", "All fields are required!", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Validate that an image is selected
+            if (selectedImagePath == null || selectedImagePath.trim().isEmpty()) {
+                showAlert("Error", "Please select an image for the tour!", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Parse price and validate
+            double price;
+            try {
+                price = Double.parseDouble(priceStr);
+            } catch (NumberFormatException e) {
+                showAlert("Error", "Invalid price format. Please enter a valid number.", Alert.AlertType.ERROR);
+                return;
+            }
+
             int guideId = Integer.parseInt(guideIdStr);
+            int nbPlaceReserver = 0; // Default value for reserved places
 
-            // Create new Tour object
-            Tour newTour = new Tour(title, description, price, location, date, guideId);
+            // Create a new Tour with the selected image path
+            Tour newTour = new Tour(
+                    title,                // String
+                    description,          // String
+                    price,                // double
+                    location,             // String
+                    date,                 // String
+                    guideId,              // int
+                    nbPlaceDisponible,    // int
+                    nbPlaceReserver,      // int
+                    selectedImagePath,    // String (photo)
+                    type                  // String
+            );
 
-            // Store the tour and get the generated ID
-            int tourId = tourService.addTour(newTour, selectedImages); // Pass selected images directly to the service
+            // Set the activities for the tour
+            newTour.setActivities(activities);
 
-            // Check if the tour was added successfully
-            if (tourId != -1) {
-                showAlert("Success", "Tour added successfully!", AlertType.INFORMATION);
+            // Add the tour and its activities to the database
+            boolean isAdded = tourService.ajouter(newTour);
 
-                // Navigate to Tours View
+            if (isAdded) {
+                showAlert("Success", "Tour and activities added successfully!", Alert.AlertType.INFORMATION);
                 navigateToToursView();
             } else {
-                showAlert("Error", "Failed to add tour. Please try again.", AlertType.ERROR);
+                showAlert("Error", "Failed to add tour. Please try again.", Alert.AlertType.ERROR);
             }
-
         } catch (NumberFormatException e) {
-            showAlert("Error", "Invalid number format. Please check the price and guide ID fields!", AlertType.ERROR);
+            showAlert("Error", "Invalid number format. Check price and places fields!", Alert.AlertType.ERROR);
         } catch (Exception e) {
-            showAlert("Error", "An unexpected error occurred. Please try again.", AlertType.ERROR);
+            showAlert("Error", "An unexpected error occurred.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
 
-    // 📌 Navigate to Tours View
+
+    @FXML
+    private void handleBackButtonClick() {
+        navigateToToursView();
+    }
+
     private void navigateToToursView() {
         try {
-            // Load the Tours View FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tours_view.fxml"));
             Parent root = loader.load();
 
-            // Get the current stage
-            Stage stage = (Stage) titleField.getScene().getWindow();
+            // Pass the current user to the ToursViewController
+            ToursViewController toursViewController = loader.getController();
+            toursViewController.setCurrentUser(currentUser);
 
-            // Set the new scene (Tours View)
+            Stage stage = (Stage) titleField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Tours View");
         } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to load Tours View.", AlertType.ERROR);
+            showAlert("Error", "Failed to load Tours View.", Alert.AlertType.ERROR);
         }
     }
 
-    // Show alert message
-    private void showAlert(String title, String message, AlertType type) {
+    private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void showStreetView(String location) {
+        String apiKey = "YOUR_GOOGLE_MAPS_API_KEY";
+        String streetViewUrl = "https://www.google.com/maps/embed/v1/streetview?key=" + apiKey + "&location=" + location + "&heading=210&pitch=10&fov=90";
+        streetViewWebView.getEngine().load(streetViewUrl);
     }
 }

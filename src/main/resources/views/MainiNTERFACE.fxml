@@ -24,7 +24,7 @@
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0">
                     <image>
-                        <Image url="/logo/add.png" />
+                        <Image url="/photos/add.png" />
                     </image>
                 </ImageView>
             </graphic>
@@ -33,7 +33,7 @@
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0">
                     <image>
-                        <Image url="/logo/list.png" />
+                        <Image url="/photos/list.png" />
                     </image>
                 </ImageView>
             </graphic>
@@ -44,7 +44,7 @@
     <AnchorPane layoutX="100.0" layoutY="0.0" prefWidth="700.0" prefHeight="800.0">
         <ImageView fitHeight="327.0" fitWidth="744.0" layoutX="-2.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/logo/background.jpg" />
+                <Image url="/photos/background.jpg" />
             </image>
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#012e41" height="299.0" layoutX="319.0" layoutY="10.0" opacity="0.85" stroke="#012e41" strokeMiterLimit="20.0" strokeType="INSIDE" width="392.0" />
@@ -82,7 +82,7 @@
         </Label>
         <ImageView fitHeight="175.0" fitWidth="269.0" layoutX="68.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/logo/photo.png" />
+                <Image url="/photos/photo.png" />
             </image>
         </ImageView>
         <Text fill="#ff8867" layoutX="306.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GET TO KNOW US">
@@ -97,7 +97,7 @@
         </Label>
         <ImageView fitHeight="102.0" fitWidth="335.0" layoutX="306.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="/logo/text.png" />
+                <Image url="/photos/text.png" />
             </image>
         </ImageView>
     </AnchorPane>

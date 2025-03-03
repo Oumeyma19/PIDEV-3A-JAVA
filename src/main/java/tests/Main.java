@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file for the AddTourView UI
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/tours_view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AddTourView.fxml"));
             AnchorPane root = loader.load();
 
             // Create the Scene from the FXML root layout

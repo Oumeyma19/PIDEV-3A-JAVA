@@ -7,6 +7,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -16,11 +25,14 @@ public class UpdateTourController {
     @FXML private TextField descriptionField;
     @FXML private TextField priceField;
     @FXML private TextField locationField;
-    @FXML private DatePicker dateField;  // Changed from TextField to DatePicker
-    @FXML private TextField guideIdField;
+    @FXML private DatePicker dateField;
+    @FXML private TextField nbPlaceDisponibleField; // New field for available places
+    @FXML private ImageView imageView;  // ImageView to display and update photo
 
     private TourService tourService = new TourService();
     private Tour selectedTour; // The tour being updated
+
+    private String newImagePath = null; // Store the path of the new image
 
     // Set the selected tour data in the form
     public void setTourData(Tour tour) {
@@ -35,7 +47,16 @@ public class UpdateTourController {
             dateField.setValue(LocalDate.parse(tour.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
 
-        guideIdField.setText(String.valueOf(tour.getGuideId()));
+        // Set the number of available places
+        nbPlaceDisponibleField.setText(String.valueOf(tour.getNbPlaceDisponible()));
+
+        // Display the current image (if any)
+        if (tour.getPhoto() != null && !tour.getPhoto().isEmpty()) {
+            File file = new File(tour.getPhoto());
+            if (file.exists()) {
+                imageView.setImage(new Image(file.toURI().toString()));
+            }
+        }
     }
 
     // Handle the update button action
@@ -56,7 +77,8 @@ public class UpdateTourController {
             // Convert DatePicker value to String
             String date = (dateField.getValue() != null) ? dateField.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "";
 
-            int guideId = Integer.parseInt(guideIdField.getText());
+            // Get the number of available places
+            int nbPlaceDisponible = Integer.parseInt(nbPlaceDisponibleField.getText());
 
             // Update the selected tour
             selectedTour.setTitle(title);
@@ -64,12 +86,21 @@ public class UpdateTourController {
             selectedTour.setPrice(price);
             selectedTour.setLocation(location);
             selectedTour.setDate(date);
-            selectedTour.setGuideId(guideId);
+            selectedTour.setNbPlaceDisponible(nbPlaceDisponible); // Update available places
+
+            // Set the new image if provided
+            if (newImagePath != null && !newImagePath.isEmpty()) {
+                selectedTour.setPhoto(newImagePath); // Assuming you have a setter for image path in your Tour model
+            }
 
             // Save the updated tour to the database
-            boolean updated = tourService.updateTour(selectedTour);
+            boolean updated = tourService.modifier(selectedTour);
             if (updated) {
                 showAlert("Success", "Tour updated successfully!", AlertType.INFORMATION);
+
+                // Close the update window after successful update
+                Stage stage = (Stage) titleField.getScene().getWindow();
+                stage.close();
             } else {
                 showAlert("Error", "Failed to update tour.", AlertType.ERROR);
             }
@@ -86,7 +117,7 @@ public class UpdateTourController {
         // Check for empty fields
         if (titleField.getText().isEmpty() || descriptionField.getText().isEmpty() ||
                 priceField.getText().isEmpty() || locationField.getText().isEmpty() ||
-                dateField.getValue() == null || guideIdField.getText().isEmpty()) {
+                dateField.getValue() == null || nbPlaceDisponibleField.getText().isEmpty()) {
             showAlert("Error", "All fields are required!", AlertType.ERROR);
             return false;
         }
@@ -103,15 +134,15 @@ public class UpdateTourController {
             return false;
         }
 
-        // Validate guide ID (must be a positive integer)
+        // Validate number of available places (must be a positive integer)
         try {
-            int guideId = Integer.parseInt(guideIdField.getText());
-            if (guideId <= 0) {
-                showAlert("Error", "Guide ID must be a positive integer!", AlertType.ERROR);
+            int nbPlaceDisponible = Integer.parseInt(nbPlaceDisponibleField.getText());
+            if (nbPlaceDisponible < 0) {
+                showAlert("Error", "Number of available places must be a positive integer!", AlertType.ERROR);
                 return false;
             }
         } catch (NumberFormatException e) {
-            showAlert("Error", "Invalid guide ID format. Please enter a valid integer!", AlertType.ERROR);
+            showAlert("Error", "Invalid number of available places. Please enter a valid integer!", AlertType.ERROR);
             return false;
         }
 
@@ -132,5 +163,34 @@ public class UpdateTourController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Open a file chooser to select a new image for the tour
+    @FXML
+    private void handleImageClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png", "*.gif"));
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            try {
+                // Copy the selected image to a specific directory
+                String destDir = System.getProperty("user.home") + "/uploads/tour_photos/";
+                File destFile = new File(destDir + selectedFile.getName());
+
+                if (!destFile.getParentFile().exists()) {
+                    destFile.getParentFile().mkdirs();
+                }
+
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                // Update the ImageView with the selected image
+                newImagePath = destFile.getAbsolutePath();
+                imageView.setImage(new Image(new FileInputStream(selectedFile)));
+            } catch (IOException e) {
+                showAlert("Error", "Failed to load the image.", AlertType.ERROR);
+            }
+        }
     }
 }

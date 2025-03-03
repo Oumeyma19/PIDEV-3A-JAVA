@@ -1,0 +1,194 @@
+/* Tour Management Styles */
+
+/* General Styles */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-focus-color: #3498db;
+    -fx-faint-focus-color: #3498db22;
+}
+
+/* Card Style */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 4);
+}
+
+/* Titles */
+.card-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #012e41;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Form Elements */
+.form-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.form-field {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 6px;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 6px;
+    -fx-padding: 8px;
+}
+
+.form-field:focused {
+    -fx-border-color: #3498db;
+    -fx-background-color: white;
+}
+
+/* Buttons */
+.primary-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 6px;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.secondary-button {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 6px;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #bdc3c7;
+}
+
+.submit-button {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 25px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 15px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #219653;
+}
+
+.cancel-button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #555555;
+    -fx-padding: 12px 25px;
+    -fx-background-radius: 6px;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #bdbdbd;
+}
+
+.action-button {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 6px;
+}
+
+.action-button:hover {
+    -fx-background-color: #d35400;
+}
+
+/* List View */
+.activity-list {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.activity-list .list-cell {
+    -fx-padding: 8px;
+    -fx-background-color: transparent;
+}
+
+.activity-list .list-cell:filled:selected {
+    -fx-background-color: #3498db33;
+}
+
+.activity-list .list-cell:filled:hover {
+    -fx-background-color: #3498db22;
+}
+
+/* TitledPane */
+.titled-pane {
+    -fx-text-fill: #2c3e50;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #ecf0f1;
+    -fx-padding: 10px;
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: #3498db;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .thumb {
+    -fx-background-color: #bdc3c7;
+    -fx-background-radius: 10px;
+}
+
+/* Separator */
+.separator *.line {
+    -fx-border-color: #ecf0f1;
+    -fx-border-width: 1px;
+}
+
+/* ScrollPane styles */
+.transparent-background {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.transparent-background > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Filter dropdown */
+.combo-box {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 5;
+}
+
+.combo-box:focused {
+    -fx-border-color: #3F51B5;
+}
