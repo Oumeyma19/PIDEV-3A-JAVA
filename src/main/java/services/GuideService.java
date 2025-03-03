@@ -1,5 +1,5 @@
 package services;
-import Interfaces.UserInterface;
+import interfaces.UserInterface;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import exceptions.*;
 import models.User;

@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import models.User;
 import services.ClientService;
 import services.GuideService;
+import services.SessionManager;
 import services.UserService;
 
 import java.io.IOException;
@@ -94,6 +95,7 @@ public class ProfilController {
 
     @FXML
     private void handleLogout(javafx.scene.input.MouseEvent event) {
+        SessionManager.clearSession();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             Parent root = loader.load();

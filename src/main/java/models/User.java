@@ -1,4 +1,7 @@
 package models;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 import util.Type;
 
@@ -17,15 +20,13 @@ public class User {
     private Boolean is_banned;
 
 
+
     public User() {
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-    public String getStatusGuideDisplay() {
-        return statusGuide ? "Disponible" : "Indisponible";
     }
     //Modif user
     public User(int id, String firstname, String lastname, String email, String phone, String password, Type roles, boolean is_banned ,boolean is_active) {
@@ -51,13 +52,6 @@ public class User {
         this.is_banned = false;
         this.is_active = true;
 
-    }
-
-    public String getIsActiveDisplay() {
-        return is_active ? "Active" : "Inactive";
-    }
-    public String getIsBannedDisplay() {
-        return is_banned ? "Bannissement" : "Non Bannissement";
     }
     public User(int id,String firstname, String lastname, String email, String phone, String password, Type roles) {
         this.id = id;
@@ -85,6 +79,7 @@ public class User {
         this.is_banned = false;
         this.is_active = true;
     }
+
     public User(String firstname, String lastname, String email, String phone, String password, int pointsfid, String nivfid, Type roles) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -96,6 +91,16 @@ public class User {
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
+    }
+    public User(String firstname, String lastname, String email, String phone, int pointsfid, String nivfid, Boolean is_banned,Boolean is_active) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.pointsfid = pointsfid;
+        this.nivfid = nivfid;
+        this.is_banned = is_banned;
+        this.is_active = is_active;
     }
     //Modif Client
     public User(int id, String firstname, String lastname, String email, String phone, String password, int pointsfid, String nivfid, Type roles, Boolean is_banned,Boolean is_active) {
@@ -112,28 +117,56 @@ public class User {
         this.is_active = is_active;
     }
     //add Guide
-    public User(String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles) {
+    public User(int id, String firstname, String lastname, String email, String phone, Boolean statusGuide, Type roles) {
+        this.id = id;
         this.firstname = firstname;
-        this.password = password;
-        this.phone = phone;
         this.lastname = lastname;
         this.email = email;
-        this.statusGuide = true;
+        this.phone = phone;
+        this.statusGuide = statusGuide;
         this.roles = roles;
         this.is_banned = false;
         this.is_active = true;
     }
-    public User(int id,String firstname, String lastname, String email, String phone, String password, Boolean statusGuide ,Type roles) {
-        this.id = id;
-        this.firstname = firstname;
-        this.password = password;
-        this.phone = phone;
+    public User( String lastname,String firstname, String email, String phone,String password, Boolean statusGuide , Boolean is_banned,Boolean is_active) {
         this.lastname = lastname;
+        this.firstname = firstname;
+
         this.email = email;
-        this.statusGuide = true;
-        this.roles = roles;
-        this.is_banned = false;
-        this.is_active = true;
+        this.phone = phone;
+        this.password = password;
+
+        this.statusGuide = statusGuide;
+        this.is_banned = is_banned;
+        this.is_active = is_active;
+    }
+
+    public User(int idClient) {
+        this.id = idClient;
+    }
+
+    public String getStatusGuideDisplay() {
+        return statusGuide ? "Disponible" : "Indisponible";
+    }
+
+    public void setStatusGuideDisplay(String status) {
+        this.statusGuide = "Disponible".equals(status);
+    }
+
+    public String getIsActiveDisplay() {
+        return is_active ? "Active" : "Inactive";
+    }
+
+    public void setIsActiveDisplay(String active) {
+        this.is_active = "Active".equals(active);
+    }
+
+    public String getIsBannedDisplay() {
+        return is_banned ? "Bannissement" : "Non Bannissement";
+    }
+
+    public void setIsBannedDisplay(String banned) {
+        this.is_banned = "Bannissement".equals(banned);
     }
     //Modif Guide
     public User(int id, String firstname, String lastname, String email, String phone, String password, Boolean statusGuide, Type roles, Boolean is_banned,Boolean is_active) {
@@ -147,19 +180,6 @@ public class User {
         this.roles = roles;
         this.is_banned = is_banned;
         this.is_active = is_active;
-    }
-
-    public User(int idClient) {
-        this.id = idClient;
-    }
-
-    public User(int idUser, String firstname, String lastname, String email, String phone, String password, String nivfid, Type type, boolean isBanned, boolean isActive) {
-    }
-
-    public User(String nom, String prenom, String email, String phone, int pointsFid, String nivFid, boolean isBanned, boolean isActive) {
-    }
-
-    public User(String prenom, String nom, String email, String phone, String password, boolean status, boolean isBanned, boolean isActive) {
     }
 
     public int getId() {

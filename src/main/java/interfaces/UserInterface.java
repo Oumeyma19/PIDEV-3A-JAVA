@@ -1,10 +1,9 @@
-package Interfaces;
+package interfaces;
 
 import exceptions.*;
 import models.User;
 
 import java.util.List;
-
 
 public interface UserInterface {
     public void addUser(User p) throws EmptyFieldException, InvalidEmailException, IncorrectPasswordException, InvalidPhoneNumberException,CustomIllegalStateException;

@@ -144,8 +144,12 @@ public class ReservationFormController {
                 voucherService.generateVoucher(filePath, loggedInUser.getFirstname(), selectedOffer.getTitle(),
                         startDate.toString(), endDate.toString(), selectedOffer.getPrice());
 
+/*
                 emailService.sendReservationEmail(loggedInUser.getEmail(), selectedOffer.getTitle(),
+*/
+/*
                         startDate.toString(), endDate.toString());
+*/
 
             } catch (SQLException e) {
                 Platform.runLater(() -> showError("Erreur lors de la réservation. Veuillez réessayer."));

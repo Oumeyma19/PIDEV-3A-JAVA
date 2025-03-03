@@ -2,7 +2,7 @@ package services;
 
 
 
-import Interfaces.IService;
+import interfaces.IService;
 import models.Hebergements;
 import models.Offre;
 import tools.MyDataBase;

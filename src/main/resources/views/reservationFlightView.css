@@ -1,0 +1,45 @@
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+.label {
+    -fx-text-fill: #003366;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);
+}
+
+.scroll-pane {
+    -fx-background: white;
+    -fx-border-color: #003366;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+}
+
+.flow-pane {
+    -fx-background-color: white;
+    -fx-padding: 10px;
+}
+
+.hbox {
+    -fx-background-color: #003366;
+    -fx-padding: 10px;
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}
+
+.vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+

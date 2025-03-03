@@ -1,6 +1,7 @@
 package controllers;
 
-import exceptions.UserNotFoundException;
+import exceptions.*;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,13 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.User;
 import services.ClientService;
 
+import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class ClientsController {
@@ -44,8 +48,10 @@ public class ClientsController {
     private TableColumn<User, String> isActiveColumn;
     @FXML
     private TableColumn<User, Boolean> isBannedColumn;
+
     @FXML
-    private TableColumn<User, String> passwordColumn;
+    private ComboBox<String> bannedFilter;
+
 
     @FXML
     private TextField idField;
@@ -70,6 +76,11 @@ public class ClientsController {
     private ImageView userImage;
 
     private User currentUser;
+
+    @FXML
+    private Pagination pagination;
+    private ObservableList<User> filteredClientsList = FXCollections.observableArrayList(); // Liste filtrée
+
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
@@ -96,18 +107,49 @@ public class ClientsController {
     }
 
     @FXML
+    private void handleFilterByBanned() {
+        filterClients();
+    }
+
+    private void filterClients() {
+        String query = searchField.getText().toLowerCase();
+        String bannedStatus = bannedFilter.getValue();
+
+        // Filtrer la liste complète
+        filteredClientsList.setAll(clientsList.stream()
+                .filter(user -> (user.getLastname().toLowerCase().contains(query) ||
+                        user.getFirstname().toLowerCase().contains(query) ||
+                        user.getEmail().toLowerCase().contains(query) ||
+                        user.getPhone().toLowerCase().contains(query) ||
+                        String.valueOf(user.getPointsfid()).contains(query) ||
+                        (user.getNivfid() != null && user.getNivfid().toLowerCase().contains(query)) ||
+                        (user.getIsActive() ? "disponible" : "indisponible").contains(query) ||
+                        (user.getIsBanned() ? "oui" : "non").contains(query)) &&
+                        (bannedStatus.equals("Tous") ||
+                                (bannedStatus.equals("Banni") && user.getIsBanned()) ||
+                                (bannedStatus.equals("Non Banni") && !user.getIsBanned())))
+                .collect(Collectors.toList()));
+
+        // Mettre à jour la TableView avec la liste filtrée
+        clientsTable.setItems(filteredClientsList);
+
+        // Mettre à jour la pagination
+        updatePagination();
+    }
+
+    @FXML
     private void handleSearch() {
         String query = searchField.getText().toLowerCase();
         ObservableList<User> filteredList = clientsList.stream()
-            .filter(user -> user.getLastname().toLowerCase().contains(query) ||
-                user.getFirstname().toLowerCase().contains(query) ||
-                user.getEmail().toLowerCase().contains(query) ||
-                user.getPhone().toLowerCase().contains(query) ||
-                String.valueOf(user.getPointsfid()).contains(query) ||
-                (user.getNivfid() != null && user.getNivfid().toLowerCase().contains(query)) ||
-                (user.getIsActive() ? "disponible" : "indisponible").contains(query) ||
-                (user.getIsBanned() ? "oui" : "non").contains(query))
-            .collect(Collectors.toCollection(FXCollections::observableArrayList));
+                .filter(user -> user.getLastname().toLowerCase().contains(query) ||
+                        user.getFirstname().toLowerCase().contains(query) ||
+                        user.getEmail().toLowerCase().contains(query) ||
+                        user.getPhone().toLowerCase().contains(query) ||
+                        String.valueOf(user.getPointsfid()).contains(query) ||
+                        (user.getNivfid() != null && user.getNivfid().toLowerCase().contains(query)) ||
+                        (user.getIsActive() ? "disponible" : "indisponible").contains(query) ||
+                        (user.getIsBanned() ? "oui" : "non").contains(query))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
         clientsTable.setItems(filteredList);
     }
 
@@ -124,7 +166,7 @@ public class ClientsController {
             // Get the current stage and set the new scene
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setFullScreen(true); // Set the stage to fullscreen
+            // Set the stage to fullscreen
             stage.show();
         } catch (IOException e) {
             System.err.println("Error loading Guides.fxml: " + e.getMessage());
@@ -134,6 +176,7 @@ public class ClientsController {
 
     private ClientService clientService = ClientService.getInstance();
     private ObservableList<User> clientsList = FXCollections.observableArrayList();
+    private static final int ROWS_PER_PAGE = 6;
 
     private static ClientsController instance;
 
@@ -159,22 +202,52 @@ public class ClientsController {
             return new SimpleStringProperty(isActive ? "Disponible" : "Indisponible");
         });
         isBannedColumn.setCellValueFactory(new PropertyValueFactory<>("isBanned"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
 
         // Load data
         loadClients();
 
         // Add listener to table selection
         clientsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showClientDetails(newValue));
+        pagination.setPageFactory(this::createPage);
     }
 
     private void loadClients() {
         clientsList.setAll(clientService.getUsers());
-        clientsTable.setItems(clientsList);
+        filteredClientsList.setAll(clientsList); // Initialiser la liste filtrée avec la liste complète
+        clientsTable.setItems(filteredClientsList);
+        updatePagination();
+    }
+    private void updatePagination() {
+        int pageCount = (int) Math.ceil((double) filteredClientsList.size() / ROWS_PER_PAGE);
+        pagination.setPageCount(pageCount);
+        pagination.setCurrentPageIndex(0);
+        updateTableView(0);
+    }
+    private Node createPage(int pageIndex) {
+        updateTableView(pageIndex);
+        return new AnchorPane(); // Retournez un Node vide
+    }
+
+    private void updateTableView(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, filteredClientsList.size());
+
+        // Mettre à jour les données de la TableView avec la sous-liste filtrée
+        List<User> subList = filteredClientsList.subList(fromIndex, toIndex);
+        ObservableList<User> pageData = FXCollections.observableArrayList(subList);
+
+        // Update the UI on the JavaFX Application Thread
+        Platform.runLater(() -> {
+            clientsTable.setItems(pageData);
+            clientsTable.refresh();
+        });
     }
 
     public void addClient(User user) {
         clientsList.add(user);
+        filteredClientsList.setAll(clientsList); // Mettre à jour la liste filtrée
+        clientsTable.refresh();
+        updatePagination();
     }
 
     private void showMessage(String message, String color) {
@@ -191,7 +264,10 @@ public class ClientsController {
             Stage stage = new Stage();
             stage.setTitle("Ajouter un Client");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait(); // Attendre que la fenêtre se ferme
+
+            // Recharger les clients après l'ajout
+            loadClients();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -248,32 +324,30 @@ public class ClientsController {
         }
     }
 
-    @FXML
-    private void handleSupprimer() {
-        User selectedUser = clientsTable.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText("Supprimer le client");
-            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce client ?");
-            alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    try {
-                        clientService.deleteUser(selectedUser.getId());
-                        clientsList.remove(selectedUser);
-                        showMessage("Client deleted successfully!", "green");
-                    } catch (UserNotFoundException e) {
-                        showMessage(e.getMessage(), "red");
-                    }
-                }
-            });
-        } else {
-            showMessage("No client selected.", "red");
-        }
-    }
+
     private void refreshTable() {
         clientsTable.getItems().setAll(clientService.getUsers());
     }
+
+    @FXML
+    private void handleDashboardClick(MouseEvent event) {
+        try {
+            // Charger le fichier FXML de Dashboard
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Text) event.getSource()).getScene().getWindow();
+
+            // Changer la scène
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de Dashboard.fxml");
+        }
+    }
+
 
 
 }

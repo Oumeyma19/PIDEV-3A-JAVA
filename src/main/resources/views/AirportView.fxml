@@ -3,19 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportView">
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportView" prefWidth="1280.0" prefHeight="700.0">
+    <stylesheets>
+        <URL value="@flightView.css" />
+    </stylesheets>
     <children>
-        <VBox alignment="CENTER" layoutX="-43.0" prefHeight="700" prefWidth="1000" spacing="15">
+        <VBox alignment="CENTER" spacing="15" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
             <!-- Add Button -->
-            <Button onAction="#handleAddAirport" text="Add Airport" />
+            <HBox alignment="CENTER">
+                <Button onAction="#handleAddAirport" text="Add Airport" styleClass="action-button" />
+            </HBox>
 
             <!-- TableView -->
-            <TableView fx:id="airportTable" prefHeight="350" prefWidth="675">
+            <TableView fx:id="airportTable" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="nameColumn" prefWidth="175" text="Name Airport" />
-                    <TableColumn fx:id="locationColumn" prefWidth="100" text="Location" />
-                    <TableColumn fx:id="codeColumn" prefWidth="100" text="Code" />
-
+                    <TableColumn fx:id="nameColumn" prefWidth="400" text="Name Airport" />
+                    <TableColumn fx:id="locationColumn" prefWidth="300" text="Location" />
+                    <TableColumn fx:id="codeColumn" prefWidth="200" text="Code" />
                     <!-- Actions Column -->
                     <TableColumn fx:id="actionsColumn" prefWidth="300" text="Actions" />
                 </columns>

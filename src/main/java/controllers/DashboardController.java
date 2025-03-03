@@ -5,62 +5,86 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import models.User;
 
 import java.io.IOException;
 
 public class DashboardController {
 
     @FXML
-    private VBox content; // Main content area for loading pages
-    @FXML
-    private VBox offersMenu; // Dropdown menu for Offers
+    private Label welcomeLabel;
 
-    private boolean isOffersMenuVisible = false;
+    @FXML
+    private Button profileButton;
+
+    @FXML
+    private Button clientsButton; // Bouton Clients
+
+    @FXML
+    private Button guidesButton; // Bouton Guides
+
+     @FXML
+    private Button VolsButton;
+
+     @FXML
+    private Button AirportsButton;
+
+    @FXML
+    private VBox content;
+
+
+    private User currentUser;
+
+
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        initialize();
+    }
+
+    @FXML
+    public void initialize() {
+       /* if (currentUser != null) {
+            welcomeLabel.setText("Bienvenue, " + currentUser.getFirstname() + " " + currentUser.getLastname() + " !");
+        }*/
+
+        // Gestionnaire d'événements pour le bouton Clients
+        clientsButton.setOnAction(event -> loadPage("/views/Clients.fxml"));
+
+        // Gestionnaire d'événements pour le bouton Guides
+        guidesButton.setOnAction(event -> loadPage("/views/Guides.fxml"));
+    }
 
     /**
-     * Toggles the Offers menu with a smooth slide animation.
+     * Méthode pour charger une page FXML.
+     *
+     * @param fxmlFile Chemin du fichier FXML à charger.
      */
-    @FXML
-    private void toggleOffersMenu(ActionEvent event) {
-        offersMenu.setVisible(!offersMenu.isVisible());
+    private void loadPage(String fxmlFile) {
+        try {
+            // Charger le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) clientsButton.getScene().getWindow();
+
+            // Changer la scène
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur lors du chargement de la page : " + fxmlFile);
+        }
     }
 
 
-    /**
-     * Loads the 'Ajouter Offres' page with a smooth fade-in animation.
-     */
-    @FXML
-    private void handleAddOffer() {
-        loadFXMLWithAnimation("/views/ajouter.fxml");
-    }
-    @FXML
-    private void handleListReservations() {
-        loadFXMLWithAnimation("/views/reservation_list.fxml");
-    }
-
-
-
-    @FXML
-    private void handleListOffers() {
-        loadFXMLWithAnimation("/views/ViewOffres.fxml");
-    }
-
-    /**
-     * Handles updating an offer (TODO: Implement functionality)
-     */
-    @FXML
-    private void handleUpdateOffer() {
-        System.out.println("Update Offer functionality to be implemented.");
-        // TODO: Implement update offer logic
-    }
-
-    @FXML
-    private void handleDeleteOffer() {
-        System.out.println("Delete Offer functionality to be implemented.");
-        // TODO: Implement delete offer logic
-    }
 
 
     private void loadFXMLWithAnimation(String fxmlFile) {
@@ -78,14 +102,19 @@ public class DashboardController {
     }
 
     @FXML
-    private void handleDashboard() {
-        loadFXMLWithAnimation("/DashboardView.fxml"); // Change to the actual FXML file for the dashboard
+    private void handleAddVol() {
+        loadFXMLWithAnimation("/views/FlightView.fxml");
     }
 
 
-    /**
-     * Applies a fade-in transition effect to the new content.
-     */
+    @FXML
+    private void handleAddAirport() {
+        loadFXMLWithAnimation("/views/AirportView.fxml");
+    }
+
+
+
+
     private void applyFadeTransition(Object pane) {
         FadeTransition fade = new FadeTransition(Duration.millis(400), (javafx.scene.Node) pane);
         fade.setFromValue(0);
@@ -93,9 +122,6 @@ public class DashboardController {
         fade.play();
     }
 
-    public void handleLogout(ActionEvent actionEvent) {
-    }
 
-    public void handleCommunity(ActionEvent actionEvent) {
-    }
+
 }

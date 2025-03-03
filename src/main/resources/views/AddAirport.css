@@ -1,20 +1,20 @@
 /* General VBox Styling */
 VBox {
-    -fx-background-color: #f4f4f4;
+    -fx-background-color: #f8f1e9;
     -fx-padding: 20px;
     -fx-spacing: 10px;
 }
 
 /* Styling the Label */
 Label {
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #1e3d59;
 }
 
 /* Styling the Title */
 Label[text="Add New Airport"] {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #ff6e40;
 }
 
 /* Styling TextFields */
@@ -22,20 +22,20 @@ TextField {
     -fx-pref-width: 250px;
     -fx-padding: 8px;
     -fx-font-size: 14px;
-    -fx-border-color: #bdc3c7;
+    -fx-border-color: #ffc13b;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
 
 /* TextField on Focus */
 TextField:focused {
-    -fx-border-color: #3498db;
+    -fx-border-color: #5ab9ea;
     -fx-border-width: 2px;
 }
 
 /* Styling Buttons */
 Button {
-    -fx-background-color: #3498db;
+    -fx-background-color: #5ab9ea;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -47,7 +47,7 @@ Button {
 
 /* Cancel Button */
 #cancelButton {
-    -fx-background-color: #e74c3c;
+    -fx-background-color: #ff6e40;
 }
 
 /* Button Hover Effect */

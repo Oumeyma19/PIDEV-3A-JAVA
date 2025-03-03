@@ -1,6 +1,6 @@
 package services;
 
-import Interfaces.IService;
+import interfaces.IService;
 import models.*;
 import tools.MyDataBase;
 

@@ -1,8 +1,8 @@
 package services;
 
-import Interfaces.UserInterface;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import exceptions.*;
+import interfaces.UserInterface;
 import models.User;
 import tools.MyDataBase;
 import util.Type;
@@ -41,8 +41,8 @@ public class UserService implements UserInterface {
 
     // Other methods...
 
-   // public int countAdmins() {
-     //   return (int) users.stream().filter(user -> user.getRoles() == Type.ADMIN).count();
+    // public int countAdmins() {
+    //   return (int) users.stream().filter(user -> user.getRoles() == Type.ADMIN).count();
     //}
 
     public int countAdmins() {
@@ -57,15 +57,15 @@ public class UserService implements UserInterface {
             // Parcourir les résultats de la requête et les ajouter à la liste des administrateurs
             while (resultSet.next()) {
                 User user = new User(
-                    resultSet.getInt("id"),
-                    resultSet.getString("firstname"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("email"),
-                    resultSet.getString("phone"),
-                    resultSet.getString("password"),
-                    Type.valueOf(resultSet.getString("roles")),  // On suppose que le rôle est correctement récupéré
-                    resultSet.getBoolean("is_banned"),
-                    resultSet.getBoolean("is_active")
+                        resultSet.getInt("id"),
+                        resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("password"),
+                        Type.valueOf(resultSet.getString("roles")),  // On suppose que le rôle est correctement récupéré
+                        resultSet.getBoolean("is_banned"),
+                        resultSet.getBoolean("is_active")
                 );
                 admins.add(user);
             }
@@ -81,7 +81,7 @@ public class UserService implements UserInterface {
 
     @Override
     public void addUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException,
-        IncorrectPasswordException, CustomIllegalStateException {
+            IncorrectPasswordException, CustomIllegalStateException {
         // Check if an admin already exists
         if (user.getRoles() == Type.ADMIN && countAdmins() > 0) {
             throw new CustomIllegalStateException("Un administrateur existe déjà dans la BD.");
@@ -89,7 +89,7 @@ public class UserService implements UserInterface {
 
         // Validate required fields
         if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
-            user.getPassword().isEmpty()) {
+                user.getPassword().isEmpty()) {
             throw new EmptyFieldException("Please fill in all required fields.");
         }
 
@@ -110,12 +110,12 @@ public class UserService implements UserInterface {
         // Validate password format
         if (!validationService.isValidPassword(user.getPassword())) {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
-                "one lowercase letter, one digit, and be at least 6 characters long.");
+                    "one lowercase letter, one digit, and be at least 6 characters long.");
         }
 
         // SQL insertion query
         String request = "INSERT INTO `user`(`firstname`, `lastname`, `email`, `phone`, `password`, `roles`, `is_active`, `is_banned`) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
@@ -139,9 +139,9 @@ public class UserService implements UserInterface {
     public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
-            .of(bcryptChars)
-            .map(String::valueOf)
-            .collect(Collectors.joining(""));
+                .of(bcryptChars)
+                .map(String::valueOf)
+                .collect(Collectors.joining(""));
     }
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
@@ -308,15 +308,15 @@ public class UserService implements UserInterface {
 
             while (resultSet.next()) {
                 User user = new User(
-                    resultSet.getInt("id"),
-                    resultSet.getString("firstname"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("email"),
-                    resultSet.getString("phone"),
-                    resultSet.getString("password"),
-                    Type.ADMIN,
-                    resultSet.getBoolean("is_banned"),
-                    resultSet.getBoolean("is_active")
+                        resultSet.getInt("id"),
+                        resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("password"),
+                        Type.ADMIN,
+                        resultSet.getBoolean("is_banned"),
+                        resultSet.getBoolean("is_active")
                 );
                 users.add(user);
             }
@@ -381,7 +381,7 @@ public class UserService implements UserInterface {
     }
 
     public User createUserFromResultSet(ResultSet rs) throws SQLException {
-        User user = new User(rs.getInt("id_user"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"), rs.getString("phone"), rs.getString("password"), rs.getString("nivfid"), Type.CLIENT, rs.getBoolean("is_banned"), rs.getBoolean("is_active"));
+        User user = new User();
         user.setId(rs.getInt("id"));
         user.setFirstname(rs.getString("firstname"));
         user.setLastname(rs.getString("lastname"));

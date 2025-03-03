@@ -1,6 +1,6 @@
 package services;
 
-import Interfaces.IService;
+import interfaces.IService;
 import models.Hebergements;
 import models.Offre;
 import models.ReservationOffre;
@@ -112,7 +112,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
                         rs.getDate("startDate").toLocalDate(),  // Start date
                         rs.getDate("endDate").toLocalDate(),    // End date
                         rs.getString("status"),                  // Status
-                        new User(rs.getInt("id_user"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"), rs.getString("phone"), rs.getString("password"), rs.getString("nivfid"), Type.CLIENT, rs.getBoolean("is_banned"), rs.getBoolean("is_active")), // User
+                        new User(rs.getInt("id_user"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"), rs.getString("phone"), rs.getString("password"),rs.getInt("pointsfid"), rs.getString("nivfid"), Type.CLIENT, rs.getBoolean("is_banned"), rs.getBoolean("is_active")), // User
                         rs.getInt("numberOfAdults"),           // Number of adults
                         rs.getInt("numberOfChildren")          // Number of children
                 );
@@ -155,6 +155,7 @@ public class ReservationOffreService implements IService<ReservationOffre> {
                                 rs.getString("email"),
                                 rs.getString("phone"),
                                 rs.getString("password"),
+                                rs.getInt("pointsfid"),
                                 rs.getString("nivfid"),
                                 Type.CLIENT,
                                 rs.getBoolean("is_banned"),
