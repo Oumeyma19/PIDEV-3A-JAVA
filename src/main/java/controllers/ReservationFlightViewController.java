@@ -31,10 +31,7 @@ import javafx.stage.Stage;
 import models.Flight;
 import models.ReservationsFlights;
 import models.User;
-import services.ClientService;
-import services.FlightService;
-import services.ReservationsFlightsService;
-import services.UserService;
+import services.*;
 
 public class ReservationFlightViewController implements Initializable {
 
@@ -119,7 +116,9 @@ public class ReservationFlightViewController implements Initializable {
     // Load the current user's reservations
     private void loadUserReservations() {
         // Get the current logged-in user from UserService
-        currentUser = userService.getLoggedInUser();
+        /*currentUser = userService.getLoggedInUser();*/
+        currentUser = SessionManager.getCurrentUser();
+
         System.out.println("Current user: " + currentUser);
 
         if (currentUser == null) {
