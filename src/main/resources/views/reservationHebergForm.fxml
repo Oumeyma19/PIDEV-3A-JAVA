@@ -8,40 +8,90 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="400.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservController">
-
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservController">
     <children>
-      <ImageView fitHeight="400.0" fitWidth="556.0" opacity="0.53" pickOnBounds="true">
-         <image>
-            <Image url="@../logo/page1.jpg" />
-         </image>
-      </ImageView>
-        <!-- Header -->
-        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Formulaire de Réservation" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" />
-
-        <!-- Nom Client -->
-        <Label layoutX="18.0" layoutY="75.0" style="-fx-font-weight: bold;" text="Nom Client :" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="75.0" />
-
-        <!-- Nombre de Personnes -->
-        <Label layoutX="18.0" layoutY="134.0" style="-fx-font-weight: bold;" text="Nb. Personnes :" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="134.0" />
-        <TextField fx:id="nbPersons" layoutX="120.0" layoutY="130.0" prefWidth="350.0" />
-
-        <!-- Submit Reservation Button -->
-        <Button layoutX="350.0" layoutY="210.0" onAction="#submitReservation" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Soumettre" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <DatePicker fx:id="dateI" layoutX="121.0" layoutY="200.0" prefHeight="26.0" prefWidth="350.0" />
-      <DatePicker fx:id="dateO" layoutX="120.0" layoutY="262.0" prefHeight="26.0" prefWidth="350.0" />
-      <Label layoutX="18.0" layoutY="201.0" prefHeight="23.0" prefWidth="108.0" text="DateCheckIn">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="16.0" layoutY="266.0" prefHeight="18.0" prefWidth="112.0" text="DateCheckOut">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label fx:id="nomClient" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="50.0" prefHeight="67.0" prefWidth="350.0" style="-fx-font-weight: bold;" text="NOM CLIENT" textAlignment="CENTER" />
-        <Button fx:id="retour" layoutX="12.0" layoutY="355.0" onAction="#goBack" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="12.0" />
+        <!-- Background with overlay -->
+        <ImageView fitHeight="700.0" fitWidth="900.0" opacity="0.25" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../logo/page1.jpg" />
+            </image>
+        </ImageView>
+        
+        <!-- Content Card -->
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="white" height="600.0" layoutX="100.0" layoutY="50.0" stroke="#00000010" strokeWidth="1.0" width="700.0">
+            <effect>
+                <DropShadow color="#00000040" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </Rectangle>
+        
+        <VBox alignment="TOP_CENTER" layoutX="100.0" layoutY="50.0" prefHeight="600.0" prefWidth="700.0" spacing="25.0">
+            <padding>
+                <Insets top="30.0" right="50.0" bottom="30.0" left="50.0" />
+            </padding>
+            
+            <!-- Header -->
+            <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #FA7335;" text="Formulaire de Réservation">
+                <effect>
+                    <DropShadow color="#00000020" radius="3.0" />
+                </effect>
+                <VBox.margin>
+                    <Insets bottom="20.0" />
+                </VBox.margin>
+            </Label>
+            
+            <!-- Client Name Section -->
+            <AnchorPane prefHeight="60.0" prefWidth="600.0">
+                <Label layoutX="0.0" layoutY="15.0" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #495057;" text="Nom Client :" />
+                <Label fx:id="nomClient" alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="5.0" prefHeight="50.0" prefWidth="450.0" 
+                       style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #e9ecef; -fx-border-radius: 10; -fx-padding: 10;" 
+                       text="NOM CLIENT" textAlignment="CENTER">
+                    <effect>
+                        <DropShadow color="#00000020" height="5.0" radius="2.0" width="5.0" />
+                    </effect>
+                </Label>
+            </AnchorPane>
+            
+            <!-- Number of Persons Section -->
+            <AnchorPane prefHeight="60.0" prefWidth="600.0">
+                <Label layoutX="0.0" layoutY="15.0" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #495057;" text="Nb. Personnes :" />
+                <TextField fx:id="nbPersons" layoutX="150.0" layoutY="5.0" prefHeight="50.0" prefWidth="450.0" 
+                          style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 16px; -fx-border-color: #e9ecef; -fx-background-color: #f8f9fa; -fx-padding: 10;" />
+            </AnchorPane>
+            
+            <!-- Check-In Date Section -->
+            <AnchorPane prefHeight="60.0" prefWidth="600.0">
+                <Label layoutX="0.0" layoutY="15.0" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #495057;" text="Date Check-In :" />
+                <DatePicker fx:id="dateI" layoutX="150.0" layoutY="5.0" prefHeight="50.0" prefWidth="450.0" 
+                           style="-fx-font-size: 16px; -fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef;" />
+            </AnchorPane>
+            
+            <!-- Check-Out Date Section -->
+            <AnchorPane prefHeight="60.0" prefWidth="600.0">
+                <Label layoutX="0.0" layoutY="15.0" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #495057;" text="Date Check-Out :" />
+                <DatePicker fx:id="dateO" layoutX="150.0" layoutY="5.0" prefHeight="50.0" prefWidth="450.0" 
+                           style="-fx-font-size: 16px; -fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef;" />
+            </AnchorPane>
+            
+            <!-- Buttons Section -->
+            <AnchorPane prefHeight="80.0" prefWidth="600.0">
+                <Button fx:id="retour" layoutX="0.0" layoutY="15.0" onAction="#goBack" prefHeight="55.0" prefWidth="200.0" 
+                       style="-fx-background-color: #6c757d; -fx-background-radius: 30; -fx-font-size: 18px; -fx-font-weight: bold;" text="Retour" textFill="WHITE">
+                    <effect>
+                        <DropShadow color="#00000060" height="8.0" radius="3.5" width="8.0" />
+                    </effect>
+                </Button>
+                <Button fx:id="submit" layoutX="400.0" layoutY="15.0" onAction="#submitReservation" prefHeight="55.0" prefWidth="200.0" 
+                       style="-fx-background-color: #FA7335; -fx-background-radius: 30; -fx-font-size: 18px; -fx-font-weight: bold;" text="Soumettre" textFill="WHITE">
+                    <effect>
+                        <DropShadow color="#00000060" height="8.0" radius="3.5" width="8.0" />
+                    </effect>
+                </Button>
+            </AnchorPane>
+        </VBox>
     </children>
 </AnchorPane>

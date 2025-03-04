@@ -100,10 +100,10 @@
                             <children>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@vols.png.png" />
+                                        <Image url="@apartment.png" />
                                     </image>
                                 </ImageView>
-                                <Label onMouseClicked="#goReservations" prefHeight="38.0" prefWidth="169.0" styleClass="white-bold-text" text="Réservations" textFill="WHITE">
+                                <Label onMouseClicked="#goReservations" prefHeight="38.0" prefWidth="169.0" styleClass="white-bold-text" text="Réservations Hébergments" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
