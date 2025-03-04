@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" spacing="20" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FlightDetailsController">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30" />
+    </padding>
+
+    <!-- Flight Details Section -->
+    <VBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Flight Details" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <!-- Flight Number -->
+            <Label text="Flight Number:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <Label fx:id="flightNumberLabel" style="-fx-font-size: 16px;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <!-- Departure and Destination -->
+            <Label text="Route:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <Label fx:id="routeLabel" style="-fx-font-size: 16px;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <!-- Departure Time -->
+            <Label text="Departure Time:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <Label fx:id="departureTimeLabel" style="-fx-font-size: 16px;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <!-- Arrival Time -->
+            <Label text="Arrival Time:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <Label fx:id="arrivalTimeLabel" style="-fx-font-size: 16px;" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+            <!-- Price -->
+            <Label text="Price:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <Label fx:id="priceLabel" style="-fx-font-size: 16px;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+            <!-- Weather at Departure -->
+            <Label text="Weather at Departure:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <Label fx:id="weatherLabelDeparture" style="-fx-font-size: 16px;" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+            <!-- Weather at Destination -->
+            <Label text="Weather at Destination:" style="-fx-font-size: 16px; -fx-font-weight: bold;" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <Label fx:id="weatherLabelDestination" style="-fx-font-size: 16px;" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+        </GridPane>
+    </VBox>
+
+    <!-- Book Flight Button -->
+    <Button onAction="#handleBookFlight" text="Book Flight" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;">
+        <font>
+            <Font name="System Bold" size="16" />
+        </font>
+    </Button>
+
+</VBox>

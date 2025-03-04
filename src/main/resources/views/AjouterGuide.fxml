@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterGuideController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="300.0" prefWidth="350.0" spacing="20" stylesheets="@SignIn.css">
+            <Text style="-fx-translate-x: 20;" text="Ajouter un Guide">
+                <font>
+                    <Font name="Impact" size="48.0" />
+                </font>
+            </Text>
+
+            <TextField fx:id="nomField" prefWidth="100" promptText="Nom" />
+            <TextField fx:id="prenomField" prefWidth="100" promptText="Prenom" />
+            <TextField fx:id="emailField" prefWidth="100" promptText="Email" />
+            <TextField fx:id="phoneField" prefWidth="100" promptText="Phone" />
+            <PasswordField fx:id="passwordField" prefWidth="100" promptText="Mot de passe" />
+
+            <Button onAction="#handleEnregistrer" styleClass="new_button_style" text="Enregistrer" />
+            <Label fx:id="messageLabel" text="" />
+        </VBox>
+    </children>
+</StackPane>

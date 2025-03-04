@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<?import java.net.URL?>
+<AnchorPane prefHeight="600.0" prefWidth="800.0"  xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReservationFlightViewController">
+    <stylesheets>
+        <URL value="@reservationFlightView.css" />
+    </stylesheets>
+
+    <children>
+        <VBox layoutX="10.0" layoutY="10.0" prefHeight="580.0" prefWidth="780.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="700.0" text="Your Flight Reservations" textAlignment="CENTER">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="refreshBtn" mnemonicParsing="false" onAction="#handleRefresh" text="Refresh">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+
+                <!-- Replace TableView with ScrollPane containing FlowPane for cards -->
+                <ScrollPane fitToWidth="true" prefHeight="450.0" prefWidth="780.0">
+                    <content>
+                        <FlowPane fx:id="reservationsFlowPane" hgap="15.0" vgap="15.0">
+                            <padding>
+                                <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+                            </padding>
+                        </FlowPane>
+                    </content>
+                </ScrollPane>
+
+                <HBox alignment="CENTER" prefHeight="80.0" prefWidth="780.0" spacing="20.0">
+                    <children>
+                        <Button fx:id="viewDetailsBtn" mnemonicParsing="false" onAction="#handleViewDetails" prefHeight="40.0" prefWidth="150.0" text="View Details" />
+                        <Button fx:id="cancelReservationBtn" mnemonicParsing="false" onAction="#handleCancelReservation" prefHeight="40.0" prefWidth="150.0" text="Cancel Reservation" />
+                        <Button fx:id="backBtn" mnemonicParsing="false" onAction="#handleBack" prefHeight="40.0" prefWidth="150.0" text="Back" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

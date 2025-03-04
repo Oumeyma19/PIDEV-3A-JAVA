@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0"
+           xmlns:fx="http://javafx.com/fxml/1"
+           stylesheets="@StyleReser.css"
+           fx:controller="controllers.HomeController">
+
+    <ImageView fitWidth="1450" fitHeight="750" preserveRatio="true">
+        <Image url="@background.jpg" />
+    </ImageView>
+
+    <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: rgba(255, 255, 255, 0.5); -fx-border-radius: 10px; -fx-padding: 20px; -fx-background-radius: 10;">
+        <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #ed6637; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
+            <Button text="Acceuil" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button text="Vols" style="-fx-text-fill: white;" styleClass="nav-button" onAction="#handleVol"/>
+            <Button text="Hébèrgements" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button text="Tours" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button text="Offres" style="-fx-text-fill: white;" styleClass="nav-button" onAction="#handleOffers"/>
+            <Button text="Récompenses" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button fx:id="profileButton" text="Profile" style="-fx-text-fill: white;" styleClass="nav-button" />
+            <Button text="My Reservations" style="-fx-text-fill: white;" styleClass="nav-button" onAction="#handleMyReservations" />
+        </HBox>
+    </VBox>
+</StackPane>
