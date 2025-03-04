@@ -10,17 +10,18 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
 <?import org.controlsfx.control.Rating?>
 
-<AnchorPane prefHeight="733.0" prefWidth="983.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailHebergCController">
+<AnchorPane prefHeight="733.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailHebergCController">
 
     <children>
-      <ImageView fitHeight="733.0" fitWidth="983.0" opacity="0.3" pickOnBounds="true">
+      <ImageView fitHeight="733.0" fitWidth="1500.0" layoutY="11.0" opacity="0.3" pickOnBounds="true">
          <image>
             <Image url="@../logo/background.jpg" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#012e4078" height="279.0" layoutX="10.0" layoutY="258.0" stroke="BLACK" strokeType="INSIDE" width="311.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#012e4078" height="279.0" layoutY="259.0" stroke="BLACK" strokeType="INSIDE" width="311.0" />
         <!-- Header -->
         <Label layoutX="361.0" layoutY="13.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Détails de l'Hébergement" AnchorPane.leftAnchor="361.0" AnchorPane.topAnchor="13.0" />
 
@@ -54,14 +55,14 @@
         <Label fx:id="dateOCLabel" layoutX="138.0" layoutY="479.0" prefHeight="18.0" prefWidth="170.0" AnchorPane.leftAnchor="138.0" AnchorPane.topAnchor="479.0" />
 
         <!-- Retour Button -->
-        <Button fx:id="btnBack" layoutX="11.0" layoutY="10.0" onAction="#goBack" prefHeight="34.0" prefWidth="61.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="564.6" AnchorPane.leftAnchor="11.0" />
+        <Button fx:id="btnBack" layoutX="11.0" layoutY="9.0" onAction="#goBack" prefHeight="34.0" prefWidth="61.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="690.2" AnchorPane.leftAnchor="11.0" />
 
         <!-- Réservation Button -->
         <Button fx:id="btnReservation" layoutX="409.0" layoutY="573.0" onAction="#openReservationPage" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #FA7335;" text="Réserver" textFill="WHITE" AnchorPane.bottomAnchor="31.800000000000068" AnchorPane.leftAnchor="409.0" />
       <ListView fx:id="avisListView" layoutX="621.0" layoutY="419.0" prefHeight="304.0" prefWidth="348.0" />
-      <Label fx:id="status" layoutX="28.0" layoutY="509.0" style="-fx-font-weight: bold;" text="Status:" textFill="WHITE" />
-      <Label layoutX="29.0" layoutY="479.0" style="-fx-font-weight: bold;" text="Date Checkout:" textFill="WHITE" />
-      <Label layoutX="29.0" layoutY="449.0" style="-fx-font-weight: bold;" text="Date Checkin:" textFill="WHITE" />
+      <Label fx:id="status" layoutX="26.0" layoutY="458.0" style="-fx-font-weight: bold;" text="Status:" textFill="WHITE" />
+      <Label layoutX="29.0" layoutY="479.0" style="-fx-font-weight: bold;" textFill="WHITE" />
+      <Label layoutX="29.0" layoutY="449.0" style="-fx-font-weight: bold;" textFill="WHITE" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#012e4078" height="165.0" layoutX="621.0" layoutY="251.0" stroke="BLACK" strokeType="INSIDE" width="348.0" />
       <TextField fx:id="myRatingTxt" layoutX="639.0" layoutY="296.0" prefHeight="73.0" prefWidth="318.0" promptText="écrivez votre avis ici..." />
       <Button fx:id="btnAddRating" layoutX="896.0" layoutY="375.0" onAction="#saveRating" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: #FFD700;" text="Envoyer" textAlignment="CENTER" />
@@ -72,5 +73,6 @@
       </Text>
       <Rating fx:id="myRatingStars" layoutX="639.0" layoutY="373.0" partialRating="true" rating="0.0" updateOnHover="true" />
       <Button fx:id="btnCancelRating" alignment="CENTER" layoutX="824.0" layoutY="375.0" onAction="#resetRating" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: FF0000;" text="Annuler" textAlignment="CENTER" textFill="WHITE" visible="false" />
+      <WebView fx:id="mapWebView" layoutX="1012.0" layoutY="40.0" prefHeight="690.0" prefWidth="470.0" />
     </children>
 </AnchorPane>

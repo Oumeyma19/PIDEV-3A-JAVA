@@ -1,10 +1,7 @@
 package controllers;
 
+import Util.*;
 import exceptions.UserNotFoundException;
-import Util.AvisListCell;
-import Util.AvisProperties;
-import Util.Helpers;
-import Util.RatingDialog;
 import models.AvisHebergement;
 import models.Hebergements;
 import models.User;
@@ -21,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebView;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -67,10 +65,14 @@ public class DetailHebergCController {
     @FXML
     private Button btnCancelRating;
 
+    @FXML
+    private WebView mapWebView;
+
     private Boolean isEditingRating = false;
 
     private AvisHebergement selectedAvis;
 
+    private String apiKey = ConfigProperties.getProperty("google.maps.api.key");
 
     @FXML
     private ListView<AvisHebergement> avisListView;
@@ -121,7 +123,7 @@ public class DetailHebergCController {
         descrpLabel.setText(hebergement.getDescrHeberg());
         adresseHebergLabel.setText(hebergement.getAdresse());
         typeHebergLabel.setText(hebergement.getTypeHeberg());
-        nbrCLabel.setText(String.valueOf(hebergement.getNbrClient()));
+        nbrCLabel.setText(String.valueOf(hebergement.getNbrClient()) + " personnes");
         prixLabel.setText(String.valueOf(hebergement.getPrixHeberg()));
 
         // Affichage de l'image
@@ -136,6 +138,71 @@ public class DetailHebergCController {
         } catch (Exception e) {
             e.printStackTrace();
             avisListView.getItems().add(null);
+        }
+
+        loadGoogleMap();
+    }
+
+    private void loadGoogleMap() {
+        if (hebergement == null || hebergement.getAdresse() == null || hebergement.getAdresse().isEmpty()) {
+            mapWebView.getEngine().loadContent("<html><body><p>No address available</p></body></html>");
+            return;
+        }
+
+        try {
+            // Use OpenStreetMap instead of Google Maps
+            String encodedAddress = java.net.URLEncoder.encode(hebergement.getAdresse(), "UTF-8");
+
+            String htmlContent = "<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"UTF-8\">\n" +
+                    "    <link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.7.1/dist/leaflet.css\"/>\n" +
+                    "    <script src=\"https://unpkg.com/leaflet@1.7.1/dist/leaflet.js\"></script>\n" +
+                    "    <style>\n" +
+                    "        html, body, #map { height: 100%; width: 100%; margin: 0; padding: 0; }\n" +
+                    "        .error-message { display: none; text-align: center; padding: 20px; }\n" +
+                    "    </style>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "    <div id=\"map\"></div>\n" +
+                    "    <div id=\"error-message\" class=\"error-message\">Could not locate the address.</div>\n" +
+                    "    <script>\n" +
+                    "        var map = L.map('map').setView([48.8566, 2.3522], 13); // Default to Paris\n" +
+                    "        \n" +
+                    "        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {\n" +
+                    "            attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'\n" +
+                    "        }).addTo(map);\n" +
+                    "        \n" +
+                    "        // Use Nominatim to geocode the address\n" +
+                    "        fetch('https://nominatim.openstreetmap.org/search?format=json&q=" + encodedAddress + "')\n" +
+                    "            .then(response => response.json())\n" +
+                    "            .then(data => {\n" +
+                    "                if (data && data.length > 0) {\n" +
+                    "                    var lat = parseFloat(data[0].lat);\n" +
+                    "                    var lon = parseFloat(data[0].lon);\n" +
+                    "                    map.setView([lat, lon], 15);\n" +
+                    "                    L.marker([lat, lon]).addTo(map)\n" +
+                    "                        .bindPopup(\"" + hebergement.getNomHeberg().replace("\"", "\\\"") + "\")\n" +
+                    "                        .openPopup();\n" +
+                    "                } else {\n" +
+                    "                    document.getElementById('error-message').style.display = 'block';\n" +
+                    "                }\n" +
+                    "            })\n" +
+                    "            .catch(error => {\n" +
+                    "                console.error('Error:', error);\n" +
+                    "                document.getElementById('error-message').style.display = 'block';\n" +
+                    "                document.getElementById('error-message').textContent = 'Error: ' + error.message;\n" +
+                    "            });\n" +
+                    "    </script>\n" +
+                    "</body>\n" +
+                    "</html>";
+
+            mapWebView.getEngine().loadContent(htmlContent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mapWebView.getEngine().loadContent("<html><body><p>Error: " + e.getMessage() + "</p></body></html>");
         }
     }
 
