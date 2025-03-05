@@ -11,6 +11,7 @@ import models.Hebergements;
 import models.ReservationHebergement;
 import models.User;
 import services.HebergementService;
+import services.NotificationService;
 import services.ReservHebergService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -117,6 +118,8 @@ public class AjouterHebergController implements Initializable {
     private final ObservableList<TypeHebergement> typeHebergementList = FXCollections.observableArrayList(Arrays.asList(TypeHebergement.values()));
 
     private final ObservableList<Hebergements> hebergementList = FXCollections.observableArrayList();
+
+    private final NotificationService notificationService = NotificationService.getInstance();
 
     private final ObservableList<ReservationHebergement> reservationsList = FXCollections.observableArrayList();
 
@@ -350,6 +353,7 @@ public class AjouterHebergController implements Initializable {
             boolean success = hebergementService.ajouter(newHebergement);
             if (success) {
                 Helpers.showAlert("Success", "Hébergement ajouté avec succès!", Alert.AlertType.INFORMATION);
+                notificationService.showNotification("Hébergement ajouté", "Vous avez ajouté un nouvel hébergement : " + name);
                 refreshList();
             } else {
                 Helpers.showAlert("Error", "Échec de l'ajout de l'hébergement. Veuillez réessayer.", Alert.AlertType.ERROR);
@@ -385,6 +389,8 @@ public class AjouterHebergController implements Initializable {
                         Helpers.showAlert("Erreur", "Échec de la suppression de l'hébergement.", Alert.AlertType.ERROR);
                     } else {
                         Helpers.showAlert("Succès", "Hébergement supprimé avec succès!", Alert.AlertType.INFORMATION);
+                        notificationService.showNotification("Hébergement supprimé", "Vous avez supprimé l'hébergement : " + hebergementActuel.getNomHeberg());
+
                         refreshList();
                     }
 

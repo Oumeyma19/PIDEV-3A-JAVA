@@ -25,8 +25,10 @@ import javafx.geometry.Pos;
 import models.Hebergements;
 import models.ReservationHebergement;
 import models.User;
+import services.NotificationService;
 import services.ReservHebergService;
 import services.UserService;
+import services.NotificationService;
 
 import java.sql.Timestamp;
 import java.util.logging.Level;
@@ -54,7 +56,7 @@ public class ReservController {
 
     private Hebergements hebergement;
     private User currentUser;
-
+    private final NotificationService notificationService = NotificationService.getInstance();
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
@@ -159,8 +161,10 @@ public class ReservController {
             ReservHebergService reservService = ReservHebergService.getInstance();
             reservService.ajouter(reservation);
 
-            // Show success dialog with animation
+            notificationService.showNotification("Réservation effectuée avec succès!", "Vous avez réservé " + hebergement.getNomHeberg() + " pour " + nbrClient + " personnes.");
+
             showSuccessDialog();
+
         } catch (Exception e) {
             showStylishAlert("Erreur de Réservation", "Impossible d'ajouter la réservation : " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -197,7 +201,7 @@ public class ReservController {
         titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #28a745;");
         contentPane.add(titleLabel, 1, 0);
         
-        Label messageLabel = new Label("Votre réservation a été ajoutée avec succès. Un email de confirmation vous sera envoyé prochainement.");
+        Label messageLabel = new Label("Votre réservation a été ajoutée avec succès.");
         messageLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #495057; -fx-wrap-text: true;");
         messageLabel.setPrefWidth(300);
         messageLabel.setTextAlignment(TextAlignment.LEFT);

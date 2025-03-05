@@ -76,6 +76,9 @@ public class AvisListCell extends ListCell<AvisHebergement> {
                 btnSupp.setVisible(false);
                 btnModif.setVisible(false);
             }
+            else {
+                btnSupp.setVisible(true);
+                btnModif.setVisible(true);}
 
             text.textProperty().bindBidirectional(new SimpleStringProperty(item.getComment()));
             rating.ratingProperty().bindBidirectional(new SimpleDoubleProperty(item.getReview()));

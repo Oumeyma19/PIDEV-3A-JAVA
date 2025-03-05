@@ -6,6 +6,7 @@ import models.Hebergements;
 import models.ReservationHebergement;
 import models.User;
 import services.AvisService;
+import services.NotificationService;
 import services.ReservHebergService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +53,9 @@ public class MyReservationsHebergController {
     private VBox emptyStateContainer;
 
     private User currentUser;
+    private Hebergements hebergement;
+
+    private final NotificationService notificationService = NotificationService.getInstance();
 
     private final ReservHebergService reservHebergService = ReservHebergService.getInstance();
 
@@ -237,6 +241,8 @@ public class MyReservationsHebergController {
                     
                     if (!reservHebergService.supprimer(reservation.getReservationHeberg_id())) {
                         showSuccessAlert("Réservation annulée avec succès !");
+                        notificationService.showNotification("Réservation annulée avec succès!", "Vous avez annulé votre réservation " );
+
                         reservations.removeIf(r -> r.getReservationHeberg_id() == reservation.getReservationHeberg_id());
                         reservationsFlowPane.getChildren().removeIf(vb -> vb.getId().equals("" + reservation.getReservationHeberg_id()));
                         

@@ -20,10 +20,8 @@ import javafx.util.Duration;
 import models.Offre;
 import models.ReservationOffre;
 import models.User;
-import services.EmailService;
-import services.ReservationOffreService;
-import services.UserService;
-import services.VoucherService;
+import services.*;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,12 +44,14 @@ public class ReservationFormController {
     @FXML private ProgressIndicator loadingSpinner;
     @FXML private Button btnPayNow;
     @FXML private Label lblPaymentStatus;
+
     private static final String STRIPE_SECRET_KEY = "sk_test_51Qwq37RpVdIzCeqL3O9XF4jvsoDUGEWhpZivQPEJAmAENbSgbP1bFi4On8NVNGRU6foQb2OsbPYPGYF1nlDqsDsi00Srl1teqk";
 
 
     private Offre selectedOffer;
     private final ReservationOffreService reservationService = new ReservationOffreService();
     private final UserService userService = new UserService();
+
     private User loggedInUser;
 
     @FXML

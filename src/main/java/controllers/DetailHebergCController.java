@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
+import services.NotificationService;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -82,6 +83,8 @@ public class DetailHebergCController {
     private final ObservableList<AvisHebergement> avisList = FXCollections.observableArrayList();
     private User currentUser;
 
+    private final NotificationService notificationService = NotificationService.getInstance();
+
     private void onDeleteItem(AvisHebergement avis) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
@@ -92,10 +95,12 @@ public class DetailHebergCController {
             if (response == ButtonType.OK) {
                 try {
                     if (!avisService.supprimer(avis.getIdAvis())) {
-                        Helpers.showAlert("Succès", "Hébergement supprimé avec succès!", Alert.AlertType.INFORMATION);
+                        Helpers.showAlert("Succès", "Avis supprimé avec succès!", Alert.AlertType.INFORMATION);
+                        notificationService.showNotification("Avis supprimé avec succès!", "Vous avez supprimé un avis pour " + hebergement.getNomHeberg());
                         fetchAvis();
+
                     } else {
-                        Helpers.showAlert("Erreur", "Échec de la suppression de l'hébergement.", Alert.AlertType.ERROR);
+                        Helpers.showAlert("Erreur", "Échec de la suppression d' Avis.", Alert.AlertType.ERROR);
                     }
                 } catch (Exception e) {
                     Helpers.showAlert("Erreur", "Une erreur est survenue lors de la suppression.", Alert.AlertType.ERROR);
@@ -231,7 +236,8 @@ public class DetailHebergCController {
         if (!isEditingRating) {
             try {
                 avisService.ajouter(new AvisHebergement(myRatingTxt.getText(), (float) myRatingStars.getRating(), this.currentUser, hebergement));
-                Helpers.showAlert("Avis", "ajout succes", Alert.AlertType.CONFIRMATION);
+                //  Helpers.showAlert("Avis", "ajout succes", Alert.AlertType.CONFIRMATION);
+                notificationService.showNotification("Avis ajouté avec succès", "Vous avez ajouté un avis pour " + hebergement.getNomHeberg());
                 fetchAvis();
             } catch (Exception e) {
                 Helpers.showAlert("Avis", "ajout echec", Alert.AlertType.ERROR);
@@ -241,6 +247,8 @@ public class DetailHebergCController {
             try {
                 avisService.modifier(new AvisHebergement(myRatingTxt.getText(), this.selectedAvis.getIdAvis(), this.selectedAvis.getHebergements(), this.selectedAvis.getUser(), (float) myRatingStars.getRating()));
                 Helpers.showAlert("Avis", "modification succes", Alert.AlertType.CONFIRMATION);
+                notificationService.showNotification("Avis modifié avec succès", "Vous avez modifié votre avis pour " + hebergement.getNomHeberg());
+
                 fetchAvis();
 
                 resetRating(null);

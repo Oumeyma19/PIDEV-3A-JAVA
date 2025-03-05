@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import services.NotificationService;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +59,8 @@ public class UpdateHebergController implements Initializable {
 
     @FXML
     private Text fullnameText;
+
+    private final NotificationService notificationService = NotificationService.getInstance();
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
@@ -122,6 +125,8 @@ public class UpdateHebergController implements Initializable {
             ajouterHebergController.refreshList();
             // Simuler la mise à jour dans la base de données (à remplacer avec un vrai appel DB)
             System.out.println("Hébergement modifié : " + hebergement);
+            notificationService.showNotification("Hébergement modifié", "Vous avez modifié l'hébergement : " + hebergement.getNomHeberg());
+
 
             // Afficher une confirmation
             Helpers.showAlert("Succès", "L'hébergement a été mis à jour avec succès !", AlertType.INFORMATION);
