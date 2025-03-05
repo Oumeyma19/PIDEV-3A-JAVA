@@ -1,0 +1,142 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom, #e6f4f1, #d1e8e2); /* Light ocean-inspired gradient */
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-padding: 20;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #ff7f50, #ff6347); /* Coral gradient for a vibrant, adventurous feel */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 12 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 127, 80, 0.3), 8, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+    -fx-alignment: CENTER;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ff6347, #ff4500); /* Darker coral on hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 99, 71, 0.5), 10, 0, 0, 4);
+}
+
+.button:pressed {
+    -fx-background-color: #ff4500; /* Even darker coral on press */
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 69, 0, 0.2), 5, 0, 0, 1);
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-radius: 12;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 12, 0, 0, 6);
+    -fx-background-insets: 0;
+    -fx-pref-width: 800; /* Wider table */
+    -fx-pref-height: 400; /* Taller table */
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 15;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f5f5f5;
+    -fx-cursor: hand;
+}
+
+.table-column {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(to bottom, #4682b4, #5f9ea0); /* Ocean-inspired gradient for headers */
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+    -fx-padding: 15;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #4682b4, #5f9ea0); /* Ocean-inspired gradient */
+    -fx-background-radius: 12 12 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+.table-view .scroll-bar:horizontal, .table-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar:horizontal .thumb, .table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #4682b4; /* Ocean blue for scrollbar */
+    -fx-background-radius: 6;
+}
+
+.table-view .scroll-bar:horizontal .thumb:hover, .table-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #5f9ea0; /* Lighter ocean blue on hover */
+}
+
+/* Modern Text Fields */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 8;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
+    -fx-alignment: CENTER;
+}
+
+.text-field:focused {
+    -fx-border-color: #4682b4; /* Ocean blue border on focus */
+    -fx-effect: dropshadow(three-pass-box, rgba(70, 130, 180, 0.2), 8, 0, 0, 3);
+}
+
+/* Modern Labels */
+.label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #2e4053; /* Dark blue-gray for labels */
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+/* Modern Checkbox */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2e4053; /* Dark blue-gray for checkbox text */
+    -fx-alignment: CENTER;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #4682b4; /* Ocean blue for selected checkbox */
+    -fx-border-color: #4682b4;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}

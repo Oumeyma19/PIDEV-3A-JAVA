@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="666.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RandomCodeController">
+    <children>
+        <!-- Image de fond -->
+        <ImageView fitHeight="400.0" fitWidth="528.0" layoutX="-175.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@bckg_mdp2.png" />
+            </image>
+        </ImageView>
+
+        <!-- Titre de la page -->
+        <Text layoutX="310.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Réinitialiser le mot de passe -">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Text>
+
+        <!-- Message d'instructions -->
+        <Label layoutX="310.0" layoutY="130.0" styleClass="text" text="Entrez le code de vérification envoyé à votre numéro." />
+        <TextField fx:id="digit1" alignment="CENTER" layoutX="321.0" layoutY="200.0" prefHeight="38.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit2" alignment="CENTER" layoutX="371.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit3" alignment="CENTER" layoutX="422.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <TextField fx:id="digit4" alignment="CENTER" layoutX="473.0" layoutY="200.0" prefHeight="37.0" prefWidth="43.0" promptText="*" styleClass="text-input" />
+        <Button fx:id="Submit" layoutX="368.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitBtn" prefHeight="38.0" prefWidth="91.0" styleClass="button" text="Valider" />
+        <Label layoutX="340.0" layoutY="300.0" prefHeight="18.0" prefWidth="213.0" styleClass="text" text="Vous n'avez pas reçu le code ?" />
+        <Label fx:id="ResendCode" layoutX="446.0" layoutY="318.0" prefHeight="18.0" prefWidth="167.0" styleClass="text-button" text="Renvoyer le code" underline="true" />
+        <Label fx:id="InvalidCode" layoutX="327.0" layoutY="340.0" prefHeight="32.0" prefWidth="233.0" textFill="RED" visible="false">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+
+        <!-- Bouton de retour -->
+        <ImageView fitHeight="26.0" fitWidth="18.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@back.png" />
+            </image>
+        </ImageView>
+
+        <!-- Label pour afficher le numéro de téléphone -->
+        <Label fx:id="phoneNumberLabel" layoutX="310.0" layoutY="160.0" text="Code envoyé à : " />
+    </children>
+</AnchorPane>
