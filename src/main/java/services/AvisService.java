@@ -13,6 +13,7 @@ public class AvisService implements ICrud<AvisHebergement> {
 
     private final Connection conn = MyConnection.getInstance().getConnection();
     private UserService userService = UserService.getInstance();
+    private ClientService clientService = ClientService.getInstance();
     private HebergementService hebService = HebergementService.getInstance();
 
     private static AvisService instance;
@@ -133,7 +134,7 @@ public class AvisService implements ICrud<AvisHebergement> {
             avis.setIdAvis(rs.getInt("idAvis"));
             avis.setComment(rs.getString("comment"));
             avis.setReview(rs.getFloat("review"));
-            avis.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            avis.setUser(clientService.getUserbyID(rs.getInt("idUser")));
             avis.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             avisList.add(avis);
         }

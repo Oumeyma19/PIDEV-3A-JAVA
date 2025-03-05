@@ -1,10 +1,10 @@
 package test;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane; // Import BorderPane instead of AnchorPane
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class TestFxml extends Application {
 

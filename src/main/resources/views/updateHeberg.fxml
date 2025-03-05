@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -7,32 +6,132 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UpdateHebergController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0"
+            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.UpdateHebergController">
     <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.41" pickOnBounds="true">
-         <image>
-            <Image url="@../logo/background.jpg" />
-         </image>
-      </ImageView>
-        <Label layoutX="26.0" layoutY="22.0" text="Nom Hebergement" />
-        <TextField fx:id="nomHeberg" layoutX="169.0" layoutY="24.0" prefWidth="174.0" />
+        <!-- Stylish background -->
+        <ImageView fitHeight="500.0" fitWidth="700.0" opacity="0.15" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../logo/background.jpg" />
+            </image>
+        </ImageView>
 
-        <Label layoutX="26.0" layoutY="83.0" text="Adresse Hebergement" />
-        <TextField fx:id="adresseHeberg" layoutX="169.0" layoutY="85.0" prefWidth="174.0" />
+        <!-- Header panel - using orange color -->
+        <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#FA7335" height="68.0" layoutX="0.0" layoutY="0.0" stroke="TRANSPARENT" strokeType="INSIDE" width="700.0" />
 
-        <ComboBox fx:id="typeHeberg" layoutX="414.0" layoutY="19.0" prefWidth="162.0" promptText="Type d'hébergement" />
+        <Label layoutX="225.0" layoutY="14.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Modifier l'Hébergement" textFill="WHITE">
+            <effect>
+                <DropShadow height="10.0" radius="4.5" width="10.0" color="#00000066" />
+            </effect>
+        </Label>
 
-        <Label layoutX="26.0" layoutY="131.0" text="Description" />
-        <TextField fx:id="descrp" layoutX="169.0" layoutY="130.0" prefWidth="175.0" />
+        <!-- Left panel for form fields - using darker orange -->
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#E05E1Fcc" height="382.0" layoutX="30.0" layoutY="88.0" stroke="TRANSPARENT" strokeType="INSIDE" width="380.0" />
 
-        <Label layoutX="27.0" layoutY="170.0" text="Nombre Client Max" />
-        <TextField fx:id="nbrC" layoutX="169.0" layoutY="172.0" prefWidth="174.0" />
+        <VBox layoutX="50.0" layoutY="108.0" prefHeight="310.0" prefWidth="340.0" spacing="20.0">
+            <children>
+                <!-- Styled form fields with consistent layout -->
+                <AnchorPane prefHeight="40.0" prefWidth="340.0">
+                    <Label layoutX="0.0" layoutY="10.0" prefHeight="20.0" text="Nom Hébergement" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="nomHeberg" layoutX="150.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" promptText="Nom Hébergement"
+                             style="-fx-background-radius: 8; -fx-background-color: #f8f9fa; -fx-prompt-text-fill: #6c757d;" />
+                </AnchorPane>
 
-        <ImageView fx:id="image" fitHeight="143.0" fitWidth="192.0" layoutX="394.0" layoutY="114.0" />
+                <AnchorPane prefHeight="40.0" prefWidth="340.0">
+                    <Label layoutX="0.0" layoutY="10.0" prefHeight="20.0" text="Adresse" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="adresseHeberg" layoutX="150.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" promptText="Adresse"
+                             style="-fx-background-radius: 8; -fx-background-color: #f8f9fa; -fx-prompt-text-fill: #6c757d;" />
+                </AnchorPane>
 
-        <Button fx:id="btnUpdate" layoutX="161.0" layoutY="271.0" onAction="#handleUpdate" prefHeight="26.0" prefWidth="175.0" style="-fx-background-color: #FA7335;" text="Modifier" textFill="WHITE" />
-        <Button fx:id="btnRetour" layoutX="50.0" layoutY="350.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" />
-      <Button fx:id="btnUpload" layoutX="416.0" layoutY="271.0" onAction="#uploadImage" prefHeight="26.0" prefWidth="136.0" style="-fx-background-color: #FA7335;" text="Upload" textFill="WHITE" />
+                <AnchorPane prefHeight="40.0" prefWidth="340.0">
+                    <Label layoutX="0.0" layoutY="10.0" prefHeight="20.0" text="Type d'hébergement" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="typeHeberg" layoutX="150.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" promptText="Type d'hébergement"
+                            style="-fx-background-radius: 8; -fx-background-color: #f8f9fa;" />
+                </AnchorPane>
+
+                <AnchorPane prefHeight="40.0" prefWidth="340.0">
+                    <Label layoutX="0.0" layoutY="10.0" prefHeight="20.0" text="Description" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="descrp" layoutX="150.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" promptText="Description"
+                             style="-fx-background-radius: 8; -fx-background-color: #f8f9fa; -fx-prompt-text-fill: #6c757d;" />
+                </AnchorPane>
+
+                <AnchorPane prefHeight="40.0" prefWidth="340.0">
+                    <Label layoutX="0.0" layoutY="10.0" prefHeight="20.0" text="Nombre Client Max" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="nbrC" layoutX="150.0" layoutY="5.0" prefHeight="30.0" prefWidth="190.0" promptText="Max clients"
+                             style="-fx-background-radius: 8; -fx-background-color: #f8f9fa; -fx-prompt-text-fill: #6c757d;" />
+                </AnchorPane>
+            </children>
+        </VBox>
+
+        <!-- Right panel for image and buttons - light cream background -->
+        <AnchorPane layoutX="430.0" layoutY="88.0" prefHeight="382.0" prefWidth="240.0" style="-fx-background-color: #FFF5E9; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);">
+            <children>
+                <Label layoutX="67.0" layoutY="14.0" text="Image Aperçu" textFill="#E05E1F">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+
+                <!-- Image preview with border effect -->
+                <AnchorPane layoutX="24.0" layoutY="45.0" prefHeight="180.0" prefWidth="192.0"
+                          style="-fx-border-color: #FFC299; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: white;">
+                    <children>
+                        <ImageView fx:id="image" fitHeight="160.0" fitWidth="172.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </AnchorPane>
+
+                <!-- Styled buttons with consistent look - using orange variations -->
+                <Button fx:id="btnUpload" layoutX="52.0" layoutY="240.0" onAction="#uploadImage" prefHeight="36.0" prefWidth="136.0"
+                      style="-fx-background-color: #FA7335; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+                      text="Choisir Image" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="btnUpdate" layoutX="52.0" layoutY="290.0" onAction="#handleUpdate" prefHeight="36.0" prefWidth="136.0"
+                      style="-fx-background-color: #FA7335; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+                      text="Modifier" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="btnRetour" layoutX="52.0" layoutY="340.0" onAction="#btnRetour" prefHeight="36.0" prefWidth="136.0"
+                      style="-fx-background-color: #E05E1F; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+                      text="Retour" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

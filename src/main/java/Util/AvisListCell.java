@@ -22,17 +22,20 @@ public class AvisListCell extends ListCell<AvisHebergement> {
     private final Button btnModif;
     private final HBox container;
     private final VBox btnContainer;
+    private final int ownerId;
 
     public AvisListCell(
+            int ownerId,
             Consumer<AvisHebergement> deleteCallback,
             Consumer<AvisHebergement> updateCallback
     ) {
+        this.ownerId = ownerId;
+
         text = new Text();
         rating = new Rating(5);
 
         btnSupp = new Button("Supprimer");
         btnModif = new Button("Modifier");
-
 
         btnSupp.setOnAction(e -> {
             if (!isEmpty()) {
@@ -68,6 +71,12 @@ public class AvisListCell extends ListCell<AvisHebergement> {
             text.setText("");
             rating.setRating(0);
         } else {
+
+            if (item.getUser().getId() != ownerId) {
+                btnSupp.setVisible(false);
+                btnModif.setVisible(false);
+            }
+
             text.textProperty().bindBidirectional(new SimpleStringProperty(item.getComment()));
             rating.ratingProperty().bindBidirectional(new SimpleDoubleProperty(item.getReview()));
         }

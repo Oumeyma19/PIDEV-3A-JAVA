@@ -14,6 +14,7 @@ public class ReservHebergService {
     private final Connection conn = MyConnection.getInstance().getConnection();
 
     private UserService userService = UserService.getInstance();
+    private ClientService clientService = ClientService.getInstance();
     private HebergementService hebService = HebergementService.getInstance();
 
     private static ReservHebergService instance;
@@ -69,7 +70,7 @@ public class ReservHebergService {
         while (rs.next()) {
             ReservationHebergement R = new ReservationHebergement();
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
-            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setUser(clientService.getUserbyID(rs.getInt("idUser")));
             R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
             R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));
@@ -88,7 +89,7 @@ public class ReservHebergService {
         while (rs.next()) {
             ReservationHebergement R = new ReservationHebergement();
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
-            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setUser(clientService.getUserbyID(rs.getInt("idUser")));
             R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
             R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));
@@ -108,7 +109,7 @@ public class ReservHebergService {
 
         if (rs.next()) {
             R.setReservationHeberg_id(rs.getInt("reservationHeberg_id"));
-            R.setUser(userService.getUserbyID(rs.getInt("idUser")));
+            R.setUser(clientService.getUserbyID(rs.getInt("idUser")));
             R.setHebergements(hebService.recupererId(rs.getInt("idHeberg")));
             R.setDateCheckIn(rs.getTimestamp("dateCheckIn"));
             R.setDateCheckOut(rs.getTimestamp("dateCheckOut"));

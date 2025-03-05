@@ -15,10 +15,6 @@
     -fx-border-radius: 20px;
     -fx-padding: 8px 15px;
 }
-.nav-button .label {
-    -fx-text-fill: white !important;
-}
-
 
 .nav-button:hover {
     -fx-background-color: rgba(255, 255, 255, 0.2);

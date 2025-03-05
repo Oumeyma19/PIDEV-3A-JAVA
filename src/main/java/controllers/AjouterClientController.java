@@ -1,18 +1,18 @@
 package controllers;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import exceptions.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
+import models.User;
 import services.ClientService;
 import services.ValidationService;
-import exceptions.EmptyFieldException;
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPhoneNumberException;
-import exceptions.IncorrectPasswordException;
-import models.User;
 import util.Type;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AjouterClientController {
 
@@ -90,4 +90,12 @@ public class AjouterClientController {
         messageLabel.setStyle("-fx-text-fill: " + color + ";");
         messageLabel.setVisible(true);
     }
+    public String cryptPassword(String passwordToCrypt) {
+        char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
+        return Stream
+                .of(bcryptChars)
+                .map(String::valueOf)
+                .collect(Collectors.joining(""));
+    }
+
 }

@@ -77,9 +77,9 @@ public class ProfilController {
             rootPane.requestFocus();
         });
     }
-
     public void setCurrentUser(User user) {
         this.currentUser = user;
+        System.out.println("Current user: " + user);
         if (user != null) {
             nomUserLabel.setText(user.getFirstname() + " " + user.getLastname());
             nomField.setText(user.getFirstname());
@@ -89,12 +89,30 @@ public class ProfilController {
         }
     }
 
+
+
+
+
     @FXML
     private void handleLogout(javafx.scene.input.MouseEvent event) {
-        SessionManager.clearSession(); // Effacer la session
+        SessionManager.clearSession();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleReservationO(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reservation_list.fxml"));
+            Parent root = loader.load();
+            ReservationListController ReservationListController = loader.getController();
+            ReservationListController.setLoggedInUser(currentUser);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -217,6 +235,22 @@ public class ProfilController {
         }
     }
 
+
+    @FXML
+    private void NavigateToReservationFlight(javafx.scene.input.MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ReservationFlightView.fxml"));
+            Parent root = loader.load();
+            ReservationFlightViewController reservationFlightViewController = loader.getController();
+            reservationFlightViewController.setCurrentUser(currentUser);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void goReservations(javafx.scene.input.MouseEvent event) {
         try {
@@ -231,4 +265,7 @@ public class ProfilController {
             e.printStackTrace();
         }
     }
+
+
+
 }

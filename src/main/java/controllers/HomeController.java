@@ -1,6 +1,5 @@
 package controllers;
 
-import Util.Helpers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import models.User;
+import Util.Helpers;
 
 import java.io.IOException;
 
@@ -48,7 +48,6 @@ public class HomeController {
             e.printStackTrace();
         }
     }
-
     private void handleProfile() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
@@ -57,7 +56,6 @@ public class HomeController {
             // Pass the user data to the ProfilController
             ProfilController profilController = loader.getController();
             profilController.setCurrentUser(currentUser);
-            System.out.println("[HOME CONTROLLER] logged in user: " + currentUser);
 
             Stage stage = (Stage) profileButton.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -66,4 +64,70 @@ public class HomeController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleOffers() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ReservationOffre.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user data to the ReservationOffersController
+            ReservationOffersController reservationOffersController = loader.getController();
+            if (currentUser != null) {
+                reservationOffersController.setCurrentUser(currentUser);
+                System.out.println("User passed to ReservationOffersController: " + currentUser.getFirstname()); // Debugging
+            } else {
+                System.out.println("currentUser is NULL!"); // Debugging
+            }
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleVol() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FlightSearch.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user data to the ReservationOffersController
+            FlightSearchController flightSearchController = loader.getController();
+            if (currentUser != null) {
+                flightSearchController.setCurrentUser(currentUser);
+                System.out.println("User passed to ReservationOffersController: " + currentUser.getFirstname()); // Debugging
+            } else {
+                System.out.println("currentUser is NULL!"); // Debugging
+            }
+
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleMyReservations() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/reservation_list.fxml"));
+            Parent root = loader.load();
+
+            // Get controller
+            ReservationListController reservationListController = loader.getController();
+
+            // Pass the logged-in user
+            reservationListController.setLoggedInUser(currentUser); // Pass the user
+
+            // Show the scene
+            Stage stage = (Stage) profileButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

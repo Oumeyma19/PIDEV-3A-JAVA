@@ -8,7 +8,6 @@ import models.User;
 import org.controlsfx.control.Rating;
 import org.jetbrains.annotations.NotNull;
 import services.AvisService;
-import services.UserService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
 
 import java.sql.SQLException;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -130,7 +128,7 @@ public class DetailHebergCController {
         Image image = new Image(hebergement.getImageHebrg());
         imageHeberg.setImage(image);
 
-        avisListView.setCellFactory(param -> new AvisListCell(this::onDeleteItem, this::onUpdateItem));
+        avisListView.setCellFactory(param -> new AvisListCell(currentUser.getId(), this::onDeleteItem, this::onUpdateItem));
 
         try {
             fetchAvis();

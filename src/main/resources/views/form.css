@@ -1,0 +1,85 @@
+/* Root style */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+/* Background Gradient */
+.rectangle {
+    -fx-fill: linear-gradient(to bottom right, #4b6cb7, #182848);
+}
+
+/* Form Card */
+.form-card {
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-padding: 40;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 15, 0, 0, 5);
+    -fx-max-width: 800;
+}
+
+/* Offer Details */
+.offer-details {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.offer-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+.offer-description {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555555;
+    -fx-wrap-text: true;
+}
+
+/* Form Labels */
+.form-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #555555;
+}
+
+/* Spinners */
+.form-spinner {
+    -fx-font-size: 16px;
+}
+
+/* Date Pickers */
+.form-datepicker {
+    -fx-font-size: 16px;
+}
+
+/* Total Price */
+.total-price {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+}
+
+/* Confirm Button */
+.confirm-button {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 25;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+.confirm-button:hover {
+    -fx-background-color: #2ecc71;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
+}
+
+/* Status Message */
+.status-message {
+    -fx-font-size: 16px;
+    -fx-text-fill: #e74c3c;
+    -fx-padding: 10 0 0 0;
+}

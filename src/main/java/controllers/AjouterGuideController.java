@@ -1,17 +1,16 @@
 package controllers;
 
+import exceptions.EmptyFieldException;
+import exceptions.IncorrectPasswordException;
+import exceptions.InvalidEmailException;
+import exceptions.InvalidPhoneNumberException;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import models.User;
 import services.GuideService;
 import services.ValidationService;
-import exceptions.EmptyFieldException;
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPhoneNumberException;
-import exceptions.IncorrectPasswordException;
-import models.User;
 import util.Type;
 
 public class AjouterGuideController {

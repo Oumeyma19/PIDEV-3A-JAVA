@@ -1,45 +1,32 @@
 package test;
 
-import exceptions.*;
-import models.User;
-import services.ClientService;
-import services.GuideService;
-import services.UserService;
-import util.Type;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
-    public static void main(String[] args) throws IncorrectPasswordException, InvalidPhoneNumberException, InvalidEmailException, EmptyFieldException, UserNotFoundException, CustomIllegalStateException {
-        // Singleton usage to create user instantiation
-        UserService userService = UserService.getInstance();
-        ClientService clientService = ClientService.getInstance();
-        GuideService guideService;
-        guideService = GuideService.getInstance();
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ReservationOffre.fxml"));
+            Parent root = loader.load();
 
-        // **CRUD test:**
+            // Set up the scene
+            Scene scene = new Scene(root, 1200, 800); // Adjust the size as needed
+            primaryStage.setTitle("Travel Agency Offers");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading FXML file: " + e.getMessage());
+        }
+    }
 
-        // **add new user**
-        User user = new User("Guide", "Guide", "Guide@gmail.com", "29923207", "Guide123", Type.GUIDE);
-        guideService.addUser(user);
-
-        // **update existing user**
-        //User userUpdated = new User(43, "oumeyma", "zaafrane", "82@gmail.com", "12345678","Nadou000",20,"cfgvhb", Type.CLIENT, true, false);
-        //clientService.updateUser(userUpdated);
-
-        // **delete user**
-        //guideService.deleteUser(41); // Replace 27 with the actual user ID
-
-        // **get user by ID**
-        // User retrievedUser = guideService.getUserbyID(31); // Replace 29 with the actual user ID
-        //System.out.println(retrievedUser);
-
-        // **get user by email**
-        // User userByEmail = userService.getUserbyEmail("zaafranino@gmail.com");
-        // System.out.println(userByEmail);
-
-        // **get all users**
-        // System.out.println(userService.getUsers());
-
-
+    public static void main(String[] args) {
+        launch(args);
     }
 }

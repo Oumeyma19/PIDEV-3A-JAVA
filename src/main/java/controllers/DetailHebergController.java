@@ -96,7 +96,7 @@ public class DetailHebergController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Heberg.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/dashboard.fxml"));
 
             Parent root = loader.load();
 

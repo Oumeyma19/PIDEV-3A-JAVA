@@ -2,52 +2,98 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="588.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailHebergController">
+<AnchorPane prefHeight="750.0" prefWidth="1450.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailHebergController">
     <children>
-      <ImageView fitHeight="592.0" fitWidth="776.0" layoutX="-1.0" opacity="0.28" pickOnBounds="true">
-         <image>
-            <Image url="@../logo/background.jpg" />
-         </image>
-      </ImageView>
-        <!-- Header -->
-        <Label layoutX="275.0" layoutY="7.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Détails de l'Hébergement" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="7.0" />
+        <!-- Background image with improved opacity -->
+        <ImageView fitHeight="750.0" fitWidth="1469.0" layoutX="-19.0" opacity="0.15" pickOnBounds="true">
+            <image>
+                <Image url="@../logo/background.jpg" />
+            </image>
+            <effect>
+                <DropShadow color="#00000033" height="30.0" radius="14.5" width="30.0" />
+            </effect>
+        </ImageView>
 
-        <!-- Image -->
-        <ImageView fx:id="imageHeberg" fitHeight="200" fitWidth="766.0" layoutX="9.0" layoutY="44.0" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="44.0" />
+        <!-- Top header panel with gradient -->
+        <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#fa7137" height="68.0" layoutX="0.0" layoutY="0.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1451.0" />
 
-        <!-- Nom de l'hébergement -->
-        <Label style="-fx-font-weight: bold;" text="Nom :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="260" />
-        <Label fx:id="nomHebergLabel" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="260" />
+        <!-- Header title -->
+        <Label layoutX="275.0" layoutY="12.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Détails de l'Hébergement" textFill="WHITE" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="12.0">
+            <effect>
+                <DropShadow color="#00000066" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </Label>
 
-        <!-- Description -->
-        <Label style="-fx-font-weight: bold;" text="Description :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="290" />
-        <Label fx:id="descrpLabel" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="290" />
+        <!-- Image container with rounded corners and shadow -->
+        <AnchorPane layoutX="9.0" layoutY="84.0" style="-fx-background-radius: 15; -fx-background-color: white;">
+            <children>
+                <ImageView fx:id="imageHeberg" fitHeight="200" fitWidth="1420.0" layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            </children>
+            <effect>
+                <DropShadow color="#00000040" height="20.0" radius="9.5" width="20.0" />
+            </effect>
+        </AnchorPane>
 
-        <!-- Adresse -->
-        <Label style="-fx-font-weight: bold;" text="Adresse :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="320" />
-        <Label fx:id="adresseHebergLabel" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="320" />
+        <!-- Card for details -->
+        <VBox layoutX="9.0" layoutY="300.0" prefHeight="212.0" prefWidth="1430.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20;">
+            <effect>
+                <DropShadow color="#00000040" height="20.0" radius="9.5" width="20.0" />
+            </effect>
+            <children>
+                <!-- Property details with improved layout -->
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Nom :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="nomHebergLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
 
-        <!-- Type d'hébergement -->
-        <Label style="-fx-font-weight: bold;" text="Type :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="350" />
-        <Label fx:id="typeHebergLabel" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="350" />
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Description :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="descrpLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" wrapText="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
 
-        <!-- Nombre de clients -->
-        <Label style="-fx-font-weight: bold;" text="Nb. Clients :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="380" />
-        <Label fx:id="nbrCLabel" AnchorPane.leftAnchor="100" AnchorPane.topAnchor="380" />
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Adresse :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="adresseHebergLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
 
-        <!-- Prix -->
-        <Label style="-fx-font-weight: bold;" text="Prix :" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="410" />
-        <Label fx:id="prixLabel" AnchorPane.leftAnchor="80" AnchorPane.topAnchor="410" />
-        <Label fx:id="dateICLabel" AnchorPane.leftAnchor="120" AnchorPane.topAnchor="440" />
-        <Label fx:id="dateOCLabel" AnchorPane.leftAnchor="120" AnchorPane.topAnchor="470" />
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Type :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="typeHebergLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
 
-        <!-- Retour Button -->
-        <Button fx:id="btnBack" layoutX="5.0" layoutY="521.0" onAction="#goBack" prefHeight="34.0" prefWidth="61.0" style="-fx-background-color: #FA7335;" text="Retour" textFill="WHITE" AnchorPane.bottomAnchor="36.60000000000002" AnchorPane.leftAnchor="5.0" />
-      <Button fx:id="modifier" layoutX="347.0" layoutY="521.0" mnemonicParsing="false" onAction="#modifier" prefHeight="34.0" prefWidth="72.0" style="-fx-background-color: #FA7335;" text="Modifier" textFill="WHITE" />
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Nb. Clients :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="nbrCLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
 
+                <AnchorPane prefHeight="35.0">
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #012e41;" text="Prix :" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <Label fx:id="prixLabel" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="0.0" />
+                </AnchorPane>
+            </children>
+        </VBox>
+
+        <Label fx:id="dateICLabel" layoutX="120.0" layoutY="517.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="517.0" />
+        <Label fx:id="dateOCLabel" layoutX="120.0" layoutY="547.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="547.0" />
+
+        <!-- Stylish action buttons -->
+        <Button fx:id="btnBack" layoutX="29.0" layoutY="521.0" onAction="#goBack" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #FA7335; -fx-background-radius: 20; -fx-text-fill: WHITE; -fx-font-weight: bold; -fx-font-size: 14px;" text="Retour" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="29.0">
+            <effect>
+                <DropShadow color="#00000066" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </Button>
+
+        <Button fx:id="modifier" layoutX="583.0" layoutY="521.0" onAction="#modifier" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #FA7335; -fx-background-radius: 20; -fx-text-fill: WHITE; -fx-font-weight: bold; -fx-font-size: 14px;" text="Modifier" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="29.0">
+            <effect>
+                <DropShadow color="#00000066" height="10.0" radius="4.5" width="10.0" />
+            </effect>
+        </Button>
     </children>
 </AnchorPane>

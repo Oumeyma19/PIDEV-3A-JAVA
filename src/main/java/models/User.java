@@ -140,6 +140,11 @@ public class User {
         this.is_banned = is_banned;
         this.is_active = is_active;
     }
+
+    public User(int idClient) {
+        this.id = idClient;
+    }
+
     public String getStatusGuideDisplay() {
         return statusGuide ? "Disponible" : "Indisponible";
     }
@@ -277,43 +282,43 @@ public class User {
     public String toString() {
         if (roles == Type.CLIENT) {
             return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", pointsfid=" + pointsfid +
-                ", nivfid='" + nivfid + '\'' +
-                ", roles=" + roles +
-                ", is_banned=" + is_banned +
-                ", is_active=" + is_active +// Ajout de l'attribut
-                "}\n";
+                    "id=" + id +
+                    ", firstname='" + firstname + '\'' +
+                    ", lastname='" + lastname + '\'' +
+                    ", email='" + email + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", password='" + password + '\'' +
+                    ", pointsfid=" + pointsfid +
+                    ", nivfid='" + nivfid + '\'' +
+                    ", roles=" + roles +
+                    ", is_banned=" + is_banned +
+                    ", is_active=" + is_active +// Ajout de l'attribut
+                    "}\n";
         } else if (roles == Type.GUIDE) {
             return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", statusGuide='" + statusGuide + '\'' +
-                ", roles=" + roles +
-                ", is_banned=" + is_banned +
-                ", is_active=" + is_active +// Ajout de l'attribut
-                "}\n";
+                    "id=" + id +
+                    ", firstname='" + firstname + '\'' +
+                    ", lastname='" + lastname + '\'' +
+                    ", email='" + email + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", password='" + password + '\'' +
+                    ", statusGuide='" + statusGuide + '\'' +
+                    ", roles=" + roles +
+                    ", is_banned=" + is_banned +
+                    ", is_active=" + is_active +// Ajout de l'attribut
+                    "}\n";
         } else { // ADMIN ou autres rôles
             return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                ", is_banned=" + is_banned +
-                ", is_active=" + is_active +// Ajout de l'attribut
-                "}\n";
+                    "id=" + id +
+                    ", firstname='" + firstname + '\'' +
+                    ", lastname='" + lastname + '\'' +
+                    ", email='" + email + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", password='" + password + '\'' +
+                    ", roles=" + roles +
+                    ", is_banned=" + is_banned +
+                    ", is_active=" + is_active +// Ajout de l'attribut
+                    "}\n";
         }
     }
 

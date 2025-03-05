@@ -14,8 +14,8 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.PasswordField?>
 <BorderPane
-    fx:controller="controllers.SignInController"
-    maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #f8f2e6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        fx:controller="controllers.SignInController"
+        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #f8f2e6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <right>
         <VBox prefWidth="332.0" styleClass="vbox_background_right" stylesheets="@SignIn.css" BorderPane.alignment="CENTER">
             <children>
@@ -73,20 +73,26 @@
 
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="332.0">
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="332.0">
                     <children>
-                        <Label fx:id="errorLabel" alignment="CENTER" textFill="red" visible="false">
+                        <Label fx:id="errorLabel"
+                               alignment="CENTER"
+                               textFill="red"
+                               visible="false"
+                               wrapText="true"
+                               prefHeight="50.0"
+                               prefWidth="300.0">
                             <font>
-                                <Font name="System Bold" size="14.0" /> <!-- Police en gras et taille 14 -->
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Label>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Oubliez votre mot de passe ?" textFill="#63997f">
+                        <Label fx:id="forgotPasswordLabel" alignment="CENTER" prefHeight="20.0" prefWidth="232.0" text="Oubliez votre mot de passe ?" textFill="WHITE" onMouseClicked="#redirectToRandomCode" underline="true">
                             <font>
-                                <Font name="System Bold" size="14.0" />
+                                <Font name="Bold" size="20.0" />
                             </font>
                             <opaqueInsets>
                                 <Insets right="100.0" />
@@ -119,14 +125,14 @@
                             </HBox.margin>
                             <children>
                                 <Button
-                                    fx:id="signUpButton"
-                                    mnemonicParsing="false"
-                                    prefHeight="42.0"
-                                    prefWidth="126.0"
-                                    style="-fx-background-radius: 50; -fx-border-radius: 50;"
-                                    styleClass="signup_button"
-                                    stylesheets="@SignIn.css"
-                                    text="S'inscrire"
+                                        fx:id="signUpButton"
+                                        mnemonicParsing="false"
+                                        prefHeight="42.0"
+                                        prefWidth="126.0"
+                                        style="-fx-background-radius: 50; -fx-border-radius: 50;"
+                                        styleClass="signup_button"
+                                        stylesheets="@SignIn.css"
+                                        text="S'inscrire"
                                 >
                                     <font>
                                         <Font name="System Bold" size="18.0" />

@@ -1,20 +1,26 @@
 package controllers;
 
 import exceptions.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
 import services.ClientService;
-import services.SessionManager; // Importer SessionManager
 import services.UserService;
 import services.ValidationService;
 import util.Type;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SignUpController {
     private UserService userService = UserService.getInstance();
@@ -22,6 +28,7 @@ public class SignUpController {
 
     @FXML
     private TextField firstnameField;
+
 
     @FXML
     private TextField emailField;
@@ -46,6 +53,7 @@ public class SignUpController {
 
     @FXML
     private Button signInButton;
+
 
     private ValidationService validationService = new ValidationService();
 
@@ -72,7 +80,8 @@ public class SignUpController {
             validateFields(firstname, lastname, email, phone, password, confirmPassword);
 
             // Create a new user
-            User user = new User();
+            UIManager resultSet = null;
+            User user = new User(resultSet.getInt("id"), resultSet.getString("firstname"), resultSet.getString("lastname"), resultSet.getString("email"), resultSet.getString("phone"), resultSet.getString("password"), resultSet.getBoolean("statusGuide"), Type.GUIDE, resultSet.getBoolean("is_banned"), resultSet.getBoolean("is_active"));
             user.setFirstname(firstname);
             user.setLastname(lastname);
             user.setEmail(email);
@@ -88,20 +97,17 @@ public class SignUpController {
             // Retrieve the user from the database to ensure it is correctly linked
             User savedUser = clientService.getUserbyEmail(email);
 
-            // Save session
-            SessionManager.saveSession(savedUser.getEmail(), savedUser.getRoles().toString());
-
             // Success message
             errorLabel.setText("Inscription réussie !");
             errorLabel.setStyle("-fx-text-fill: green;");
             errorLabel.setVisible(true);
 
             // Redirect based on the role
-            new java.util.Timer().schedule(
-                new java.util.TimerTask() {
+            new Timer().schedule(
+                new TimerTask() {
                     @Override
                     public void run() {
-                        javafx.application.Platform.runLater(() -> {
+                        Platform.runLater(() -> {
                             try {
                                 redirectToHome(savedUser); // Redirect to Home.fxml
                             } catch (IOException e) {
@@ -113,7 +119,8 @@ public class SignUpController {
                 2000 // 2-second delay before redirection
             );
 
-        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException | PasswordMismatchException e) {
+        } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException |
+                 PasswordMismatchException e) {
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: red;");
             errorLabel.setVisible(true);

@@ -1,9 +1,9 @@
 package services;
+import interfaces.UserInterface;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import exceptions.*;
-import interfaces.UserInterface;
 import models.User;
-import tools.MyConnection;
+import tools.MyDataBase;
 import util.Type;
 
 import java.sql.*;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GuideService implements UserInterface {
-    private Connection connection = MyConnection.getInstance().getConnection();
+    private Connection connection = MyDataBase.getInstance().getCnx();
     ValidationService validationService = new ValidationService();
     private static GuideService instance;
 
@@ -39,10 +39,10 @@ public class GuideService implements UserInterface {
 
     @Override
     public void addUser(User user) throws EmptyFieldException, InvalidPhoneNumberException, InvalidEmailException,
-        IncorrectPasswordException {
+            IncorrectPasswordException {
         // Vérifier que les champs obligatoires ne sont pas vides
         if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
-            user.getPassword().isEmpty()) {
+                user.getPassword().isEmpty()) {
             throw new EmptyFieldException("Please fill in all required fields.");
         }
         // Valider le format de l'email
@@ -59,10 +59,10 @@ public class GuideService implements UserInterface {
         // Valider le format du mot de passe
         if (!validationService.isValidPassword(user.getPassword())) {
             throw new IncorrectPasswordException("Password must contain at least one uppercase letter, " +
-                "one lowercase letter, one digit, and be at least 6 characters long.");
+                    "one lowercase letter, one digit, and be at least 6 characters long.");
         }
         String request = "INSERT INTO `user`(`firstname`, `lastname`, `email` ,`phone`,`password`,`statusGuide`,`roles`,`is_active`,`is_banned`) " +
-            "VALUES (?,?,?,?,?,?,?,?,?)";
+                "VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setString(1, user.getFirstname());
@@ -113,9 +113,9 @@ public class GuideService implements UserInterface {
     public String cryptPassword(String passwordToCrypt) {
         char[] bcryptChars = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToChar(13, passwordToCrypt.toCharArray());
         return Stream
-            .of(bcryptChars)
-            .map(String::valueOf)
-            .collect(Collectors.joining(""));
+                .of(bcryptChars)
+                .map(String::valueOf)
+                .collect(Collectors.joining(""));
     }
 
     public boolean verifyPassword(String passwordToBeVerified, String encryptedPassword) {
@@ -256,16 +256,16 @@ public class GuideService implements UserInterface {
 
             while (resultSet.next()) {
                 User user = new User(
-                    resultSet.getInt("id"),
-                    resultSet.getString("firstname"),
-                    resultSet.getString("lastname"),
-                    resultSet.getString("email"),
-                    resultSet.getString("phone"),
-                    resultSet.getString("password"),
-                    resultSet.getBoolean("statusGuide"),
-                    Type.GUIDE,
-                    resultSet.getBoolean("is_banned"),
-                    resultSet.getBoolean("is_active")
+                        resultSet.getInt("id"),
+                        resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("password"),
+                        resultSet.getBoolean("statusGuide"),
+                        Type.GUIDE,
+                        resultSet.getBoolean("is_banned"),
+                        resultSet.getBoolean("is_active")
                 );
                 users.add(user);
             }
