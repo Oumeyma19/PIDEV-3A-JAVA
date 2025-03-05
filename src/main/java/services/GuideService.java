@@ -405,4 +405,43 @@ public class GuideService implements UserInterface {
         }
     }
 
+    public int getGuidesCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'GUIDE'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving guides count: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getActiveGuidesCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'GUIDE' AND is_active = true";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving active guides count: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getInactiveGuidesCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'GUIDE' AND is_active = false";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving inactive guides count: " + ex.getMessage());
+        }
+        return 0;
+    }
+
 }

@@ -412,4 +412,43 @@ public class ClientService implements UserInterface {
             System.err.println("Error unbanning client: " + ex.getMessage());
         }
     }
+
+    public int getClientsCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'CLIENT'";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving clients count: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getActiveClientsCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'CLIENT' AND is_active = true";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving active clients count: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getInactiveClientsCount() {
+        String query = "SELECT COUNT(*) FROM user WHERE roles = 'CLIENT' AND is_active = false";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error retrieving inactive clients count: " + ex.getMessage());
+        }
+        return 0;
+    }
 }

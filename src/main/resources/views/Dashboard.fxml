@@ -2,12 +2,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
-
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController" prefHeight="750.0" prefWidth="1450.0">
-
+<BorderPane fx:id="borderPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashboardController" prefHeight="750.0" prefWidth="1450.0">
+    <!-- Contenu existant -->
     <!-- TOP BAR -->
     <top>
         <HBox style="-fx-background-color:#333333 ; -fx-padding: 10px;">

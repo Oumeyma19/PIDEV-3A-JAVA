@@ -477,3 +477,52 @@
 .login_button2:hover {
     -fx-background-color: #d39d50;
 }
+
+/* Style pour les labels de statistiques */
+/* Style pour les labels de statistiques */
+/* Style pour les labels de statistiques */
+.stat-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #FAD2C3;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
+}
+
+/* Style pour le conteneur des labels */
+.hbox-container {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 15px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+}
+
+/* Couleur pour les sections "Actifs" */
+.default-color0.chart-pie {
+    -fx-pie-color: #219EA2; /* Vert */
+}
+
+/* Couleur pour les sections "Inactifs" */
+.default-color1.chart-pie {
+    -fx-pie-color: #FAD2C3; /* Rouge */
+}
+
+/* Styles pour les labels */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+/* Styles pour les text fields */
+.text-field {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+

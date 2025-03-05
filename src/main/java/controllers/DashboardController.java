@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.User;
 import services.SessionManager;
@@ -31,6 +32,9 @@ public class DashboardController {
 
     private User currentUser;
 
+    @FXML
+    private BorderPane borderPane;
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
@@ -47,6 +51,18 @@ public class DashboardController {
         // Gestionnaire d'événements pour le bouton Guides
         guidesButton.setOnAction(event -> loadPage("/views/Guides.fxml"));
 
+        loadStatsView();
+
+    }
+
+    private void loadStatsView() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/StatsView.fxml"));
+            Parent statsView = loader.load();
+            borderPane.setCenter(statsView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
