@@ -8,6 +8,14 @@
     <artifactId>PIDEV-19</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!--added-->
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -28,6 +36,13 @@
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>2.0.30</version> <!-- Latest stable version -->
+        </dependency>
+
+         <!--added-->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>21.0.1</version>
         </dependency>
 
         <dependency>

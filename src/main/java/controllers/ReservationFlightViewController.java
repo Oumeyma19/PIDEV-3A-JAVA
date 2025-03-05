@@ -111,6 +111,9 @@ public class ReservationFlightViewController implements Initializable {
 
         // Load the logged-in user's reservations
         loadUserReservations();
+        FlightReminderNotification reminderNotification = new FlightReminderNotification();
+        reminderNotification.checkUpcomingFlightReminder(reservationsList);
+      /*  reminderNotification.scheduleFlightReminderChecks(reservationsList);*/
     }
 
     // Load the current user's reservations
