@@ -1,6 +1,6 @@
 package controllers;
 
-import exceptions.*;
+import  exceptions.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +20,8 @@ import models.User;
 import services.ClientService;
 
 import javafx.scene.input.MouseEvent;
+import services.SessionManager;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 public class ClientsController {
     @FXML
     private TextField searchField;
+
+
 
 
     @FXML
@@ -82,29 +86,46 @@ public class ClientsController {
     private ObservableList<User> filteredClientsList = FXCollections.observableArrayList(); // Liste filtrée
 
 
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
-        if (user != null) {
-            fullnameText.setText("Bonjour, " + user.getFirstname());
-        }
     }
 
     @FXML
-    private void handleUserImageClick(MouseEvent event) {
+    private void handleProfileClick(MouseEvent event) {
+        navigateToProfile(event);
+    }
+
+    private void navigateToProfile(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Profil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ProfileDashboard.fxml"));
             Parent root = loader.load();
 
-            ProfilController profilController = loader.getController();
-            profilController.setCurrentUser(currentUser);
+            ProfileDashboardController profileController = loader.getController();
+            profileController.setCurrentAdmin(SessionManager.getCurrentUser());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            System.err.println("Error loading Profil.fxml: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+    @FXML
+    private void handleLogout(MouseEvent event) {
+        SessionManager.clearSession(); // Clear the session
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private void handleFilterByBanned() {
@@ -264,6 +285,7 @@ public class ClientsController {
             Stage stage = new Stage();
             stage.setTitle("Ajouter un Client");
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.showAndWait(); // Attendre que la fenêtre se ferme
 
             // Recharger les clients après l'ajout
@@ -325,6 +347,20 @@ public class ClientsController {
     }
 
 
+
+    private void navigateTo(MouseEvent event, String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void refreshTable() {
         clientsTable.getItems().setAll(clientService.getUsers());
     }
@@ -335,6 +371,8 @@ public class ClientsController {
             // Charger le fichier FXML de Dashboard
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
             Parent root = loader.load();
+
+
 
             // Récupérer la scène actuelle
             Stage stage = (Stage) ((Text) event.getSource()).getScene().getWindow();
@@ -347,6 +385,7 @@ public class ClientsController {
             System.err.println("Erreur lors du chargement de Dashboard.fxml");
         }
     }
+
 
 
 }

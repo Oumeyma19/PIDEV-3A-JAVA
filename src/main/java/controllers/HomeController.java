@@ -39,6 +39,7 @@ public class HomeController {
 
             Stage stage = (Stage) profileButton.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import services.SessionManager;
 
 import java.io.IOException;
 
@@ -53,6 +54,9 @@ public class ChangeMdpController {
                 // Send email notification
                 emailService.sendPasswordChangeEmail(loggedInUser.getEmail());
 
+                SessionManager.saveSession(loggedInUser.getEmail(), loggedInUser.getRoles().toString());
+
+
                 // Redirect to Home.fxml
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
                 Parent root = loader.load();
@@ -60,6 +64,7 @@ public class ChangeMdpController {
                 homeController.setCurrentUser(loggedInUser);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.centerOnScreen();
                 stage.show();
             } catch (UserNotFoundException | IncorrectPasswordException | EmptyFieldException | IOException e) {
                 errorLabel.setText("Erreur lors de la mise à jour du mot de passe.");

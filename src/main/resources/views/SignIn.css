@@ -465,3 +465,15 @@
     -fx-font-weight: bold;
      underline:"true";
 }
+
+.login_button2 {
+    -fx-background-color: #ed6637;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-background-radius: 30px;
+    -fx-cursor: hand;
+}
+
+.login_button2:hover {
+    -fx-background-color: #d39d50;
+}

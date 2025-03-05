@@ -10,10 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import models.User;
-import services.ClientService;
-import services.GuideService;
-import services.UserService;
-import services.ValidationService;
+import services.*;
 import javafx.scene.image.ImageView;
 import java.io.IOException;
 
@@ -65,12 +62,15 @@ public class ChangePasswordController {
 
     @FXML
     private void handleLogout() {
+        SessionManager.clearSession(); // Effacer la session
+
         try {
             // Rediriger vers la page de connexion (SignIn.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) logoutImage.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Erreur lors de la déconnexion : " + e.getMessage());
@@ -144,6 +144,7 @@ public class ChangePasswordController {
             // Changer de scène
             Stage stage = (Stage) nomUserLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Erreur lors de l'ouverture du profil : " + e.getMessage());
@@ -180,6 +181,7 @@ public class ChangePasswordController {
             // Get the current stage and set the new scene
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Error loading Profil.fxml: " + e.getMessage());
@@ -198,6 +200,7 @@ public class ChangePasswordController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

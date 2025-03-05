@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane; // Import BorderPane instead of AnchorPane
+import javafx.scene.layout.AnchorPane; // Import BorderPane instead of AnchorPane
 
 public class TestFxml extends Application {
 
@@ -17,7 +17,7 @@ public class TestFxml extends Application {
         try {
             // Load the FXML file for the SignIn UI
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
-            BorderPane root = loader.load(); // Change AnchorPane to BorderPane
+            AnchorPane root = loader.load(); // Change AnchorPane to BorderPane
 
             // Create the Scene from the FXML root layout
             Scene scene = new Scene(root);

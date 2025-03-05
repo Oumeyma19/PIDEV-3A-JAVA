@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.User;
 import services.GuideService;
+import services.SessionManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -94,10 +95,8 @@ public class GuidesController {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
-        if (user != null) {
-            fullnameText.setText("Bonjour, " + user.getFirstname());
-        }
     }
+
 
     @FXML
     public void initialize() {
@@ -200,6 +199,7 @@ public class GuidesController {
             Stage stage = new Stage();
             stage.setTitle("Ajouter un Guide");
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.showAndWait(); // Attendre que la fenêtre se ferme
 
             // Recharger les guides après l'ajout
@@ -296,6 +296,7 @@ public class GuidesController {
             ClientsController clientsController = loader.getController();
             clientsController.setCurrentUser(currentUser);
 
+
             // Get the current stage and set the new scene
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -313,6 +314,7 @@ public class GuidesController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
             Parent root = loader.load();
 
+
             // Récupérer la scène actuelle
             Stage stage = (Stage) ((Text) event.getSource()).getScene().getWindow();
 
@@ -324,6 +326,41 @@ public class GuidesController {
             System.err.println("Erreur lors du chargement de Dashboard.fxml");
         }
     }
+    @FXML
+    private void handleProfileClick(MouseEvent event) {
+        navigateToProfile(event);
+    }
 
+
+
+    private void navigateToProfile(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ProfileDashboard.fxml"));
+            Parent root = loader.load();
+
+            ProfileDashboardController profileController = loader.getController();
+            profileController.setCurrentAdmin(SessionManager.getCurrentUser());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleLogout(MouseEvent event) {
+        SessionManager.clearSession(); // Clear the session
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SignIn.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

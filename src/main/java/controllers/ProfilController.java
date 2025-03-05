@@ -3,15 +3,13 @@ package controllers;
 import exceptions.EmptyFieldException;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPhoneNumberException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,6 +18,7 @@ import services.ClientService;
 import services.GuideService;
 import services.SessionManager;
 import services.UserService;
+import util.Type;
 
 import java.io.IOException;
 
@@ -49,6 +48,9 @@ public class ProfilController {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Button dashboardButton;
+
     private User currentUser;
     private UserService userService = UserService.getInstance();
     private ClientService clientService = ClientService.getInstance();
@@ -69,6 +71,9 @@ public class ProfilController {
             prenomField.setText(currentUser.getLastname());
             emailField.setText(currentUser.getEmail());
             telephoneField.setText(currentUser.getPhone());
+
+            boolean isAdmin = checkIfUserIsAdmin(); // Remplacez cette méthode par votre logique de vérification
+            dashboardButton.setVisible(isAdmin);
         }
 
         // Déplacer le focus vers un autre élément (par exemple, un Label ou un Pane)
@@ -76,6 +81,24 @@ public class ProfilController {
             Pane rootPane = (Pane) nomField.getParent();
             rootPane.requestFocus();
         });
+    }
+
+    private boolean checkIfUserIsAdmin() {
+        return currentUser != null && currentUser.getRoles() == Type.ADMIN;
+    }
+
+    @FXML
+    private void handleDashboard(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) dashboardButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setCurrentUser(User user) {
@@ -86,6 +109,9 @@ public class ProfilController {
             prenomField.setText(user.getLastname());
             emailField.setText(user.getEmail());
             telephoneField.setText(user.getPhone());
+
+            dashboardButton.setVisible(currentUser.getRoles() == Type.ADMIN);
+
         }
     }
 
@@ -97,6 +123,7 @@ public class ProfilController {
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,6 +139,7 @@ public class ProfilController {
             changePasswordController.setCurrentUser(currentUser);
             Stage stage = (Stage) logoutImage.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.err.println("Erreur lors de la redirection vers la page de modification du mot de passe : " + e.getMessage());
@@ -162,7 +190,7 @@ public class ProfilController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation de suppression");
             alert.setHeaderText("Supprimer le compte");
-            alert.setContentText("Êtes-vous sûr de vouloir supprimer ce compte ?");
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer votre compte ?");
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     try {
@@ -211,6 +239,7 @@ public class ProfilController {
             homeController.setCurrentUser(currentUser);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

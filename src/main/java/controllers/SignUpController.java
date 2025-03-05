@@ -8,10 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.User;
-import services.ClientService;
-import services.SessionManager; // Importer SessionManager
-import services.UserService;
-import services.ValidationService;
+import services.*;
 import util.Type;
 
 import java.io.IOException;
@@ -91,27 +88,12 @@ public class SignUpController {
             // Save session
             SessionManager.saveSession(savedUser.getEmail(), savedUser.getRoles().toString());
 
-            // Success message
-            errorLabel.setText("Inscription réussie !");
-            errorLabel.setStyle("-fx-text-fill: green;");
-            errorLabel.setVisible(true);
+            String verificationCode = generateVerificationCode();
 
-            // Redirect based on the role
-            new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        javafx.application.Platform.runLater(() -> {
-                            try {
-                                redirectToHome(savedUser); // Redirect to Home.fxml
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-                },
-                2000 // 2-second delay before redirection
-            );
+            EmailService emailService = new EmailService();
+            emailService.sendVerificationEmail(savedUser.getEmail(), verificationCode);
+
+            redirectToEmailCode(savedUser, verificationCode);
 
         } catch (EmptyFieldException | InvalidEmailException | InvalidPhoneNumberException | IncorrectPasswordException | PasswordMismatchException e) {
             errorLabel.setText(e.getMessage());
@@ -124,19 +106,22 @@ public class SignUpController {
             e.printStackTrace();
         }
     }
+    private String generateVerificationCode() {
+        // Générer un code aléatoire à 4 chiffres
+        return String.valueOf((int) (Math.random() * 9000) + 1000);
+    }
 
-    @FXML
-    public void redirectToHome(User user) throws IOException {
-        System.out.println("Redirection vers Home.fxml");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+    private void redirectToEmailCode(User user, String verificationCode) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EmailCode.fxml"));
         Parent root = loader.load();
 
-        // Pass user data to HomeController
-        HomeController homeController = loader.getController();
-        homeController.setCurrentUser(user);
+        // Passer les données à EmailCodeController
+        EmailCodeController emailCodeController = loader.getController();
+        emailCodeController.setUserAndCode(user, verificationCode);
 
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -154,6 +139,7 @@ public class SignUpController {
             Parent root = loader.load();
             Stage stage = (Stage) signInButton.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (Exception e) {
             showError("Impossible de charger la page d'inscription.");

@@ -51,7 +51,7 @@ public class SignInController {
 
     @FXML
     public void initialize() {
-        // Vérifier la session au démarrage
+// Vérifier la session au démarrage
         String[] session = SessionManager.loadSession();
         if (session != null && session.length == 3) {
             String email = session[0];
@@ -82,7 +82,6 @@ public class SignInController {
                 }
             }
         }
-
         // Initialisation normale si aucune session valide n'est trouvée
         if (loginButton == null) {
             System.out.println("ERREUR : loginButton est NULL !");
@@ -96,6 +95,47 @@ public class SignInController {
         }
     }
 
+    private void redirectToHome(User user) {
+        try {
+            System.out.println("Tentative de redirection pour l'utilisateur : " + user.getEmail() + " (Rôle : " + user.getRoles() + ")");
+            FXMLLoader loader;
+            if (user.getRoles() == Type.ADMIN) {
+                loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            }
+            Parent root = loader.load();
+
+            if (user.getRoles() == Type.ADMIN) {
+                DashboardController dashboardController = loader.getController();
+                dashboardController.setCurrentUser(user);
+            } else {
+                HomeController homeController = loader.getController();
+                homeController.setCurrentUser(user);
+            }
+
+            Scene currentScene = emailField.getScene();
+            if (currentScene != null) {
+                Stage stage = (Stage) currentScene.getWindow();
+                Scene newScene = new Scene(root);
+                // Définir la scène sur la fenêtre
+                stage.setScene(newScene);
+
+                // Centrer la fenêtre sur l'écran
+                stage.centerOnScreen();
+
+                // Empêcher le redimensionnement de la fenêtre (optionnel)
+                stage.setResizable(false);
+
+                stage.show();
+            } else {
+                System.err.println("Erreur : Impossible d'accéder à la scène actuelle.");
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la redirection : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     private void handleLogin() {
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
@@ -130,8 +170,7 @@ public class SignInController {
                 try {
                     user = guideService.getUserbyEmail(email);
                 } catch (UserNotFoundException e) {
-                    showError("Aucun utilisateur trouvé avec cet email.");
-                    return;
+
                 }
             }
 
@@ -143,7 +182,7 @@ public class SignInController {
             // Vérifier le mot de passe et rediriger
             if (verifyPassword(user, password)) {
                 UserService.setLoggedInUser(user);
-                SessionManager.saveSession(user.getEmail(), user.getRoles().toString());
+                SessionManager.saveSession(user.getEmail(), user.getRoles().toString()); // Sauvegarder la session ici
                 loginAttemptsMap.put(email, 0); // Réinitialiser les tentatives
                 redirectToHome(user);
             } else {
@@ -193,42 +232,10 @@ public class SignInController {
             Parent root = loader.load();
             Stage stage = (Stage) signUpButton.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.centerOnScreen();
             stage.show();
         } catch (Exception e) {
             showError("Impossible de charger la page d'inscription.");
-            e.printStackTrace();
-        }
-    }
-
-    private void redirectToHome(User user) {
-        try {
-            System.out.println("Tentative de redirection pour l'utilisateur : " + user.getEmail() + " (Rôle : " + user.getRoles() + ")");
-            FXMLLoader loader;
-            if (user.getRoles() == Type.ADMIN) {
-                loader = new FXMLLoader(getClass().getResource("/views/Clients.fxml"));
-            } else {
-                loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
-            }
-            Parent root = loader.load();
-
-            if (user.getRoles() == Type.ADMIN) {
-                ClientsController clientsController = loader.getController();
-                clientsController.setCurrentUser(user);
-            } else {
-                HomeController homeController = loader.getController();
-                homeController.setCurrentUser(user);
-            }
-
-            Scene currentScene = emailField.getScene();
-            if (currentScene != null) {
-                Stage stage = (Stage) currentScene.getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } else {
-                System.err.println("Erreur : Impossible d'accéder à la scène actuelle.");
-            }
-        } catch (Exception e) {
-            System.err.println("Erreur lors de la redirection : " + e.getMessage());
             e.printStackTrace();
         }
     }
