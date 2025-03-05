@@ -99,7 +99,7 @@ public class FlightReminderNotification {
                                 escapeXml(flight.getFlightDate()) + "</text>\n" +
                                 "        </binding>\n" +
                                 "    </visual>\n" +
-                                "     <audio src='ms-winsoundevent:Notification.Looping.Call'/>\n" +
+
                                 "</toast>\n" +
                                 "'@\n" +
                                 "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument\n" +
