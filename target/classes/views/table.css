@@ -1,0 +1,33 @@
+.table-view {
+    -fx-font-size: 14px;
+    -fx-background-color: #f7f7f7;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+.table-column-header {
+    -fx-background-color: #FA7335;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: #fff;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f2f2f2;
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-background-radius: 20px;
+    -fx-min-width: 80px;
+    -fx-min-height: 30px;
+    -fx-padding: 5 10;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0, 0, 1);
+}

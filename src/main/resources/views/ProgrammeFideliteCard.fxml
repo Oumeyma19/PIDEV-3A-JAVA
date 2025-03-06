@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.Color?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.ProgrammeFideliteCardController"
+      spacing="0"
+      maxWidth="280"
+      minWidth="280"
+      style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-radius: 12;">
+
+    <effect>
+        <DropShadow radius="10" spread="0.05">
+            <color>
+                <Color opacity="0.2"/>
+            </color>
+        </DropShadow>
+    </effect>
+
+    <!-- Image Container -->
+    <StackPane>
+        <!-- Image Background -->
+        <Rectangle width="280" height="160" arcWidth="24" arcHeight="24" fill="#f8f9fa"/>
+
+        <!-- Programme Image -->
+        <ImageView fx:id="photoImageView"
+                   fitWidth="280"
+                   fitHeight="160"
+                   preserveRatio="true"
+                   style="-fx-background-radius: 12 12 0 0;">
+            <effect>
+                <DropShadow radius="5" spread="0.05">
+                    <color>
+                        <Color opacity="0.1"/>
+                    </color>
+                </DropShadow>
+            </effect>
+        </ImageView>
+
+        <!-- Banner label if needed -->
+        <HBox fx:id="premiumBanner" visible="false" alignment="CENTER_RIGHT" StackPane.alignment="TOP_RIGHT">
+            <Label text="PREMIUM"
+                   style="-fx-background-color: #ffc107; -fx-text-fill: #212529; -fx-font-weight: bold; -fx-padding: 5 15; -fx-background-radius: 0 12 0 12;"/>
+        </HBox>
+    </StackPane>
+
+    <!-- Content Container -->
+    <VBox spacing="10" style="-fx-padding: 16;">
+        <!-- Programme Name -->
+        <Label fx:id="nomProgrammeLabel"
+               style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2d3748;"
+               wrapText="true"/>
+
+        <!-- Description if needed -->
+        <Label fx:id="descriptionLabel"
+               text="Description du programme de fidélité"
+               style="-fx-font-size: 13; -fx-text-fill: #718096;"
+               wrapText="true"/>
+
+        <!-- Divider -->
+        <Separator style="-fx-background-color: #e2e8f0; -fx-opacity: 0.6;"/>
+
+        <!-- Points Display -->
+        <HBox alignment="CENTER_LEFT" spacing="8">
+            <ImageView fitWidth="20" fitHeight="20">
+                <Image url="@point_icon.png"/> <!-- Add a points icon image -->
+            </ImageView>
+            <Label fx:id="pointsLabel"
+                   style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ed6637;"/>
+        </HBox>
+
+        <!-- Benefits list if needed -->
+        <VBox fx:id="benefitsContainer" spacing="5" style="-fx-padding: 0 0 10 0;">
+            <!-- Benefits will be added dynamically -->
+        </VBox>
+
+        <!-- Button Container -->
+        <HBox alignment="CENTER">
+            <Button fx:id="acheterButton"
+                    text="Acheter"
+                    onAction="#acheterProgramme"
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    style="-fx-background-color: linear-gradient(to right, #ed6637, #f89263); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+</VBox>

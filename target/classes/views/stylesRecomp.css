@@ -1,0 +1,180 @@
+/* recompense-styles.css */
+
+/* Global Styles */
+* {
+    -fx-primary: #3b9a9a;
+    -fx-primary-dark: #2c7878;
+    -fx-accent: #4CAF50;
+    -fx-light-grey: #f8f9fa;
+    -fx-medium-grey: #e9ecef;
+    -fx-dark-grey: #343a40;
+}
+
+.root {
+    -fx-background-color: -fx-light-grey;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Header Styles */
+.header-container {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.top-nav {
+    -fx-background-color: -fx-primary;
+    -fx-padding: a 15 8 15;
+    -fx-spacing: 15;
+}
+
+.nav-text {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5;
+}
+
+.back-button:hover {
+    -fx-background-color: -fx-primary-dark;
+}
+
+.points-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 50;
+    -fx-padding: 5 15;
+}
+
+.title-bar {
+    -fx-padding: 15 20;
+    -fx-background-color: white;
+}
+
+.page-title {
+    -fx-text-fill: -fx-primary;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.add-button {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.add-button:hover {
+    -fx-background-color: derive(-fx-accent, -10%);
+}
+
+/* Search Styles */
+.search-container {
+    -fx-padding: 0 20 15 20;
+    -fx-background-color: white;
+}
+
+.search-stack {
+    -fx-max-width: 500;
+}
+
+.search-field {
+    -fx-background-color: -fx-light-grey;
+    -fx-background-radius: 50;
+    -fx-padding: 8 40 8 15;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: derive(-fx-dark-grey, 30%);
+}
+
+.search-icon {
+    -fx-fill: derive(-fx-dark-grey, 30%);
+    -fx-translate-x: 210;
+}
+
+/* Content Styles */
+.content-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.content-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.rewards-container {
+    -fx-background-color: transparent;
+}
+
+.no-results {
+    -fx-text-fill: -fx-dark-grey;
+    -fx-font-size: 18px;
+    -fx-padding: 30 0;
+}
+
+/* Footer Styles */
+.footer {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: -fx-medium-grey;
+}
+
+.footer-text {
+    -fx-text-fill: derive(-fx-dark-grey, 20%);
+    -fx-font-size: 12px;
+}
+
+/* Reward Card Styling - Used in controller */
+.reward-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 0;
+}
+
+.reward-image-container {
+    -fx-background-color: -fx-medium-grey;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.reward-content {
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.reward-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-dark-grey;
+}
+
+.reward-points {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary;
+}
+
+.claim-button {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 8 0;
+    -fx-pref-width: 100%;
+}
+
+.claim-button:hover {
+    -fx-background-color: derive(-fx-accent, -10%);
+}
+
+.claim-button:disabled {
+    -fx-background-color: -fx-medium-grey;
+    -fx-opacity: 0.7;
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="750.0" prefWidth="1000.0"
+            stylesheets="@SignIn.css"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.RewardsManagementController">
+
+    <!-- Header -->
+    <AnchorPane prefHeight="52.0" prefWidth="1450.0"
+                style="-fx-background-color: #333333;"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Text fx:id="fullnameText"
+                  fill="WHITE"
+                  layoutX="1300.0"
+            layoutY="30.0"
+            text="Bonjour Admin" />
+            <Label text="Gestion des Récompenses"
+                   layoutX="20.0"
+            layoutY="15.0"
+            style="-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+        </children>
+    </AnchorPane>
+
+    <!-- Main Content Area -->
+    <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
+        <AnchorPane prefHeight="459.0" prefWidth="801.0">
+            <children>
+                <VBox spacing="30" styleClass="content-vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+
+                    <!-- Header with Title and Actions -->
+                    <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header-container">
+                        <Text text="Liste des Récompenses" style="-fx-text-fill: black; -fx-font-size: 18px; -fx-font-weight: bold;">
+                            <font>
+                                <Font name="System Bold" size="36.0" />
+                            </font>
+                        </Text>
+                        <HBox spacing="20" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                            <Button fx:id="ajouterRecompenseButton"
+                                    text="+ Ajouter Récompense"
+                                    styleClass="action-button"
+                                    onAction="#handleAjouterRecompense"/>
+                        </HBox>
+                    </HBox>
+
+                    <!-- Rewards Table -->
+                    <TableView fx:id="recompensesTable"
+                               prefHeight="400.0"
+                               prefWidth="800.0"
+                               styleClass="custom-table">
+                        <columns>
+                            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="nomColumn" text="Nom" prefWidth="200"/>
+                            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250"/>
+                            <TableColumn fx:id="pointsRequiredColumn" text="Points Requis" prefWidth="150"/>
+                            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="230"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </StackPane>
+</AnchorPane>
