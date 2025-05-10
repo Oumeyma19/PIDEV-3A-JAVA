@@ -12,14 +12,14 @@
         <VBox alignment="CENTER" spacing="15" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
             <!-- Add Button -->
             <HBox alignment="CENTER">
-                <Button onAction="#handleAddAirport" text="Add Airport" styleClass="action-button" />
+                <Button onAction="#handleAddAirport" text="Ajouter aéroport" styleClass="action-button" />
             </HBox>
 
             <!-- TableView -->
             <TableView fx:id="airportTable" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="nameColumn" prefWidth="400" text="Name Airport" />
-                    <TableColumn fx:id="locationColumn" prefWidth="300" text="Location" />
+                    <TableColumn fx:id="nameColumn" prefWidth="400" text="Nom d'aéroport" />
+                    <TableColumn fx:id="locationColumn" prefWidth="300" text="Localisation" />
                     <TableColumn fx:id="codeColumn" prefWidth="200" text="Code" />
                     <!-- Actions Column -->
                     <TableColumn fx:id="actionsColumn" prefWidth="300" text="Actions" />
