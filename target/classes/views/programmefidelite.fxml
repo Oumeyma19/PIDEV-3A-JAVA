@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1450.0" stylesheets="@SignIn.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ProgrammeFideliteController">
+    <children>
+        <AnchorPane fx:id="dashContent" layoutX="-3.0" layoutY="51.0" prefHeight="459.0" prefWidth="801.0" styleClass="content-area" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+            <children>
+                <VBox fx:id="content" spacing="30" layoutX="-3.0" styleClass="content-vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                    <children>
+                        <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header-container">
+                            <Text text="Programmes de Fidélité" styleClass="page-title">
+                                <font>
+                                    <Font name="System Bold" size="36.0" />
+                                </font>
+                            </Text>
+                            <HBox spacing="20" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                <HBox spacing="10" alignment="CENTER_LEFT" styleClass="search-container">
+                                    <TextField fx:id="searchField" promptText="Rechercher un programme..." styleClass="search-field" onKeyReleased="#handleSearch" />
+                                </HBox>
+                                <Button fx:id="ajouterButton" text="+ Ajouter Programme" styleClass="action-button" onAction="#handleAjouterProgramme" />
+                            </HBox>
+                        </HBox>
+
+                        <TableView fx:id="programmesTable" prefHeight="400.0" prefWidth="800.0" styleClass="custom-table">
+                            <columns>
+                                <TableColumn fx:id="idColumn" text="ID" prefWidth="80" />
+                                <TableColumn fx:id="nomColumn" text="Nom Programme" prefWidth="200" />
+                                <TableColumn fx:id="pointsColumn" text="Points Requis" prefWidth="150" style="-fx-alignment: center;" />
+                                <TableColumn fx:id="photoColumn" text="Photo" prefWidth="200" />
+                                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="200" />
+                            </columns>
+                        </TableView>
+
+                        <HBox spacing="15" alignment="CENTER_LEFT" styleClass="form-container">
+                            <VBox spacing="15">
+                                <HBox spacing="15">
+                                    <TextField fx:id="idField" promptText="ID" styleClass="form-field" editable="false" />
+                                    <TextField fx:id="nomField" promptText="Nom du programme" styleClass="form-field" />
+                                    <TextField fx:id="pointsField" promptText="Points requis" styleClass="form-field" />
+                                    <TextField fx:id="photoField" promptText="URL Photo" styleClass="form-field" />
+                                </HBox>
+                            </VBox>
+                            <HBox spacing="15" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                <Button text="Modifier" styleClass="edit-button" onAction="#handleModifier" />
+                                <Label fx:id="messageLabel" styleClass="message-label" />
+                            </HBox>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <Pane layoutX="77.0" layoutY="114.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="51.0" prefWidth="806.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <AnchorPane layoutX="569.0" layoutY="33.0" prefHeight="52.0" prefWidth="1047.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Text fx:id="fullnameText" fill="WHITE" layoutX="905.703125" layoutY="21.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonjour" AnchorPane.rightAnchor="62.833984375" AnchorPane.topAnchor="8.05078125" />
+                <AnchorPane fx:id="imagePane" layoutX="1003.0" layoutY="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0">
+                    <children>
+                        <ImageView fx:id="userImage" fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleUserImageClick">
+                            <image>
+                                <Image url="@/views/user.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+                <Label text="Dashboard" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane prefHeight="459.0" prefWidth="224.0"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
+            <children>
+                <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/dashboard.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Dashboard" onMouseClicked="#handleDashboardClick">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="26.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/community.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Communauté" AnchorPane.leftAnchor="66.0">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="98.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Clients" wrappingWidth="95.9375" onMouseClicked="#handleClientsClick">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="98.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Guides" wrappingWidth="95.9375" onMouseClicked="#handleGuidesClick">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="23.0" fitWidth="16.0" layoutX="64.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/views/arrow.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="64.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/arrow.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="/views/hebergements.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="64.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Hébèrgements" AnchorPane.topAnchor="262.734375">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/vols.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Vols" AnchorPane.leftAnchor="66.0">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="363.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/tours.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Tours">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/recompenses.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Récompenses" onMouseClicked="#handleRecompensesClick">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="461.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/offres.png.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Offres">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <ImageView fitHeight="29.0" fitWidth="23.0" layoutX="23.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/views/programme_fidelite.png" />
+                    </image>
+                </ImageView>
+                <Text layoutX="66.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Programme Fidelite">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <AnchorPane fx:id="logoutPane" layoutX="12.0" layoutY="515.0" prefHeight="40.0" prefWidth="224.0" style="-fx-background-color: #adadad;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="30.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/views/logout.png" />
+                            </image>
+                        </ImageView>
+                        <Text layoutX="72.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Déconnexion">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

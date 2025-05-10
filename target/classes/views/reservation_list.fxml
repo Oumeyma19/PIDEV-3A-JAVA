@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/8.0"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controllers.ReservationListController"
+           stylesheets="List.css">
+
+    <!-- Background Image -->
+    <ImageView fitWidth="1000" fitHeight="700" preserveRatio="true">
+        <Image url="@background.jpg"/>
+    </ImageView>
+
+    <!-- Transparent Overlay -->
+    <VBox prefWidth="1000" prefHeight="700" alignment="CENTER" spacing="20"
+          style="-fx-background-color: rgba(255, 255, 255, 0.85); -fx-border-radius: 10; -fx-padding: 20;">
+
+        <!-- Title -->
+        <Label text="Mes Réservations" styleClass="form-title"/>
+
+        <!-- GridPane for reservation cards -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <GridPane fx:id="gridPane" hgap="20" vgap="20" alignment="CENTER" style="-fx-padding: 20;"/>
+        </ScrollPane>
+
+        <!-- Floating Back Button -->
+        <Button text="← Retour" onAction="#goBack" styleClass="back-button"/>
+    </VBox>
+</StackPane>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.UpdateReservationController"
+      spacing="10" alignment="CENTER"
+      style="-fx-padding: 20;">
+
+    <Label text="Modifier la Réservation" styleClass="form-title"/>
+
+    <Label text="Date de début:"/>
+    <DatePicker fx:id="startDatePicker"/>
+
+    <Label text="Date de fin:"/>
+    <DatePicker fx:id="endDatePicker"/>
+
+    <Label text="Nombre d'adultes:"/>
+    <TextField fx:id="adultsField"/>
+
+    <Label text="Nombre d'enfants:"/>
+    <TextField fx:id="childrenField"/>
+
+    <Button text="Enregistrer" onAction="#updateReservation"/>
+    <Button text="Annuler" onAction="#cancel"/>
+</VBox>

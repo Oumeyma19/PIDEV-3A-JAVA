@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" spacing="20" style="-fx-padding: 20px;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="controllers.StatsController">
+    <!-- Titre -->
+    <Label alignment="center" style="-fx-font-weight: bold; -fx-text-fill: #333333;" text="Statistiques des Clients et Guides">
+        <font>
+            <Font name="Imprint MT Shadow" size="37.0" />
+        </font>
+    </Label>
+
+    <!-- Conteneur pour les labels en haut -->
+    <HBox alignment="CENTER" spacing="20" styleClass="hbox-container" stylesheets="@SignIn.css">
+        <Label fx:id="clientsCountLabel" styleClass="stat-label" text="Nombre de clients : 0" />
+        <Label fx:id="guidesCountLabel" styleClass="stat-label" text="Nombre de guides : 0" />
+    </HBox>
+
+    <!-- Graphiques -->
+    <HBox spacing="20">
+        <VBox spacing="10">
+            <PieChart fx:id="clientsPieChart" labelsVisible="true" legendVisible="true" stylesheets="@SignIn.css" title="Statistiques des Clients" />
+        </VBox>
+
+        <VBox spacing="10">
+            <PieChart fx:id="guidesPieChart" labelsVisible="true" legendVisible="true" stylesheets="@SignIn.css" title="Statistiques des Guides" />
+        </VBox>
+    </HBox>
+</VBox>
