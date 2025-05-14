@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefWidth="1000" prefHeight="600" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AdminDashboardController">
+
+    <!-- Sidebar -->
+    <VBox prefWidth="200" style="-fx-background-color: #2C3E50; -fx-padding: 20px;" spacing="15">
+
+        <Label text="Admin Panel" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <Separator style="-fx-background-color: white;"/>
+
+        <Button fx:id="btnAjouter" text="📌 Ajouter Offre" styleClass="side-button"/>
+        <Button fx:id="btnView" text="📋 Voir Offres" styleClass="side-button"/>
+        <Button fx:id="btnUpdate" text="✏️ Modifier Offre" styleClass="side-button"/>
+        <Button fx:id="btnDelete" text="🗑 Supprimer Offre" styleClass="side-button"/>
+    </VBox>
+
+    <!-- Main Content Area -->
+    <AnchorPane layoutX="200" prefWidth="800" prefHeight="600" style="-fx-background-color: #ECF0F1;">
+
+        <!-- Header -->
+        <HBox layoutY="10" spacing="400" alignment="CENTER" style="-fx-padding: 10px;">
+            <Label text="Dashboard Admin" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        </HBox>
+
+        <!-- Content Area -->
+        <StackPane fx:id="contentPane" layoutY="50" prefWidth="780" prefHeight="530"
+                   style="-fx-background-color: white; -fx-border-radius: 10px; -fx-padding: 20px;"/>
+    </AnchorPane>
+</AnchorPane>

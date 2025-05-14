@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.TourDetailsController">
+    <children>
+        <!-- Barre de navigation supérieure -->
+        <HBox alignment="CENTER_LEFT" layoutX="0.0" layoutY="0.0" prefHeight="70.0" prefWidth="1300.0" style="-fx-background-color: #012e41; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 3);">
+            <padding>
+                <Insets left="20" right="20"/>
+            </padding>
+            <children>
+                <!-- Bouton Retour -->
+                <Button onAction="#handleIconButtonAction" style="-fx-background-color: transparent; -fx-cursor: hand;">
+                    <graphic>
+                        <HBox alignment="CENTER" spacing="10">
+                            <Label text="←" style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" />
+                            <Label text="Retour aux Tours" style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <Label text="Détails du Tour" style="-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+                <Region HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+
+        <!-- Contenu principal -->
+        <ScrollPane fitToWidth="true" layoutX="0.0" layoutY="70.0" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: transparent; -fx-padding: 0;" hbarPolicy="NEVER">
+            <content>
+                <VBox spacing="30" style="-fx-padding: 30 50 50 50;">
+                    <!-- Section En-tête du Tour -->
+                    <StackPane>
+                        <!-- Bannière d'arrière-plan -->
+                        <ImageView fitWidth="1200" fitHeight="300" preserveRatio="false" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);">
+                            <image>
+                                <Image url="@../photos/destination.jpg" />
+                            </image>
+                        </ImageView>
+
+                        <!-- Superposition dégradée -->
+                        <Rectangle width="1200" height="300" arcWidth="10" arcHeight="10">
+                            <fill>
+                                <LinearGradient endX="0.0" endY="1.0">
+                                    <stops>
+                                        <Stop color="transparent" offset="0.0" />
+                                        <Stop color="#000000cc" offset="1.0" />
+                                    </stops>
+                                </LinearGradient>
+                            </fill>
+                        </Rectangle>
+
+                        <!-- Titre du Tour -->
+                        <Label fx:id="titleLabel" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 2, 0, 0, 1);"
+                               StackPane.alignment="BOTTOM_LEFT">
+                            <padding>
+                                <Insets bottom="20" left="30" />
+                            </padding>
+                        </Label>
+                    </StackPane>
+
+                    <!-- Grille de contenu principal -->
+                    <HBox spacing="30">
+                        <!-- Section gauche : Détails du Tour -->
+                        <VBox spacing="25" prefWidth="400" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+                            <!-- Image du Tour -->
+                            <ImageView fx:id="tourImageView" fitHeight="250" fitWidth="350" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2); -fx-background-radius: 8;">
+                                <VBox.margin>
+                                    <Insets bottom="10" />
+                                </VBox.margin>
+                            </ImageView>
+
+                            <!-- Titre de la section -->
+                            <Label text="Informations du Tour" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #012e41;">
+                                <graphic>
+                                    <ImageView fitHeight="24" fitWidth="24">
+                                        <image>
+                                            <Image url="@../photos/info-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Label>
+
+                            <!-- Détails du Tour avec icônes -->
+                            <VBox spacing="15">
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/description-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="descriptionLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" wrapText="true" />
+                                </HBox>
+
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/price-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="priceLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #FA7335;" />
+                                </HBox>
+
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/location-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="locationLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" />
+                                </HBox>
+
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/calendar-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="dateLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" />
+                                </HBox>
+
+                                <HBox spacing="15" alignment="CENTER_LEFT">
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/seats-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="availablePlacesLabel" style="-fx-font-size: 15px; -fx-text-fill: #333333;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Bouton de réservation avec animation -->
+                            <Button text="RÉSERVER VOTRE PLACE" onAction="#handleReservePlace"
+                                    style="-fx-background-color: #FA7335; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 15 25; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
+                                <graphic>
+                                    <ImageView fitHeight="20" fitWidth="20">
+                                        <image>
+                                            <Image url="@../photos/reserve-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </VBox>
+
+                        <!-- Section centrale : Activités -->
+                        <VBox spacing="20" prefWidth="400" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+                            <!-- Titre de la section -->
+                            <Label text="Activités du Tour" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #012e41;">
+                                <graphic>
+                                    <ImageView fitHeight="24" fitWidth="24">
+                                        <image>
+                                            <Image url="@../photos/activities-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Label>
+
+                            <!-- Liste des activités -->
+                            <ListView fx:id="activitiesListView" prefHeight="600" prefWidth="350"
+                                      style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 5; -fx-border-color: transparent;" />
+                        </VBox>
+
+                        <!-- Section droite : Avis -->
+                        <VBox spacing="20" prefWidth="400" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+                            <!-- Titre de la section -->
+                            <Label text="Avis" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #012e41;">
+                                <graphic>
+                                    <ImageView fitHeight="24" fitWidth="24">
+                                        <image>
+                                            <Image url="@../photos/review-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Label>
+
+                            <!-- Liste des avis -->
+                            <ListView fx:id="reviewsListView" prefHeight="300"
+                                      style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 5; -fx-border-color: transparent;">
+                                <contextMenu>
+                                    <ContextMenu fx:id="reviewContextMenu">
+                                        <items>
+                                            <MenuItem text="Modifier" onAction="#handleUpdateReview" />
+                                            <MenuItem text="Supprimer" onAction="#handleDeleteReview" />
+                                        </items>
+                                    </ContextMenu>
+                                </contextMenu>
+                            </ListView>
+
+                            <!-- Séparateur -->
+                            <Separator style="-fx-background-color: #e0e0e0; -fx-padding: 1;" />
+
+                            <!-- Section Ajouter un Avis -->
+                            <Label text="Écrivez Votre Avis" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #012e41;" />
+
+                            <!-- Sélection de la note en étoiles -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Votre Note :" style="-fx-font-size: 15px; -fx-text-fill: #555555;" />
+                                <ChoiceBox fx:id="etoileChoiceBox" prefWidth="150"
+                                           style="-fx-background-color: #f9f9f9; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                            </HBox>
+
+                            <!-- Zone de texte pour l'avis -->
+                            <VBox spacing="5">
+                                <Label text="Votre Avis :" style="-fx-font-size: 15px; -fx-text-fill: #555555;" />
+                                <TextArea fx:id="commentaireTextArea" promptText="Partagez votre expérience avec ce tour..."
+                                          wrapText="true" prefHeight="100"
+                                          style="-fx-border-color: #e0e0e0; -fx-border-radius: 5; -fx-background-radius: 5;" />
+                            </VBox>
+
+                            <!-- Bouton Soumettre -->
+                            <Button text="SOUMETTRE L'AVIS" onAction="#handleSubmitReview"
+                                    style="-fx-background-color: #012e41; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;">
+                                <graphic>
+                                    <ImageView fitHeight="16" fitWidth="16">
+                                        <image>
+                                            <Image url="@../photos/submit-icon.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Section Chatbot -->
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+                        <Label text="GuideBot" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #012e41;" />
+                        <TextArea fx:id="chatArea" editable="false" wrapText="true" prefHeight="200" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5; -fx-background-radius: 5;" />
+                        <HBox spacing="10">
+                            <TextField fx:id="userInput" promptText="Tapez votre message ici..." style="-fx-background-color: #f9f9f9; -fx-border-color: #e0e0e0; -fx-border-radius: 5; -fx-background-radius: 5;" HBox.hgrow="ALWAYS" />
+                            <Button text="Envoyer" onAction="#sendMessage" style="-fx-background-color: #012e41; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5; -fx-cursor: hand;" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

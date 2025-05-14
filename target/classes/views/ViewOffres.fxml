@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8.0"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewOffresController">
+
+    <Label text="Liste des Offres" style="-fx-font-size: 18px;"/>
+
+    <TableView fx:id="tableView">
+        <columns>
+            <TableColumn fx:id="colTitle" text="Nom"/>
+            <TableColumn fx:id="colDescription" text="Description"/>
+            <TableColumn fx:id="colPrice" text="Prix"/>
+            <TableColumn fx:id="colStartDate" text="Date Début"/>
+            <TableColumn fx:id="colEndDate" text="Date Fin"/>
+            <TableColumn fx:id="colImage" text="Image"/>  <!-- ✅ New Image Column -->
+        </columns>
+    </TableView>
+
+    <Button fx:id="btnModifier" text="Modifier"/>
+    <Button fx:id="btnSupprimer" text="Supprimer"/>
+    <Button text="Refresh" onAction="#refreshList"/>
+</VBox>

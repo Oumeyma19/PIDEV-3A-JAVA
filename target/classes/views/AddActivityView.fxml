@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.Color?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.gestionTour.AddActivityController"
+      spacing="15"
+      style="-fx-background-color: linear-gradient(to bottom, #f8f8f8, #ffffff); -fx-border-color: #e0e0e0; -fx-border-radius: 5;">
+
+    <padding>
+        <Insets top="25" right="30" bottom="25" left="30" />
+    </padding>
+
+    <effect>
+        <DropShadow>
+            <color>
+                <Color opacity="0.2" />
+            </color>
+        </DropShadow>
+    </effect>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Add New Activity" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+    </HBox>
+
+    <Label text="Create a new event or activity for your schedule"
+           style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-padding: 0 0 10 0;" />
+
+    <!-- Main form using GridPane for better layout -->
+    <GridPane vgap="15" hgap="15">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="30" />
+            <ColumnConstraints percentWidth="70" hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <!-- Activity Name -->
+        <Label text="Activity Name:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField fx:id="nameField" promptText="Enter activity name"
+                   style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-padding: 10 15;"
+                   GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <!-- Dates using DatePicker for better date selection -->
+        <Label text="Start Date:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <DatePicker fx:id="startDatePicker" promptText="Select start date"
+                    style="-fx-background-radius: 4; -fx-border-radius: 4;"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <Label text="End Date:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <DatePicker fx:id="endDatePicker" promptText="Select end date"
+                    style="-fx-background-radius: 4; -fx-border-radius: 4;"
+                    GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+        <!-- Location -->
+        <Label text="Location:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="3" GridPane.columnIndex="0" />
+        <TextField fx:id="locationField" promptText="Enter location"
+                   style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-padding: 10 15;"
+                   GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+        <!-- Photo URL -->
+        <Label text="Photo URL:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <HBox spacing="10" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <TextField fx:id="photoField" promptText="Enter photo URL" HBox.hgrow="ALWAYS"
+                       style="-fx-background-radius: 4; -fx-border-radius: 4; -fx-padding: 10 15;" />
+            <Button text="Browse..."
+                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-background-radius: 4; -fx-padding: 8 15;" />
+        </HBox>
+
+        <!-- Description (using TextArea for multi-line input) -->
+        <Label text="Description:" style="-fx-font-weight: bold; -fx-text-fill: #34495e;"
+               GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.valignment="TOP">
+            <padding>
+                <Insets top="5" />
+            </padding>
+        </Label>
+        <TextArea fx:id="descriptionArea" promptText="Enter detailed description" wrapText="true" prefRowCount="4"
+                  style="-fx-background-radius: 4; -fx-border-radius: 4;"
+                  GridPane.rowIndex="5" GridPane.columnIndex="1" />
+    </GridPane>
+
+    <!-- Action Buttons -->
+    <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-padding: 20 0 0 0;">
+        <Button text="Cancel"
+                style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 10 25;" />
+        <Button text="Add Activity" onAction="#handleAddActivity"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 4; -fx-padding: 10 25;">
+            <effect>
+                <DropShadow height="5.0" radius="2.0" width="5.0">
+                    <color>
+                        <Color opacity="0.3" />
+                    </color>
+                </DropShadow>
+            </effect>
+        </Button>
+    </HBox>
+</VBox>

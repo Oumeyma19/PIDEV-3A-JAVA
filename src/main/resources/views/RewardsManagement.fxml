@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+        <?import javafx.scene.text.Font?>
+        <?import javafx.scene.image.ImageView?>
+        <?import javafx.scene.image.Image?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="750.0" prefWidth="1450.0"
+            stylesheets="@SignIn.css"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.RewardsManagementController">
+
+    <children>
+        <!-- Left Navigation Pane (Similar to Clients view) -->
+        <AnchorPane prefHeight="459.0" prefWidth="224.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.topAnchor="51.0">
+            <children>
+                <!-- Navigation items similar to the client view -->
+                <Text layoutX="66.0" layoutY="429.0" text="Récompenses" style="-fx-cursor: hand;">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <!-- Add other navigation items as needed -->
+            </children>
+        </AnchorPane>
+
+        <!-- Top Header Pane -->
+        <AnchorPane layoutX="569.0" layoutY="33.0"
+                    prefHeight="52.0"
+                    prefWidth="1047.0"
+                    style="-fx-background-color: #333333;"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <children>
+                <Text fx:id="fullnameText"
+                      fill="WHITE"
+                      layoutX="905.703125"
+                      layoutY="21.05078125"
+                      text="Bonjour Admin" />
+                <Label text="Gestion des Récompenses"
+                       style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            </children>
+        </AnchorPane>
+
+        <!-- Main Content Area -->
+        <AnchorPane layoutX="-3.0"
+                    layoutY="51.0"
+                    prefHeight="459.0"
+                    prefWidth="801.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="224.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="51.0">
+            <children>
+                <VBox spacing="30"
+                      layoutX="-3.0"
+                      styleClass="content-vbox"
+                      AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="20.0"
+                      AnchorPane.rightAnchor="20.0"
+                      AnchorPane.topAnchor="20.0">
+
+                    <!-- Header with Title and Actions -->
+                    <HBox spacing="50" alignment="CENTER_LEFT" styleClass="header-container">
+                        <Text text="Liste des Récompenses" styleClass="page-title">
+                            <font>
+                                <Font name="System Bold" size="36.0" />
+                            </font>
+                        </Text>
+                        <HBox spacing="20" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                            <Button fx:id="ajouterRecompenseButton"
+                                    text="+ Ajouter Récompense"
+                                    styleClass="action-button"
+                                    onAction="#handleAjouterRecompense"/>
+                        </HBox>
+                    </HBox>
+
+                    <!-- Rewards Table -->
+                    <TableView fx:id="recompensesTable"
+                               prefHeight="400.0"
+                               prefWidth="800.0"
+                               styleClass="custom-table">
+                        <columns>
+                            <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="nomColumn" text="Nom" prefWidth="200"/>
+                            <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="250"/>
+                            <TableColumn fx:id="pointsRequiredColumn" text="Points Requis" prefWidth="100"/>
+                            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.*?>
+
+<?import java.net.URL?>
+<AnchorPane prefWidth="1200.0" prefHeight="800.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.TourController">
+
+    <!-- Arrière-plan dynamique avec superposition -->
+    <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <!-- Image de fond -->
+        <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="/photos/background.jpg" />
+            </image>
+            <effect>
+                <GaussianBlur radius="5.0" />
+            </effect>
+        </ImageView>
+
+        <!-- Superposition semi-transparente -->
+        <Rectangle width="1200.0" height="800.0" fill="#012e4155" />
+    </StackPane>
+
+    <!-- En-tête de la page -->
+    <HBox alignment="CENTER_LEFT" spacing="10" AnchorPane.topAnchor="15.0" AnchorPane.leftAnchor="20.0">
+        <!-- Bouton Retour -->
+        <Button onAction="#handleBackButtonClick" styleClass="back-button">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../photos/arrow.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <style>
+                -fx-background-color: white;
+                -fx-background-radius: 30;
+                -fx-padding: 8;
+            </style>
+            <effect>
+                <DropShadow color="#00000066" radius="5.0" spread="0.05" />
+            </effect>
+        </Button>
+
+        <!-- Titre de la page -->
+        <Label text="Créer un Nouveau Tour" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;">
+            <effect>
+                <DropShadow />
+            </effect>
+        </Label>
+    </HBox>
+
+    <!-- Conteneur principal du contenu -->
+    <ScrollPane AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0"
+                AnchorPane.bottomAnchor="30.0" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;">
+        <VBox spacing="20">
+            <!-- Section des détails du tour et des activités -->
+            <HBox spacing="25">
+                <!-- Section gauche : Détails du tour -->
+                <VBox spacing="15" styleClass="card" prefWidth="550">
+                    <!-- En-tête de la carte -->
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <ImageView fitHeight="30.0" fitWidth="30.0">
+                            <image>
+                                <Image url="@../photos/tour-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                            </image>
+                        </ImageView>
+                        <Label text="Détails du Tour" styleClass="card-title" />
+                    </HBox>
+
+                    <Separator />
+
+                    <!-- Aperçu de l'image du tour -->
+                    <VBox spacing="10" alignment="CENTER">
+                        <StackPane style="-fx-background-color: #f5f5f5; -fx-background-radius: 8;">
+                            <ImageView fx:id="imageView" fitHeight="200" fitWidth="500" preserveRatio="true" />
+                            <Label fx:id="noImageLabel" text="Aucune image sélectionnée" visible="true"
+                                   style="-fx-text-fill: #888888; -fx-font-style: italic;" />
+                        </StackPane>
+                        <Button text="Téléverser une Image" onAction="#handleSelectImage" styleClass="action-button">
+                            <graphic>
+                                <ImageView fitHeight="16.0" fitWidth="16.0">
+                                    <image>
+                                        <Image url="@../photos/upload-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </VBox>
+
+                    <!-- Formulaire des détails du tour -->
+                    <GridPane hgap="15" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="150" />
+                            <ColumnConstraints prefWidth="350" />
+                        </columnConstraints>
+
+                        <!-- Titre du tour -->
+                        <Label text="Titre :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <TextField fx:id="titleField" promptText="Entrez un titre mémorable"
+                                   styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                        <!-- Type de tour -->
+                        <Label text="Type de Tour :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <ComboBox fx:id="typeComboBox" promptText="Sélectionnez le type de tour"
+                                  styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                        <!-- Lieu du tour -->
+                        <Label text="Lieu :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="locationField" promptText="Destination principale du tour"
+                                   styleClass="form-field" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                        <!-- Date du tour -->
+                        <Label text="Date :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <DatePicker fx:id="dateField" promptText="Sélectionnez la date du tour"
+                                    styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                        <!-- Prix du tour -->
+                        <Label text="Prix :" styleClass="form-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                            <TextField fx:id="priceField" promptText="0.00" styleClass="form-field" prefWidth="150" />
+                            <Label text="USD" style="-fx-text-fill: #666666;" />
+                        </HBox>
+
+                        <!-- Places disponibles -->
+                        <Label text="Places Disponibles :" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                        <Spinner fx:id="nbPlaceDisponibleField" min="1" max="500" initialValue="10"
+                                 styleClass="form-field" editable="true" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+                        <!-- Description du tour -->
+                        <Label text="Description :" styleClass="form-label" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.valignment="TOP" />
+                        <TextArea fx:id="descriptionField" promptText="Fournissez une description détaillée de l'expérience du tour"
+                                  styleClass="form-field" prefRowCount="5" wrapText="true"
+                                  GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                    </GridPane>
+                </VBox>
+
+                <!-- Section droite : Activités -->
+                <VBox spacing="15" styleClass="card" prefWidth="550">
+                    <!-- En-tête de la carte -->
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <ImageView fitHeight="30.0" fitWidth="30.0">
+                            <image>
+                                <Image url="@../photos/activities-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                            </image>
+                        </ImageView>
+                        <Label text="Activités du Tour" styleClass="card-title" />
+                    </HBox>
+
+                    <Separator />
+
+                    <!-- Liste des activités -->
+                    <VBox spacing="10">
+                        <Label text="Activités Ajoutées" styleClass="section-title" />
+                        <StackPane>
+                            <ListView fx:id="activityListView" prefHeight="150" styleClass="activity-list" />
+                            <Label fx:id="noActivitiesLabel" text="Aucune activité ajoutée" visible="true"
+                                   style="-fx-text-fill: #888888; -fx-font-style: italic;" />
+                        </StackPane>
+                    </VBox>
+
+                    <!-- Formulaire d'ajout d'activité -->
+                    <TitledPane text="Ajouter une Nouvelle Activité" expanded="false" styleClass="titled-pane">
+                        <content>
+                            <VBox spacing="15">
+                                <!-- Formulaire des détails de l'activité -->
+                                <GridPane hgap="15" vgap="15">
+                                    <columnConstraints>
+                                        <ColumnConstraints prefWidth="150" />
+                                        <ColumnConstraints prefWidth="300" />
+                                    </columnConstraints>
+
+                                    <!-- Nom de l'activité -->
+                                    <Label text="Nom de l'Activité :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                    <TextField fx:id="activityNameField" promptText="Entrez le nom de l'activité"
+                                               styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                    <!-- Lieu de l'activité -->
+                                    <Label text="Lieu :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                    <TextField fx:id="activityLocationField" promptText="Lieu de l'activité"
+                                               styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                    <!-- Dates de l'activité -->
+                                    <Label text="Durée :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                    <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                                        <DatePicker fx:id="activityStartDateField" promptText="Début" styleClass="form-field" />
+                                        <Label text="à" style="-fx-text-fill: #666666;" />
+                                        <DatePicker fx:id="activityEndDateField" promptText="Fin" styleClass="form-field" />
+                                    </HBox>
+
+                                    <!-- Description de l'activité -->
+                                    <Label text="Description :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.valignment="TOP" />
+                                    <TextArea fx:id="activityDescriptionField" promptText="Décrivez ce que les participants vivront"
+                                              styleClass="form-field" prefRowCount="3" wrapText="true"
+                                              GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                                </GridPane>
+
+                                <!-- Image de l'activité -->
+                                <HBox spacing="10" alignment="CENTER_LEFT">
+                                    <ImageView fx:id="activityImageView" fitHeight="80" fitWidth="120"
+                                               style="-fx-background-color: #f5f5f5; -fx-background-radius: 4;" />
+                                    <Button text="Sélectionner une Image" onAction="#handleSelectActivityImage" styleClass="secondary-button" />
+                                </HBox>
+
+                                <!-- Bouton Ajouter une Activité -->
+                                <Button text="Ajouter au Tour" onAction="#handleAddActivity" styleClass="primary-button">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0">
+                                            <image>
+                                                <Image url="@../photos/plus-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </VBox>
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </HBox>
+
+            <!-- Section Vue Street View -->
+            <VBox spacing="15" styleClass="card">
+                <!-- En-tête de la carte -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <ImageView fitHeight="30.0" fitWidth="30.0">
+                        <image>
+                            <Image url="@../photos/map-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                        </image>
+                    </ImageView>
+                    <Label text="Aperçu 360° Street View" styleClass="card-title" />
+                </HBox>
+
+                <Separator />
+
+                <!-- Contenu Street View -->
+                <HBox spacing="15">
+                    <VBox spacing="10" prefWidth="300">
+                        <Label text="Entrez un lieu pour prévisualiser :" styleClass="form-label" />
+                        <TextField fx:id="streetViewLocationField" promptText="Rechercher un lieu" styleClass="form-field" />
+                        <Button text="Charger Street View" fx:id="loadStreetViewButton" styleClass="primary-button" />
+                    </VBox>
+
+                    <WebView fx:id="streetViewWebView" prefWidth="800" prefHeight="300" />
+                </HBox>
+            </VBox>
+
+            <!-- Boutons d'action -->
+            <HBox spacing="15" alignment="CENTER_RIGHT">
+                <Button text="Annuler" styleClass="cancel-button" />
+                <Button text="Enregistrer comme Brouillon" styleClass="secondary-button" />
+                <Button text="Créer le Tour" onAction="#handleAddTour" styleClass="submit-button">
+                    <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0">
+                            <image>
+                                <Image url="@../photos/check-icon.png" /> <!-- Remplacer par l'icône appropriée -->
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+
+    <!-- Styles CSS -->
+    <stylesheets>
+        <URL value="@tourstyle.css" />
+    </stylesheets>
+</AnchorPane>

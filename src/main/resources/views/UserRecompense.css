@@ -1,0 +1,73 @@
+/* Modern and Professional Stylesheet */
+.main-background {
+    -fx-background-color: #f4f7f9;
+}
+
+.top-navigation {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.search-field {
+    -fx-background-color: #f0f4f8;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px 15px;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent;
+}
+
+.search-button {
+    -fx-background-color: #3498db;
+    -fx-background-radius: 20px;
+    -fx-text-fill: white;
+    -fx-padding: 10px 15px;
+}
+
+.search-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.content-container {
+    -fx-padding: 20px;
+}
+
+.section-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+.recompense-scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.recompense-flow-pane {
+    -fx-background-color: transparent;
+}
+
+.recompense-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 15px;
+    -fx-border-radius: 10px;
+}
+
+.recompense-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.recompense-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.recompense-points {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+}

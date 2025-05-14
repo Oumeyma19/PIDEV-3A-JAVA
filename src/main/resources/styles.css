@@ -1,0 +1,50 @@
+/* styles.css */
+.invisible-scroll .scroll-bar:vertical,
+.invisible-scroll .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+.invisible-scroll .scroll-bar:vertical .track,
+.invisible-scroll .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
+}
+
+.invisible-scroll .scroll-bar:vertical .thumb,
+.invisible-scroll .scroll-bar:horizontal .thumb {
+    -fx-opacity: 0;
+}
+
+.input-field {
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-color: #ddd;
+    -fx-background-color: #fff;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.btn-primary {
+    -fx-background-color: #FA7335;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #e56e2f; /* Darker shade when hovered */
+}
+
+/* Customize the RangeSlider */
+.range-slider .track {
+    -fx-background-color: #8fd3fe;
+}
+
+.range-slider .thumb {
+    -fx-background-color: #FA7335;
+}
+
+.range-slider .axis {
+    -fx-tick-label-fill: #333333;
+}
