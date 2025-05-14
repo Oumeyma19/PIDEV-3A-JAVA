@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.web.WebView?>
+<?import org.controlsfx.control.Rating?>
+
+<AnchorPane prefHeight="733.0" prefWidth="1500.0" style="-fx-background-color: #f5f7fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailHebergCController">
+
+    <children>
+        <!-- Subtle Background Pattern -->
+        <ImageView fitHeight="733.0" fitWidth="1500.0" opacity="0.1" pickOnBounds="true" preserveRatio="false">
+            <image>
+                <Image url="@../logo/background.jpg" />
+            </image>
+        </ImageView>
+        
+        <!-- Stylish Header -->
+        <Rectangle arcHeight="0.0" arcWidth="0.0" height="90.0" width="1500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="0.0" startX="0.0" startY="0.0">
+                    <stops>
+                        <Stop color="#FA7335" />
+                        <Stop color="#FF9D6A" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+            <effect>
+                <DropShadow color="#00000040" height="15.0" radius="7.0" width="15.0" />
+            </effect>
+        </Rectangle>
+        
+        <!-- Page Title with Icon -->
+        <HBox alignment="CENTER" layoutX="600.0" layoutY="25.0" spacing="15.0" AnchorPane.topAnchor="25.0">
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../logo/accommodation_icon.png" />
+                </image>
+            </ImageView>
+            <Label alignment="CENTER" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: white;" text="Détails de l'Hébergement">
+                <effect>
+                    <DropShadow color="#00000040" height="5.0" radius="2.0" width="5.0" />
+                </effect>
+            </Label>
+        </HBox>
+        
+        <!-- Elegant Back Button -->
+        <Button fx:id="btnBack" layoutX="30.0" layoutY="25.0" onAction="#goBack" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: white; -fx-text-fill: #FA7335; -fx-background-radius: 30px; -fx-font-weight: bold; -fx-font-size: 15px;" text="← Retour">
+            <effect>
+                <DropShadow color="#00000040" height="5.0" radius="2.0" width="5.0" />
+            </effect>
+        </Button>
+        
+        <!-- Main Content Area -->
+        <HBox layoutX="50.0" layoutY="110.0" prefHeight="600.0" prefWidth="1400.0" spacing="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="110.0">
+            
+            <!-- Left Section: Image and Details Card -->
+            <VBox prefWidth="550.0" spacing="25.0">
+                <!-- Main Image Card -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="320.0" width="550.0">
+                        <effect>
+                            <DropShadow color="#00000030" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <ImageView fx:id="imageHeberg" fitHeight="280.0" fitWidth="520.0" pickOnBounds="true" preserveRatio="true" />
+                    </VBox>
+                </StackPane>
+                
+                <!-- Property Details Card -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="255.0" width="550.0">
+                        <effect>
+                            <DropShadow color="#00000030" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    <VBox spacing="15.0">
+                        <padding>
+                            <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+                        </padding>
+                        
+                        <!-- Title with Price -->
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <VBox prefHeight="78.0" prefWidth="354.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label fx:id="nomHebergLabel" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Nom de l'Hébergement">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Label>
+                                <Label fx:id="typeHebergLabel" style="-fx-font-size: 16px; -fx-text-fill: #6c757d; -fx-background-color: #f0f2f5; -fx-background-radius: 15px; -fx-padding: 5 15;" text="Type d'hébergement" />
+                            </VBox>
+                            <VBox alignment="CENTER_RIGHT">
+                                <Label fx:id="prixLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #FA7335;" text="Prix TND" />
+                                <Label fx:id="status" style="-fx-font-size: 14px; -fx-text-fill: #28a745; -fx-background-color: #e8f5e9; -fx-background-radius: 15px; -fx-padding: 3 12; -fx-font-weight: bold;" text="Disponible" />
+                            </VBox>
+                        </HBox>
+                        
+                        <Region prefHeight="1.0" style="-fx-background-color: #e9ecef;" />
+                        
+                        <!-- Description -->
+                        <VBox spacing="8.0">
+                            <Label style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #495057;" text="Description" />
+                            <Label fx:id="descrpLabel" style="-fx-font-size: 15px; -fx-text-fill: #6c757d;" text="Description détaillée de l'hébergement..." wrapText="true" />
+                        </VBox>
+                        
+                        <!-- Address and Capacity -->
+                        <HBox spacing="30.0">
+                            <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                <Label style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #495057;" text="Adresse" />
+                                <Label fx:id="adresseHebergLabel" style="-fx-font-size: 15px; -fx-text-fill: #6c757d;" text="Adresse complète..." wrapText="true" />
+                            </VBox>
+                            <VBox alignment="TOP_RIGHT" minWidth="150.0" spacing="8.0">
+                                <Label style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #495057;" text="Capacité" />
+                                <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../logo/boy.png" />
+                                        </image>
+                                    </ImageView>
+                                    <Label fx:id="nbrCLabel" style="-fx-font-size: 15px; -fx-text-fill: #6c757d; -fx-font-weight: bold;" text="0 personnes" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                        
+                        <!-- Dates (if needed) -->
+                        <HBox>
+                            <Label fx:id="dateICLabel" style="-fx-font-size: 14px; -fx-text-fill: #6c757d;" text="" />
+                            <Label fx:id="dateOCLabel" style="-fx-font-size: 14px; -fx-text-fill: #6c757d;" text="" />
+                        </HBox>
+                    </VBox>
+                </StackPane>
+            </VBox>
+            
+            <!-- Center Section: Reviews -->
+            <VBox prefWidth="380.0" spacing="25.0">
+                <!-- Review Form -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="230.0" width="380.0">
+                        <effect>
+                            <DropShadow color="#00000030" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    
+                    <VBox spacing="15.0">
+                        <padding>
+                            <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+                        </padding>
+                        
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../logo/satisfaction.png" />
+                                </image>
+                            </ImageView>
+                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Votre avis nous intéresse !" />
+                        </HBox>
+                        
+                        <TextField fx:id="myRatingTxt" prefHeight="90.0" prefWidth="330.0" promptText="écrivez votre avis ici..." style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e9ecef; -fx-background-color: #f8f9fa; -fx-padding: 10;" />
+                        
+                        <!-- Keep rating stars exactly as they were -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Rating fx:id="myRatingStars" partialRating="true" rating="0.0" updateOnHover="true" />
+                            <Label style="-fx-font-size: 14px; -fx-text-fill: #6c757d;" text="Note:" />
+                        </HBox>
+                         <Button fx:id="btnAddRating" onAction="#saveRating" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #FA7335; -fx-text-fill: white; -fx-background-radius: 20px; -fx-font-weight: bold;" text="Envoyer" />
+                        
+                        <!-- Keep buttons exactly as they were -->
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <Button fx:id="btnCancelRating" alignment="CENTER" onAction="#resetRating" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: #f8f9fa; -fx-text-fill: #dc3545; -fx-background-radius: 20px; -fx-border-color: #dc3545; -fx-border-radius: 20px; -fx-font-weight: bold;" text="Annuler" visible="false" />
+                        </HBox>
+                  <StackPane.margin>
+                     <Insets top="20.0" />
+                  </StackPane.margin>
+                    </VBox>
+                </StackPane>
+                
+                <!-- Reviews List -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="345.0" width="380.0">
+                        <effect>
+                            <DropShadow color="#00000030" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    
+                    <VBox spacing="15.0">
+                        <padding>
+                            <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+                        </padding>
+                        
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../logo/satisfaction.png" />
+                                </image>
+                            </ImageView>
+                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Avis des voyageurs" />
+                        </HBox>
+                        
+                        <!-- Keep the ListView exactly as it was -->
+                        <ListView fx:id="avisListView" prefHeight="275.0" prefWidth="330.0" style="-fx-background-color: transparent; -fx-background-insets: 0; -fx-border-color: transparent;" />
+                    </VBox>
+                </StackPane>
+            </VBox>
+            
+            <!-- Right Section: Map & Reservation -->
+            <VBox prefWidth="420.0" spacing="25.0">
+                <!-- Map Card -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="WHITE" height="500.0" width="420.0">
+                        <effect>
+                            <DropShadow color="#00000030" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    
+                    <VBox spacing="10.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../logo/map.png" />
+                                </image>
+                            </ImageView>
+                            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Localisation" />
+                        </HBox>
+                        
+                        <WebView fx:id="mapWebView" prefHeight="440.0" prefWidth="390.0" />
+                    </VBox>
+                </StackPane>
+                
+                <!-- Reservation Button -->
+                <StackPane>
+                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#FA7335" height="75.0" width="420.0">
+                        <effect>
+                            <DropShadow color="#00000060" height="15.0" radius="7.0" width="15.0" />
+                        </effect>
+                    </Rectangle>
+                    
+                    <Button fx:id="btnReservation" onAction="#openReservationPage" prefHeight="75.0" prefWidth="420.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20px;" text="Réserver maintenant">
+                        <graphic>
+                            <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../logo/calendar.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </StackPane>
+            </VBox>
+        </HBox>
+    </children>
+</AnchorPane>

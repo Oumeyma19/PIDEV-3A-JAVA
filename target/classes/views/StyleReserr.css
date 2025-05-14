@@ -1,0 +1,238 @@
+/* StyleReser.css - Enhanced CSS for JavaFX Rewards Catalog */
+
+/* ===== Base Styles ===== */
+.root {
+    -fx-background-color: #f5f7fa;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== Header Styles ===== */
+.header-container {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.0, 0.0, 2);
+    -fx-spacing: 5;
+}
+
+.top-nav {
+    -fx-background-color: #1e88e5;
+    -fx-padding: 12px 20px;
+    -fx-spacing: 15;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-padding: 5px 10px;
+}
+
+.back-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-text {
+    -fx-text-fill: white;
+}
+
+.points-container {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 20px;
+    -fx-padding: 5px 15px;
+    -fx-spacing: 5;
+}
+
+.coin-icon {
+    -fx-text-fill: #ffd700;
+}
+
+.points-label {
+    -fx-text-fill: white;
+}
+
+.title-bar {
+    -fx-background-color: white;
+    -fx-padding: 10px 20px;
+}
+
+.page-title-small {
+    -fx-text-fill: #757575;
+}
+
+.page-title {
+    -fx-text-fill: #1e88e5;
+}
+
+.add-button {
+    -fx-background-color: #ff9800;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.add-button:hover {
+    -fx-background-color: #f57c00;
+}
+
+/* ===== Search Styles ===== */
+.search-container {
+    -fx-padding: 0px 20px 10px 20px;
+    -fx-spacing: 10;
+}
+
+.search-field-container {
+    -fx-background-color: #f0f2f5;
+    -fx-background-radius: 25px;
+    -fx-padding: 5px 15px;
+    -fx-spacing: 5;
+}
+
+.search-icon {
+    -fx-text-fill: #9e9e9e;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #424242;
+    -fx-prompt-text-fill: #9e9e9e;
+}
+
+.search-button {
+    -fx-background-color: #1e88e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.search-button:hover {
+    -fx-background-color: #1976d2;
+}
+
+/* ===== Category Tabs ===== */
+.category-tabs {
+    -fx-padding: 0px 20px 10px 20px;
+}
+
+.category-tab {
+    -fx-background-color: white;
+    -fx-text-fill: #757575;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 20px;
+}
+
+.category-tab:hover {
+    -fx-background-color: #f5f5f5;
+}
+
+.active-tab {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1e88e5;
+    -fx-border-color: #bbdefb;
+}
+
+/* ===== Content Styles ===== */
+.content-scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+.content-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.rewards-container {
+    -fx-background-color: transparent;
+}
+
+.no-results-icon {
+    -fx-text-fill: #ff9800;
+}
+
+.no-results {
+    -fx-text-fill: #616161;
+}
+
+.no-results-subtitle {
+    -fx-text-fill: #9e9e9e;
+}
+
+/* ===== Footer Styles ===== */
+.footer {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.0, 0.0, -2);
+}
+
+.footer-nav {
+    -fx-padding: 10px;
+    -fx-spacing: 20;
+}
+
+.footer-nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #757575;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+}
+
+.footer-nav-button:hover {
+    -fx-text-fill: #1e88e5;
+}
+
+.active-footer-button {
+    -fx-text-fill: #1e88e5;
+    -fx-font-weight: bold;
+}
+
+.footer-copyright {
+    -fx-padding: 10px;
+    -fx-background-color: #f5f5f5;
+}
+
+.footer-text {
+    -fx-text-fill: #9e9e9e;
+}
+
+/* ===== Card Style (for reward items) ===== */
+.reward-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.0, 0.0, 2);
+    -fx-padding: 15px;
+}
+
+.reward-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.0, 0.0, 4);
+}
+
+.reward-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #424242;
+}
+
+.reward-price {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1e88e5;
+    -fx-font-weight: bold;
+}
+
+.reward-description {
+    -fx-font-size: 12px;
+    -fx-text-fill: #757575;
+    -fx-wrap-text: true;
+}
+
+.redeem-button {
+    -fx-background-color: #1e88e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+}
+
+.redeem-button:hover {
+    -fx-background-color: #1976d2;
+}

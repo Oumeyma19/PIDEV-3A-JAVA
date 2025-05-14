@@ -1,0 +1,105 @@
+/* StyleRecompense.css */
+.root {
+    -fx-background-color: #f5f5f5;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.header {
+    -fx-background-color: #ed6637;
+    -fx-padding: 15px;
+    -fx-alignment: center;
+    -fx-background-radius: 0 0 10 10;
+}
+
+.header-text {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.form-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+.form-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.form-field {
+    -fx-font-size: 14px;
+    -fx-pref-width: 300px;
+}
+
+.field-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555555;
+}
+
+.input-field {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+
+.upload-button {
+    -fx-background-color: #3A86FF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.upload-button:hover {
+    -fx-background-color: #2a76ef;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-opacity: 0.8;
+}
+
+.save-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 30;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.save-button:hover {
+    -fx-background-color: #3d9c40;
+}
+
+.preview-image {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.description-area {
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+}

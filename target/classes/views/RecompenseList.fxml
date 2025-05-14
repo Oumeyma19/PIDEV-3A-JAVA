@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecompenseController">
+    <stylesheets>
+        <URL value="@StyleReserr.css" />
+    </stylesheets>
+    <top>
+        <VBox styleClass="header-container">
+            <!-- Top Navigation Bar -->
+            <HBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="904.0" styleClass="top-nav">
+                <Button fx:id="backButton" onAction="#goBackToHome" styleClass="back-button" text="←">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Button>
+
+                <Label styleClass="nav-text" text="Accueil">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+
+                <HBox HBox.hgrow="ALWAYS" />
+
+                <HBox alignment="CENTER" styleClass="points-container">
+                    <Label styleClass="coin-icon" text="💰">
+                        <font>
+                            <Font size="22.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="pointsLabel" styleClass="points-label" text="Mes points: 0">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </HBox>
+
+            <!-- Title Bar -->
+            <HBox alignment="CENTER_LEFT" styleClass="title-bar">
+                <children>
+                    <VBox>
+                        <Label styleClass="page-title-small" text="Catalogue des">
+                            <font>
+                                <Font name="System Light" size="22.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="page-title" text="RÉCOMPENSES">
+                            <font>
+                                <Font name="System Bold" size="36.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+
+                    <HBox HBox.hgrow="ALWAYS" />
+
+                    <Button fx:id="addRecompenseButton" mnemonicParsing="false" styleClass="add-button" text="+ Ajouter une récompense" visible="false">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Button>
+                </children>
+                <padding>
+                    <Insets bottom="25.0" top="20.0" />
+                </padding>
+            </HBox>
+
+            <!-- Search Bar -->
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="976.0" styleClass="search-container">
+                <children>
+                    <HBox alignment="CENTER_LEFT" styleClass="search-field-container" HBox.hgrow="ALWAYS">
+                        <Label styleClass="search-icon" text="🔍">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="searchField" onKeyReleased="#handleSearch" promptText="Rechercher une récompense..." styleClass="search-field" HBox.hgrow="ALWAYS">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </TextField>
+                    </HBox>
+                    <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button" text="Rechercher">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Button>
+                </children>
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                </padding>
+            </HBox>
+
+            <!-- Category Filter Tabs (optional) -->
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="content-scroll">
+            <content>
+                <VBox alignment="TOP_CENTER" prefHeight="483.0" prefWidth="955.0" spacing="30">
+                    <padding>
+                        <Insets top="20.0" />
+                    </padding>
+
+                    <!-- Rewards Container -->
+                    <FlowPane fx:id="recompensesFlowPane" hgap="30.0" prefHeight="21.0" prefWidth="955.0" styleClass="rewards-container" vgap="40.0">
+                        <padding>
+                            <Insets bottom="30.0" left="30.0" right="30.0" top="20.0" />
+                        </padding>
+                    </FlowPane>
+
+                    <!-- No Results Message -->
+                    <VBox fx:id="noResultsContainer" alignment="CENTER" spacing="20.0" visible="false">
+                        <Label styleClass="no-results-icon" text="⚠️">
+                            <font>
+                                <Font size="48.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="noResultsLabel" styleClass="no-results" text="Aucune récompense trouvée">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <Label styleClass="no-results-subtitle" text="Essayez d'autres termes de recherche">
+                            <font>
+                                <Font name="System Italic" size="18.0" />
+                            </font>
+                        </Label>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

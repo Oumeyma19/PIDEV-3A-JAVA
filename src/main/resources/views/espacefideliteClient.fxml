@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@StyleReser.css"
+            fx:controller="controllers.EspaceFideliteClientController">
+
+    <!-- Barre de navigation en haut -->
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #ed6637; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;">
+                <Button fx:id="homebutton" text="Acceuil" styleClass="nav-button" onAction="#goTohome" />
+                <Button text="Récompenses" styleClass="nav-button" />
+                <Button text="Profile" styleClass="nav-button" />
+            </HBox>
+            <!-- Niveau actuel -->
+            <Label fx:id="niveauActuelLabel" styleClass="niveau-actuel" />
+        </VBox>
+    </top>
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+            <!-- Titre -->
+            <Label text="Espace Fidélité" styleClass="label-title" />
+
+            <!-- Points actuels -->
+            <Label fx:id="pointsClientLabel" styleClass="label-points" />
+
+            <!-- Barre de progression -->
+            <ProgressBar fx:id="progressBar" styleClass="progress-bar" />
+
+            <!-- Niveaux de fidélité -->
+            <GridPane hgap="20" vgap="20" alignment="CENTER">
+                <!-- Colonne 1 : Silver -->
+                <VBox fx:id="silverBox" alignment="CENTER" spacing="10" styleClass="level-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true" styleClass="image-view">
+                        <image>
+                            <Image url="@/views/silver.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="Silver" styleClass="level-title" />
+                    <Label text="0 - 1000 points" styleClass="level-description" />
+                    <Button text="Acheter" onAction="#handleBuySilver" styleClass="buy-button" />
+                </VBox>
+
+                <!-- Colonne 2 : Gold -->
+                <VBox fx:id="goldBox" alignment="CENTER" spacing="10" styleClass="level-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true" styleClass="image-view">
+                        <image>
+                            <Image url="@/views/gold.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="Gold" styleClass="level-title" />
+                    <Label text="1001 - 5000 points" styleClass="level-description" />
+                    <Button text="Acheter" onAction="#handleBuyGold" styleClass="buy-button" />
+                </VBox>
+
+                <!-- Colonne 3 : Platinum -->
+                <VBox fx:id="platinumBox" alignment="CENTER" spacing="10" styleClass="level-box" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true" styleClass="image-view">
+                        <image>
+                            <Image url="@/views/platinim.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="Platinum" styleClass="level-title" />
+                    <Label text="5001 - 10000 points" styleClass="level-description" />
+                    <Button text="Acheter" onAction="#handleBuyPlatinum" styleClass="buy-button" />
+                </VBox>
+
+                <!-- Colonne 4 : Diamond -->
+                <VBox fx:id="diamondBox" alignment="CENTER" spacing="10" styleClass="level-box" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                    <ImageView fitWidth="100" fitHeight="100" preserveRatio="true" styleClass="image-view">
+                        <image>
+                            <Image url="@/views/diament.png.jpg" />
+                        </image>
+                    </ImageView>
+                    <Label text="Diamond" styleClass="level-title" />
+                    <Label text="10001+ points" styleClass="level-description" />
+                    <Button text="Acheter" onAction="#handleBuyDiamond" styleClass="buy-button" />
+                </VBox>
+            </GridPane>
+        </VBox>
+    </center>
+
+</BorderPane>

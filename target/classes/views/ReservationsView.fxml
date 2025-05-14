@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
+
+<VBox prefHeight="700.0"
+      prefWidth="1000.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      fx:controller="controllers.ReservationsViewController"
+      spacing="20"
+      style="-fx-background-color: linear-gradient(to bottom, #f4f6f7, #e8eaf6);">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button
+                fx:id="profileButton"
+                text="←"
+                style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 30px;">
+        </Button>
+        <Label text="Mes Réservations"
+               style="-fx-font-size: 32px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #2c3e50;">
+            <font>
+                <Font name="System Bold" size="32"/>
+            </font>
+        </Label>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent;">
+        <VBox fx:id="reservationsContainer"
+              spacing="15"
+              style="-fx-background-color: transparent;">
+            <!-- Reservations will be dynamically added here -->
+        </VBox>
+    </ScrollPane>
+</VBox>
