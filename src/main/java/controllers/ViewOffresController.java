@@ -48,26 +48,43 @@ public class ViewOffresController {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colStartDate.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        colEndDate.setCellValueFactory(new PropertyValueFactory<>("end_date"));
+        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         // Setup image column as before
-        colImage.setCellValueFactory(new PropertyValueFactory<>("image_path"));
+        colImage.setCellValueFactory(new PropertyValueFactory<>("imagePath"));
         colImage.setCellFactory(new Callback<TableColumn<Offre, String>, TableCell<Offre, String>>() {
             @Override
             public TableCell<Offre, String> call(TableColumn<Offre, String> param) {
                 return new TableCell<Offre, String>() {
                     private final ImageView imageView = new ImageView();
+
                     @Override
                     protected void updateItem(String imagePath, boolean empty) {
                         super.updateItem(imagePath, empty);
+
                         if (empty || imagePath == null || imagePath.isEmpty()) {
                             setGraphic(null);
                         } else {
-                            imageView.setFitWidth(50);
-                            imageView.setFitHeight(50);
-                            imageView.setImage(new Image(imagePath));
-                            setGraphic(imageView);
+                            try {
+                                // Load the image with error handling
+                                Image image = new Image(imagePath, true); // true for background loading
+                                image.errorProperty().addListener((observable, oldValue, newValue) -> {
+                                    if (newValue) {
+                                        // Image failed to load - set a placeholder or null
+                                        setGraphic(null);
+                                    }
+                                });
+
+                                imageView.setImage(image);
+                                imageView.setFitWidth(50);
+                                imageView.setFitHeight(50);
+                                imageView.setPreserveRatio(true);
+                                setGraphic(imageView);
+                            } catch (Exception e) {
+                                // If any error occurs during image loading
+                                setGraphic(null);
+                            }
                         }
                     }
                 };

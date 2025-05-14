@@ -29,8 +29,8 @@ public class OffreService implements IService<Offre> {
         st.setString(1, o.getTitle());
         st.setString(2, o.getDescription());
         st.setDouble(3, o.getPrice()); // Set calculated price
-        st.setString(4, o.getstart_date());
-        st.setString(5, o.getend_date());
+        st.setString(4, o.getStartDate());
+        st.setString(5, o.getEndDate());
         st.setString(6, o.getImagePath());
         st.executeUpdate();
 
@@ -120,8 +120,8 @@ public class OffreService implements IService<Offre> {
         st.setString(1, o.getTitle());
         st.setString(2, o.getDescription());
         st.setDouble(3, o.getPrice());
-        st.setString(4, o.getstart_date());
-        st.setString(5, o.getend_date());
+        st.setString(4, o.getStartDate());
+        st.setString(5, o.getEndDate());
         st.setInt(6, o.getId());
         st.executeUpdate();
         System.out.println("Offre modifiée");
@@ -147,8 +147,8 @@ public class OffreService implements IService<Offre> {
             o.setTitle(rs.getString("title"));
             o.setDescription(rs.getString("description"));
             o.setPrice(rs.getDouble("price"));
-            o.setstart_date(rs.getString("start_date"));
-            o.setend_date(rs.getString("end_date"));
+            o.setStartDate(rs.getString("start_date"));
+            o.setEndDate(rs.getString("end_date"));
             o.setImagePath(rs.getString("image_path"));
 
             // Fetch Hebergements related to this offer

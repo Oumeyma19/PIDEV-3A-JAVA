@@ -32,8 +32,8 @@ public class UpdateOffreController {
         titleField.setText(offer.getTitle());
         descriptionField.setText(offer.getDescription());
         priceField.setText(String.valueOf(offer.getPrice()));
-        startDatePicker.setValue(LocalDate.parse(offer.getstart_date()));
-        endDatePicker.setValue(LocalDate.parse(offer.getend_date()));
+        startDatePicker.setValue(LocalDate.parse(offer.getStartDate()));
+        endDatePicker.setValue(LocalDate.parse(offer.getEndDate()));
 
         if (offer.getImagePath() != null && !offer.getImagePath().isEmpty()) {
             selectedImagePath = offer.getImagePath();
@@ -63,8 +63,8 @@ public class UpdateOffreController {
         selectedOffer.setTitle(titleField.getText());
         selectedOffer.setDescription(descriptionField.getText());
         selectedOffer.setPrice(Double.parseDouble(priceField.getText()));
-        selectedOffer.setstart_date(startDatePicker.getValue().toString());
-        selectedOffer.setend_date(endDatePicker.getValue().toString());
+        selectedOffer.setStartDate(startDatePicker.getValue().toString());
+        selectedOffer.setEndDate(endDatePicker.getValue().toString());
         selectedOffer.setImagePath(selectedImagePath);
 
         try {

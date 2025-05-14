@@ -125,7 +125,7 @@ public class ReservationOffersController {
 
         priceContainer.getChildren().addAll(originalPriceFlow, discountedPrice);
 
-        Label date = new Label("From " + offre.getstart_date() + " to " + offre.getend_date());
+        Label date = new Label("From " + offre.getStartDate() + " to " + offre.getEndDate());
         date.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
 
         Label hebergementsLabel = new Label("Hebergements: " + offre.getHebergementsStr());

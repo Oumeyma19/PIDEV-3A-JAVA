@@ -189,8 +189,8 @@ public class AjouterOffre {
         offre.setTitle(title);
         offre.setDescription(description);
         offre.setPrice(originalPrice); // Store only the original price
-        offre.setstart_date(start_date);
-        offre.setend_date(end_date);
+        offre.setStartDate(start_date);
+        offre.setEndDate(end_date);
         offre.setImagePath(imagePath);
 
 // Set selected Hebergements, Tours, and Flights

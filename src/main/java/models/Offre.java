@@ -122,11 +122,11 @@ public class Offre {
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
 
-    public String getstart_date() { return start_date; }
-    public void setstart_date(String start_date) { this.start_date = start_date; }
+    public String getStartDate() { return start_date; }
+    public void setStartDate(String start_date) { this.start_date = start_date; }
 
-    public String getend_date() { return end_date; }
-    public void setend_date(String end_date) { this.end_date = end_date; }
+    public String getEndDate() { return end_date; }
+    public void setEndDate(String end_date) { this.end_date = end_date; }
 
     public String getImagePath() { return image_path; }
     public void setImagePath(String imagePath) { this.image_path = imagePath; }
